@@ -1,0 +1,121 @@
+{% extends 'payrollapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+<div class="content">
+    {% if messages %}
+    <div class="card">
+        <div class="card-header">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    </br>
+    {% endif %}
+    <form method="POST" action="#">{% csrf_token %}
+        <h1> Create Employee Record </h1><hr>
+        <h5> Personal Details </h5>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputFstName">First Name</label>
+            <input type="text" class="form-control" id="inputFstName" name="inputFstName" placeholder="">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputMidName">Middle Name</label>
+            <input type="text" class="form-control" id="inputMidName" name="inputMidName" placeholder="">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputLtName">Last Name</label>
+            <input type="text" class="form-control" id="inputLtName" name="inputLtName" placeholder="">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputPhone">Phone Number</label>
+            <input type="number" class="form-control" id="inputPhone" name="inputPhone" step="1" placeholder="XXXX-XXX-XXXX">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Email</label>
+            <input type="email" class="form-control" id="inputEmail4" name="inputEmail4" placeholder="Email">
+          </div>
+        </div>
+        <hr>
+
+        <h5> Employment Details </h5>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="inputID">ID Number</label>
+                <input type="text" class="form-control" id="inputID" name="inputID" placeholder="XXXXXX Not working">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputDept">Department</label>
+                <select id="inputDept" name="inputDept" class="form-control">
+                  <option selected>Choose Department</option>
+                  <option value="HR">HR</option>
+                  <option value="IT">IT</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Accounting">Accounting</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputEmpStat">Contract Status</label>
+                <select id="inputEmpStat" name="inputEmpStat" class="form-control">
+                  <option selected>Choose Status</option>
+                  <option value="Hired">Hired</option>
+                  <option value="Terminated">Terminated</option>
+                  <option value="On Leave">On Leave</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputPosition">Employee Position</label>
+                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputJoinDate">Join Date</label>
+                <input type="date" class="form-control" id="inputJoinDate" name="inputJoinDate" placeholder="XXXXXX">
+            </div>
+        </div>
+        <hr>
+
+        <h5> Compensation Details </h5>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputBankAccNo">Bank Account Number</label>
+                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputSalary">Salary</label>
+                <input type="number" step="0.01" class="form-control" id="inputSalary" name="inputSalary" placeholder="">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputCOLA">COLA Earnings</label>
+                <input type="text" class="form-control" id="inputCOLA" name="inputCOLA" placeholder="">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputCADeduc">C/A Deductions</label>
+                <input type="text" class="form-control" id="inputCADeduc" name="inputCADeduc" placeholder="">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputCOOPDeduc">COOP Deductions</label>
+                <input type="text" class="form-control" id="inputCOOPDeduc" name="inputCOOPDeduc" placeholder="">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputU/LDeduc">Uniform/Laptop Deductions</label>
+                <input type="text" class="form-control" id="inputU/LDeduc" name="inputU/LDeduc" placeholder="">
+            </div>
+        </div>
+        <hr>
+        <div class="footer-wrap">
+            <div class="back-button">
+            </div>
+            <ul class="action-icons">
+                <li><button class="btn btn-success mx-3" type="submit">Confirm</button></li>
+            </ul>
+        </div>
+    </form>
+
+ </div>
+{% endblock %}
