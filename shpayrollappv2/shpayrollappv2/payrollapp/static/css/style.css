@@ -88,6 +88,31 @@ body {
     margin-bottom: 30px;
 }
 
+.container-login{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #D7D7D7;
+}
+
+.wrap-login{
+    width: 500px;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px 40px ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.login-form{
+    width: 100%;
+}
+
+/* Sidebar */
 
 .sidebar-logo a {
     color: #FFF;

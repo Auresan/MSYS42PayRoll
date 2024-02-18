@@ -10,7 +10,6 @@
         <div class="action-icons col-md-6">
             <a class="btn btn-info form-group" href="{% url 'employee_attendance' %}"> View Attendance </a>
             <button class="btn btn-primary form-group" type="button"> Edit Record</button>
-            <button class="btn btn-danger form-group" type="button">Delete record</button>
         </div>
     </div>
     <hr>
@@ -115,12 +114,16 @@
                 <li><button class="btn btn-success" type="submit">Confirm</button></li>
             </ul>
         </div>
-
-
     </form>
 
  </div>
-
+ <footer>
+    <div class="footer-wrap">
+      <div class="back-button">
+          <a class="btn btn-dark mx-3" href="{% url 'employee_database' %}" type="button">Back</a>
+      </div>
+    </div>
+  </footer>
 
 
 
