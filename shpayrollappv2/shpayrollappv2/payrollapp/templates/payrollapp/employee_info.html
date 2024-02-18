@@ -14,28 +14,31 @@
         </div>
     </div>
     <hr>
-    <form>
+    {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+    <form method="POST" action="#">{% csrf_token %}
         <h5> Personal Details </h5>
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputFstName">First Name</label>
-            <input type="text" class="form-control" id="inputFstName" placeholder="" >
+            <input type="text" class="form-control" id="inputFstName" name="inputFstName"value="{{a.First_name}}">
           </div>
           <div class="form-group col-md-4">
             <label for="inputMidName">Middle Name</label>
-            <input type="text" class="form-control" id="inputMidName" placeholder="">
+            <input type="text" class="form-control" id="inputMidName" name="inputMidName" value="{{a.Middle_name}}">
           </div>
           <div class="form-group col-md-4">
             <label for="inputLtName">Last Name</label>
-            <input type="text" class="form-control" id="inputLtName" placeholder="">
+            <input type="text" class="form-control" id="inputLtName" name="inputLtName" value="{{a.Last_name}}">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPhone">Phone Number</label>
-            <input type="text" class="form-control" id="inputPhone" placeholder="">
+            <input type="number" class="form-control" id="inputPhone" name="inputPhone" value="{{a.Phone_Number}}">
           </div>
           <div class="form-group col-md-6">
             <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            <input type="email" class="form-control" id="inputEmail4" name="inputEmail4" value="{{a.Email}}"">
           </div>
         </div>
         <hr>
@@ -44,34 +47,35 @@
         <div class="form-row">
             <div class="form-group col-md-1">
                 <label for="inputID">ID Number</label>
-                <input type="text" class="form-control" id="inputID" placeholder="XXXXXX" readonly>
+                <input type="text" class="form-control" id="inputID" name="inputID" value="{{a.id_number}}" readonly>
             </div>
             <div class="form-group col-md-2">
                 <label for="inputJoinDate">Join Date</label>
-                <input type="date" class="form-control" id="inputJoinDate" placeholder="XXXXXX" readonly>
+                <input type="text" class="form-control" id="inputJoinDate" name="inputJoinDate" placeholder="{{a.Join_Date}}" value="{{a.Join_Date}}" readonly>
             </div>
             <div class="form-group col-md-3">
                 <label for="inputEmpStat">Contract Status</label>
-                <select id="inputEmpStat" class="form-control">
-                  <option selected>Choose Status</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
+                <select id="inputEmpStat" name="inputEmpStat" class="form-control">
+                  <option selected value="{{a.Status}}">Currently: {{a.Status}}</option>
+                  <option value="Hired">Hired</option>
+                  <option value="Terminated">Terminated</option>
+                  <option value="On Leave">On Leave</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="inputDept">Department</label>
-                <select id="inputDept" class="form-control">
-                  <option selected>Choose Department</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
+                <select id="inputDept" name="inputDept" class="form-control">
+                  <option selected value="{{a.Department}}">Currently: {{a.Department}}</option>
+                  <option value="HR">HR</option>
+                  <option value="IT">IT</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Accounting">Accounting</option>
                 </select>
             </div>
             
             <div class="form-group col-md-3">
                 <label for="inputPosition">Employee Position</label>
-                <input type="text" class="form-control" id="inputPosition" placeholder="">
+                <input type="text" class="form-control" id="inputPosition" name="inputPosition" value="{{a.Role}}">
             </div>
             
         </div>
@@ -81,13 +85,13 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputBankAccNo">Bank Account Number</label>
-                <input type="text" class="form-control" id="inputBankAccNo" placeholder="">
+                <input type="number" class="form-control" id="inputBankAccNo" name="inputBankAccNo" value="{{a.BankNumber}}">
             </div>
             <div class="form-group col-md-4">
                 <label for="inputSalary">Salary</label>
-                <input type="text" class="form-control" id="inputSalary" placeholder="">
+                <input type="number" class="form-control" id="inputSalary" name="inputSalary" value="{{a.Salary}}">
             </div>
-            <div class="form-group col-md-4">
+            <!---<div class="form-group col-md-4">
                 <label for="inputCOLA">COLA Earnings</label>
                 <input type="text" class="form-control" id="inputCOLA" placeholder="">
             </div>
@@ -102,13 +106,13 @@
             <div class="form-group col-md-4">
                 <label for="inputU/LDeduc">Uniform/Laptop Deductions</label>
                 <input type="text" class="form-control" id="inputU/LDeduc" placeholder="">
-            </div>
+            </div>--->
         </div>
         <hr>
         <div>
             <ul class="action-icons">
                 <li><a class="btn btn-danger" href="{% url 'employee_database' %}" type="button">Cancel</a></li>
-                <li><a class="btn btn-success" type="button">Confirm</a></li>
+                <li><button class="btn btn-success" type="submit">Confirm</button></li>
             </ul>
         </div>
 
@@ -117,13 +121,6 @@
 
  </div>
 
- <footer>
-    <div class="footer-wrap">
-        <div class="back-button">
-            <a class="btn btn-dark mx-3" href="{% url 'employee_database' %}" type="button">Back</a>
-        </div>
-    </div>
-</footer>
 
 
 

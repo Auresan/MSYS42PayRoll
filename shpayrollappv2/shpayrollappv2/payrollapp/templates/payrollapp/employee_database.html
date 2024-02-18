@@ -26,9 +26,14 @@
             </ul>
         </div>
     </div>
+
     <div class="content">
         <h2>Employee Database</h2>
+        
         <div style="overflow-x:auto;">
+          {% for message in messages %}
+          <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+          {% endfor %}
             <table id="posts">
                 <thead>
                     <tr>
