@@ -1,0 +1,56 @@
+{% extends 'payrollapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main">
+    <div class="dashboard-navbar">
+        <form action="#">
+            <div class="nav-search">
+                <input type="text" class="search-query mr-3" placeholder="Employee name or code...">
+                <select id="inputDept" class="search-query">
+                    <option selected >Department</option>
+                    <option value="HR">HR</option>
+                    <option value="IT">IT</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Accounting">Accounting</option>
+                </select>
+                <button class="btn mx-3" type="button">Search</button>
+            </div>
+        </form>
+        <div class="navbar-content">
+            <ul class="main-nav">
+                <div class="nav-search">
+                    <a href="#" class="btn"><i class="lni lni-upload"></i> Upload Attendance</a>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Employee Database</h2>
+        <div style="overflow-x:auto;">
+            <table id="posts">
+                <thead>
+                    <tr>
+                        <th style="width:10%">ID</th>
+                        <th style="width:20%">Name</th>
+                        <th style="width:15%">Days Present</th>
+                        <th style="width:15%">Total Working Days</th>
+                        <th style="width:15%">Overtime Hours</th>
+                        <th style="width:10%">Leaves Taken</th>
+                        <th style="width:10%" >Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <td><a href="{% url 'employee_attendance' %}">Edit</a> </td>
+                        </tr>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

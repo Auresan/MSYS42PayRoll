@@ -4,26 +4,30 @@
 {% block content %}
 
 
-
-
 <div class="content">
+    <div class="form-row"> 
+        <h2 class="form-group col-md-6" > View Employee Record </h1>
+        <a class="btn btn-info form-group col-md-2" href="{% url 'employee_attendance' %}"> View Attendance </a>
+        <button class="btn btn-primary form-group col-md-2 mx-1" type="button"> Edit Record</button>
+        <button class="btn btn-danger form-group col-md-1" type="button">Delete record</button>
+    </div>
+    <hr>
     <form>
-        <h1> View Employee Record </h1><hr>
         <h5> Personal Details </h5>
         <div class="form-row">
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <label for="inputFstName">First Name</label>
             <input type="text" class="form-control" id="inputFstName" placeholder="" >
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <label for="inputMidName">Middle Name</label>
             <input type="text" class="form-control" id="inputMidName" placeholder="">
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <label for="inputLtName">Last Name</label>
             <input type="text" class="form-control" id="inputLtName" placeholder="">
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-6">
             <label for="inputPhone">Phone Number</label>
             <input type="text" class="form-control" id="inputPhone" placeholder="">
           </div>
@@ -36,20 +40,15 @@
 
         <h5> Employment Details </h5>
         <div class="form-row">
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-1">
                 <label for="inputID">ID Number</label>
                 <input type="text" class="form-control" id="inputID" placeholder="XXXXXX" readonly>
             </div>
-            <div class="form-group col-md-4">
-                <label for="inputDept">Department</label>
-                <select id="inputDept" class="form-control">
-                  <option selected>Choose Department</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                </select>
+            <div class="form-group col-md-2">
+                <label for="inputJoinDate">Join Date</label>
+                <input type="date" class="form-control" id="inputJoinDate" placeholder="XXXXXX" readonly>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
                 <label for="inputEmpStat">Contract Status</label>
                 <select id="inputEmpStat" class="form-control">
                   <option selected>Choose Status</option>
@@ -59,39 +58,46 @@
                 </select>
             </div>
             <div class="form-group col-md-3">
+                <label for="inputDept">Department</label>
+                <select id="inputDept" class="form-control">
+                  <option selected>Choose Department</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                </select>
+            </div>
+            
+            <div class="form-group col-md-3">
                 <label for="inputPosition">Employee Position</label>
                 <input type="text" class="form-control" id="inputPosition" placeholder="">
             </div>
-            <div class="form-group col-md-2">
-                <label for="inputJoinDate">Join Date</label>
-                <input type="date" class="form-control" id="inputJoinDate" placeholder="XXXXXX" readonly>
-            </div>
+            
         </div>
         <hr>
 
         <h5> Compensation Details </h5>
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="inputBankAccNo">Bank Account Number</label>
                 <input type="text" class="form-control" id="inputBankAccNo" placeholder="">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="inputSalary">Salary</label>
                 <input type="text" class="form-control" id="inputSalary" placeholder="">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="inputCOLA">COLA Earnings</label>
                 <input type="text" class="form-control" id="inputCOLA" placeholder="">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="inputCADeduc">C/A Deductions</label>
                 <input type="text" class="form-control" id="inputCADeduc" placeholder="">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="inputCOOPDeduc">COOP Deductions</label>
                 <input type="text" class="form-control" id="inputCOOPDeduc" placeholder="">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="inputU/LDeduc">Uniform/Laptop Deductions</label>
                 <input type="text" class="form-control" id="inputU/LDeduc" placeholder="">
             </div>
@@ -102,16 +108,18 @@
 
  </div>
 
-<footer>
+ <footer>
     <div class="footer-wrap">
         <div class="back-button">
-            <button class="btn btn-dark mx-3" type="button">Back</button>
+            <a class="btn btn-dark mx-3" href="{% url 'employee_database' %}" type="button">Back</a>
         </div>
         <ul class="action-icons">
-            <li><button class="btn btn-danger mx-3" type="button">Cancel</button></li>
-            <li><button class="btn btn-success mx-3" type="button">Confirm</button></li>
+            <li><a class="btn btn-danger" href="{% url 'employee_database' %}" type="button">Cancel</a></li>
+            <li><a class="btn btn-success" type="button">Confirm</a></li>
         </ul>
     </div>
 </footer>
+
+
 
 {% endblock %}

@@ -7,39 +7,47 @@
     <div class="card">
         <h3 class="card-header">Generate Payroll</h3>
         <div class="card-body">
-            <div class="form-group my-2">
-                <label for="inputDept">Department</label>
-                <select id="inputDept" class="form-control">
-                  <option selected>Choose Department</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                </select>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputDept">Department</label>
+                    <select id="inputDept" class="form-control">
+                        <option selected>Choose Department</option>
+                        <option value="HR">HR</option>
+                        <option value="IT">IT</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Accounting">Accounting</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputStartDate">Payroll Range Start Date</label>
+                    <input type="date" class="form-control" id="inputStartDate">
+                </div>
+                <div class="form-group  col-md-2">
+                    <label for="inputEndDate">Payroll Range End Date</label>
+                    <input type="date" class="form-control" id="inputEndDate">
+                </div>
+                <button class="btn btn-secondary form-group col-md-2" type="button">Generate</button>
             </div>
-            <div class="form-group my-2">
-                <label for="inputStartDate">Payroll Range Start Date</label>
-                <input type="date" class="form-control" id="inputStartDate">
+            <div class="alert alert-warning" role="alert">
+                <strong>Notice!</strong>
+                If the selected payroll period has payslips already generated, 
+                system will display the final and printable payslips instead of the 
+                computation table that needs confirmation and editing.
             </div>
-            <div class="form-group my-2">
-                <label for="inputEndDate">Payroll Range End Date</label>
-                <input type="date" class="form-control" id="inputEndDate">
-            </div>
-            <button class="btn btn-secondary my-2" type="button">Generate</button>
         </div>
     </div>
-    <h2>Generated Payroll</h2>
     <div style="overflow-x:auto;">
         <table id="posts">
             <thead>
                 <tr>
-                    <th style="width:10%">ID</th>
-                    <th style="width:20%">Employee Name</th>
+                    <th style="width:5%">ID</th>
+                    <th style="width:15%">Employee Name</th>
                     <th style="width:10%">Basic Pay</th>
                     <th style="width:10%">Daily Rate</th>
                     <th style="width:10%">Gross Compensation</th>
                     <th style="width:10%">Total Deductions</th>
                     <th style="width:10%">Net Pay</th>
-                    <th style="width:10%">Action</th>
+                    <th style="width:8%">Options</th>
 
                 </tr>
             </thead>
@@ -52,23 +60,18 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><a href="#">Edit</a></td>
-                </tr>
-                <tr>
-                    <td>ABC028</td>
-                    <td><a href="#">Jane Doe</a></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="#">Edit</a></td>
+                    <td class="form-row">
+                        <a class="btn form-group mx-1" href="#"><i class="lni lni-eye"></i></a>
+                        <a class="btn form-group" href="#"><i class="lni lni-pencil-alt"></i></a>
+                    </td>
+                    
                 </tr>
             </tbody>
         </table>
     </div>
 
 </div>
+
 
     
 

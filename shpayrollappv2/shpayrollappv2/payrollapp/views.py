@@ -123,26 +123,6 @@ def add_employee(request):
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/add_employee.html')
-        try:
-            colaearnings = float(request.POST.get('inputCOLA'))
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html')
-        try:
-            CADeductions  = float(request.POST.get('inputCADeduc'))
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html')
-        try:
-            COOPDeductions = float(request.POST.get('inputCOOPDeduc'))
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html')
-        try:
-            UniformLaptopDeductions = float(request.POST.get('inputU/LDeduc'))
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html')
 
         
 
@@ -175,11 +155,7 @@ def add_employee(request):
                                         Phone_Number=pnumber, 
                                         Email=email, 
                                         BankNumber=banknumber, 
-                                        Salary=salary, 
-                                        ColaEarnings=colaearnings, 
-                                        CAdeductions=CADeductions, 
-                                        COOPdeductions=COOPDeductions, 
-                                        ULdeductions=UniformLaptopDeductions)
+                                        Salary=salary)
                 messages.success(request, "Employee created successfully!")
                 return redirect('employee_database')
             except:#None Type
@@ -196,3 +172,9 @@ def generate_page(request):
 def employee_info(request, EID):
     a = get_object_or_404(Employee, pk = EID)
     return render(request, 'payrollapp/employee_info.html', {'a':a})
+
+def attendance_db(request):
+    return render(request, 'payrollapp/attendance_db.html')
+
+def employee_attendance(request):
+    return render(request, 'payrollapp/employee_attendance.html')

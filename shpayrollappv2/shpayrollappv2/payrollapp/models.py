@@ -29,7 +29,7 @@ class Employee(models.Model):
         return z
     
 class HMO(models.Model):
-    HMO_ID = models.IntegerField()
+    HMO_ID = models.IntegerField(primary_key=True)
     HMO_Amount = models.IntegerField()
     def getID(self):
         return self.HMO_ID
@@ -38,7 +38,7 @@ class HMO(models.Model):
         return z
     
 class UNIFORMLAPTOPDEDUCTIONS(models.Model):
-    ULDeductions_ID = models.IntegerField()
+    ULDeductions_ID = models.IntegerField(primary_key=True)
     Type = models.CharField(max_length=255)
     ULDeductions_Amount = models.IntegerField()
     def getID(self):
@@ -48,7 +48,7 @@ class UNIFORMLAPTOPDEDUCTIONS(models.Model):
         return z
     
 class CA(models.Model):
-    CA_ID = models.IntegerField()
+    CA_ID = models.IntegerField(primary_key=True)
     CA_Amount = models.IntegerField()
     def getID(self):
         return self.CA_ID
@@ -57,7 +57,7 @@ class CA(models.Model):
         return z
     
 class COOP(models.Model):
-    COOP_ID = models.IntegerField()
+    COOP_ID = models.IntegerField(primary_key=True)
     COOP_Amount = models.IntegerField()
     def getID(self):
         return self.COOP_ID
@@ -66,7 +66,7 @@ class COOP(models.Model):
         return z
     
 class COLA(models.Model):
-    COLA_ID = models.IntegerField()
+    COLA_ID = models.IntegerField(primary_key=True)
     COLA_Amount = models.IntegerField()
     def getID(self):
         return self.COLA_ID
@@ -75,7 +75,7 @@ class COLA(models.Model):
         return z
     
 class ADDITIONAL_EARNINGS(models.Model):
-    AddtlEarning_ID = models.IntegerField()
+    AddtlEarning_ID = models.IntegerField(primary_key=True)
     Type = models.CharField(max_length=255)
     COLA_Amount = models.IntegerField()
     def getID(self):
@@ -85,7 +85,7 @@ class ADDITIONAL_EARNINGS(models.Model):
         return z
 
 class HOLIDAY(models.Model):
-    Holiday_ID = models.IntegerField()
+    Holiday_ID = models.IntegerField(primary_key=True)
     Type = models.CharField(max_length=255)
     Date = models.DateField(blank=True, null=True)
     def getID(self):
@@ -95,7 +95,7 @@ class HOLIDAY(models.Model):
         return z
     
 class Leave(models.Model):
-    Leave_ID = models.IntegerField()
+    Leave_ID = models.IntegerField(primary_key=True)
     Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
     Type = models.CharField(max_length=255)
     Leaves_Left = models.IntegerField()
@@ -108,7 +108,7 @@ class Leave(models.Model):
         return z
 
 class SSS(models.Model):
-    SSS_Rate_ID = models.IntegerField()
+    SSS_Rate_ID = models.IntegerField(primary_key=True)
     Regular_SS_Employer_Rate = models.FloatField()
     Regular_SS_Employee_Rate = models.FloatField()
     EC_Contribution = models.FloatField()
@@ -125,7 +125,7 @@ class SSS(models.Model):
         return z
 
 class PhilHealth(models.Model):
-    PhilHealth_Rate_ID = models.IntegerField()
+    PhilHealth_Rate_ID = models.IntegerField(primary_key=True)
     Employer_Rate = models.FloatField()
     Employee_Rate = models.FloatField()
     Start_Range = models.FloatField()
@@ -137,7 +137,7 @@ class PhilHealth(models.Model):
         return z
 
 class HDMF(models.Model):
-    HDMF_Rate_ID = models.IntegerField()
+    HDMF_Rate_ID = models.IntegerField(primary_key=True)
     Employer_Rate = models.FloatField()
     Employee_Rate = models.FloatField()
     Start_Range = models.FloatField()
@@ -149,7 +149,7 @@ class HDMF(models.Model):
         return z
 
 class WitholdingTax(models.Model):
-    WTAX_Rate_ID = models.IntegerField()
+    WTAX_Rate_ID = models.IntegerField(primary_key=True)
     Fix_Tax_Amount = models.FloatField()
     Tax_Rate_On_Excess = models.FloatField()
     Start_Range = models.FloatField()
@@ -161,7 +161,7 @@ class WitholdingTax(models.Model):
         return z
 
 class Payslip_Transaction(models.Model):
-    Transaction_ID = models.IntegerField()
+    Transaction_ID = models.IntegerField(primary_key=True)
     Date_Distributed = models.DateField(blank=True, null=True)
     Start_Date = models.DateField(blank=True, null=True)
     End_Date = models.DateField(blank=True, null=True)
@@ -171,7 +171,7 @@ class Payslip_Transaction(models.Model):
     SSS_Rate_ID = models.ForeignKey(SSS, on_delete=models.CASCADE)
     PhilHealth_Rate_ID = models.ForeignKey(PhilHealth, on_delete=models.CASCADE)
     HDMF_Rate_ID = models.ForeignKey(HDMF, on_delete=models.CASCADE)
-    WTax_Rate_ID = models.ForeignKey(WitholdingTax, on_delete=models.CASCADE)
+    WTAX_Rate_ID = models.ForeignKey(WitholdingTax, on_delete=models.CASCADE)
     HMO_Rate_ID = models.ForeignKey(HMO, on_delete=models.CASCADE)
     ULDeductions_Rate_ID = models.ForeignKey(UNIFORMLAPTOPDEDUCTIONS, on_delete=models.CASCADE)
     CA_Rate_ID = models.ForeignKey(CA, on_delete=models.CASCADE)
@@ -186,7 +186,7 @@ class Payslip_Transaction(models.Model):
         return z
 
 class ATTENDANCE_HISTORY(models.Model):
-    History_ID = models.IntegerField()
+    History_ID = models.IntegerField(primary_key=True)
     Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE)
     Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE)
     Transaction_ID = models.ForeignKey(Payslip_Transaction, on_delete=models.CASCADE)
@@ -201,7 +201,7 @@ class ATTENDANCE_HISTORY(models.Model):
         return z
 
 class ATTENDANCE_RECORD(models.Model):
-    Attendance_ID = models.IntegerField()
+    Attendance_ID = models.IntegerField(primary_key=True)
     Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
     History_ID = models.ForeignKey(ATTENDANCE_HISTORY, on_delete=models.CASCADE)
     Time = models.TimeField()
