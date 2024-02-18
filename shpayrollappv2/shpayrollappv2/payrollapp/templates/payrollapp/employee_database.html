@@ -6,15 +6,16 @@
     <div class="dashboard-navbar">
         <form action="#">
           <div class="nav-search">
-            <input type="text" class="search-query mr-3" placeholder="Employee name or code...">
-            <select id="inputDept" class="search-query">
+            <input type="text" class="search-query mr-3" placeholder="Name/Code" onkeyup="searchName()" id="eName">
+            <input type="text" class="search-query px-3" id="eDepa" placeholder="Select Department/s" onkeyup="searchDepartment()">
+            <!-- Fixing the filter command <select id="inputDept" class="search-query">
                 <option selected >Department</option>
                 <option value="HR">HR</option>
                 <option value="IT">IT</option>
                 <option value="Sales">Sales</option>
                 <option value="Accounting">Accounting</option>
-            </select>
-            <button class="btn mx-3" type="button">Search</button>
+            </select>-->
+            
           </div>
         </form>
         <div class="navbar-content">
