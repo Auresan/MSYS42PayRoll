@@ -198,6 +198,7 @@ a.sidebar-link:hover {
     flex-wrap: nowrap;
     padding: 1rem 1.5rem;
     background-color: #f5f5f5;
+    align-items: center;
 }
 
 .dashboard-navbar form {
@@ -207,7 +208,7 @@ a.sidebar-link:hover {
 .dashboard-navbar .navbar-content {
     display: flex;
     flex-grow: 1;
-    min-width: 200px;
+    min-width: 50px;
 }
 
 .dashboard-navbar .main-nav {
@@ -304,6 +305,9 @@ a.sidebar-link:hover {
     justify-content: space-between;
     background-color: #f5f5f5;
     padding: 1rem 2rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 .action-icons {
@@ -318,7 +322,7 @@ a.sidebar-link:hover {
 
     .dashboard-navbar form {
         display: block;
-        max-width: 320px;
+        max-width: 850px;
     }
 
     .nav-search {
@@ -328,11 +332,11 @@ a.sidebar-link:hover {
 
     .nav-search .search-query {
         flex: 1 1 auto;
-        width: 1%;
+        width: 250px;
         height: calc(1.5em + .9rem + 2px);
         padding: 0 20px;
         border: none;
-        color: #861D1A;
+        color: #000000;
         font-family: 'Product Sans', sans-serif;
     }
 
@@ -358,7 +362,9 @@ a.sidebar-link:hover {
     /* Action Icons */
 
     .action-icons {
-        display: block;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
     }
 
     .action-icons li {

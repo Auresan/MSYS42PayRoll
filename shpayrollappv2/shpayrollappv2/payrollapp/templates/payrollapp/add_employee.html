@@ -93,19 +93,20 @@
             </div>
         </div>
         <hr>
-        <div class="footer-wrap">
-            <div class="back-button">
-                <a class="btn btn-dark mx-3" href="{% url 'employee_database' %}" type="button">Back</a>
-            </div>
+        <div>
             <ul class="action-icons">
-                <li><a class="btn btn-danger" href="{% url 'employee_database' %}" type="button">Cancel</a></li>
-                <li><button class="btn btn-success" type="submit">Confirm</button></li>
+                <li><a class="btn btn-danger" href="{% url 'employee_database' %}">Cancel</a></li>
+                <li><button class="btn btn-success" type="submit">Create Employee</button></li>
             </ul>
         </div>
     </form>
 
  </div>
 <footer>
-    
+  <div class="footer-wrap">
+    <div class="back-button">
+        <a class="btn btn-dark mx-3" href="{% url 'employee_database' %}" type="button">Back</a>
+    </div>
+  </div>
 </footer>
 {% endblock %}

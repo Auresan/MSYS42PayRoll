@@ -7,9 +7,11 @@
 <div class="content">
     <div class="form-row"> 
         <h2 class="form-group col-md-6" > View Employee Record </h1>
-        <a class="btn btn-info form-group col-md-2" href="{% url 'employee_attendance' %}"> View Attendance </a>
-        <button class="btn btn-primary form-group col-md-2 mx-1" type="button"> Edit Record</button>
-        <button class="btn btn-danger form-group col-md-1" type="button">Delete record</button>
+        <div class="action-icons col-md-6">
+            <a class="btn btn-info form-group" href="{% url 'employee_attendance' %}"> View Attendance </a>
+            <button class="btn btn-primary form-group" type="button"> Edit Record</button>
+            <button class="btn btn-danger form-group" type="button">Delete record</button>
+        </div>
     </div>
     <hr>
     <form>
@@ -103,6 +105,13 @@
             </div>
         </div>
         <hr>
+        <div>
+            <ul class="action-icons">
+                <li><a class="btn btn-danger" href="{% url 'employee_database' %}" type="button">Cancel</a></li>
+                <li><a class="btn btn-success" type="button">Confirm</a></li>
+            </ul>
+        </div>
+
 
     </form>
 
@@ -113,10 +122,6 @@
         <div class="back-button">
             <a class="btn btn-dark mx-3" href="{% url 'employee_database' %}" type="button">Back</a>
         </div>
-        <ul class="action-icons">
-            <li><a class="btn btn-danger" href="{% url 'employee_database' %}" type="button">Cancel</a></li>
-            <li><a class="btn btn-success" type="button">Confirm</a></li>
-        </ul>
     </div>
 </footer>
 
