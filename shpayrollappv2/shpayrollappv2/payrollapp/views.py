@@ -276,3 +276,9 @@ def attendance_db(request):
 
 def employee_attendance(request):
     return render(request, 'payrollapp/employee_attendance.html')
+
+def tax_module(request):
+    return render(request, 'payrollapp/tax_module.html')
+
+def encode_page(request):
+    return render(request, 'payrollapp/encode_page.html')

@@ -14,13 +14,13 @@
         <div class="navbar-content">
             <ul class="main-nav">
                 <div class="nav-search">
-                    <a href="#" class="btn"><i class="lni lni-upload"></i> Upload Attendance</a>
+                    <button type="button" class="btn btn-primary"><i class="lni lni-upload"></i> Upload Attendance</button>           
                 </div>
             </ul>
         </div>
     </div>
     <div class="content">
-        <h2>Employee Database</h2>
+        <h2>Attendance Database</h2>
         <div style="overflow-x:auto;">
             <table id="posts">
                 <thead>
@@ -36,10 +36,13 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
-                            <td><a href="{% url 'employee_attendance' %}">Edit</a> </td>
-                        </tr>
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a href="{% url 'employee_attendance' %}">Edit</a> </td>
                     </tr>
                 </tbody>
             </table>

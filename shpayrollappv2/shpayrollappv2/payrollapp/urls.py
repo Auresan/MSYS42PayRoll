@@ -26,5 +26,7 @@ urlpatterns = [
     path('generate_page', views.generate_page, name='generate_page'),
     path('employee_info/<str:EID>/', views.employee_info, name='employee_info'),
     path('attendance_db', views.attendance_db, name='attendance_db'),
-    path('employee_attendance', views.employee_attendance, name='employee_attendance')
+    path('employee_attendance', views.employee_attendance, name='employee_attendance'),
+    path('encode_page', views.encode_page, name='encode_page'),
+    path('tax_module', views.tax_module, name='tax_module')
 ]
