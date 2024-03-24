@@ -28,5 +28,6 @@ urlpatterns = [
     path('attendance_db', views.attendance_db, name='attendance_db'),
     path('employee_attendance', views.employee_attendance, name='employee_attendance'),
     path('encode_page', views.encode_page, name='encode_page'),
-    path('tax_module', views.tax_module, name='tax_module')
+    path('tax_module', views.tax_module, name='tax_module'),
+    path('upload_attendance', views.upload_attendance, name='upload_attendance')
 ]

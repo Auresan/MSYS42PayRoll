@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib import messages
 from django.utils import timezone
+from .forms import *
 
 
 # Create your views here.
@@ -282,3 +283,18 @@ def tax_module(request):
 
 def encode_page(request):
     return render(request, 'payrollapp/encode_page.html')
+
+def upload_attendance(request):
+    if request.method == 'POST':
+        form = UploadAttendanceForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = form.cleaned_data['csv_file']
+
+            # Logic for processing csv files and adding them to the database
+            # Once added, employee_database page will fetch data to from database and display it
+            
+            return render(request,'payrollapp/success.html',{'csv_file': csv_file})
+    else:
+        form = UploadAttendanceForm()
+    return render(request, 'payrollapp/upload_attendance.html', {'form': form})
+        
