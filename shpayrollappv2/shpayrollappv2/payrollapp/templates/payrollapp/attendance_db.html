@@ -8,13 +8,14 @@
         <form action="#">
             <div class="nav-search">
                 <input type="text" class="search-query mr-3" placeholder="Name/Code" id="eName">
-                <input type="text" class="search-query px-3" id="eDepa" placeholder="Search Department" >
+                <input type="text" class="search-query px-3" id="eDepa" placeholder="Search Department">
             </div>
         </form>
         <div class="navbar-content">
             <ul class="main-nav">
                 <div class="nav-search">
-                    <button type="button" class="btn btn-primary"><i class="lni lni-upload"></i> Upload Attendance</button>           
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        data-bs-whatever=""><i class="lni lni-upload"></i> Upload Attendance</button>
                 </div>
             </ul>
         </div>
@@ -31,7 +32,7 @@
                         <th style="width:15%">Total Working Days</th>
                         <th style="width:15%">Overtime Hours</th>
                         <th style="width:10%">Leaves Taken</th>
-                        <th style="width:10%" >Options</th>
+                        <th style="width:10%">Options</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,4 +50,76 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modals -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Attendance File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/action_page.php">
+                    <input type="file" id="myFile" name="filename">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel2">View Attendance File</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal">Confirm</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel2">Please enter your employee access code.</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="employeecode" placeholder="Enter Code">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-bs-target="#exampleModalToggle4" data-bs-toggle="modal" data-bs-dismiss="modal">Confirm</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalToggleLabel2">Success! </h5>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close Message</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
 {% endblock %}

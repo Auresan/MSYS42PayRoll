@@ -1,0 +1,81 @@
+{% extends 'payrollapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="content">
+    <h1> Employee Payroll Breakdown </h1>
+    <hr>
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="inputID">ID Number</label>
+            <input type="text" class="form-control" id="inputID" readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="inputFullName"> Name</label>
+          <input type="text" class="form-control" id="inputFullName" readonly>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputDept">Department</label>
+            <input type="text" class="form-control" id="inputDept" readonly>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="mth_yr">Payroll Range Start Date</label>
+            <input type="date" class="form-control" id="mth_yr">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="mth_yr">Payroll Range End Date</label>
+            <input type="date" class="form-control" id="mth_yr">
+        </div>
+    </div>
+    <div style="overflow-x:auto;">
+        <table id="posts">
+            <thead>
+                <tr>
+                    <th style="width:10%">Basic Pay</th>
+                    <th style="width:10%"> Daily Rate</th>
+                    <th style="width:10%"> SSS Rate </th>
+                    <th style="width:10%">COLA & Others</th>
+                    <th style="width:11%">GROSS COMPENSATION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    </tr>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="posts">
+            <thead>
+                <tr>
+                    <th style="width:7%">Absences</th>
+                    <th style="width:7%"> W/ Tax</th>
+                    <th style="width:7%"> WISP -SSS </th>
+                    <th style="width:7%">SSS Prem</th>
+                    <th style="width:7%">Philhealth</th>
+                    <th style="width:7%">HDMF</th>
+                    <th style="width:10%">COOP & Others</th>
+                    <th style="width:15%">TOTAL DEDUCTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    </tr>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer>
+    <div class="footer-wrap">
+      <div class="back-button">
+          <a class="btn btn-dark mx-3" href="{% url 'generate_page' %}" type="button">Back</a>
+      </div>
+    </div>
+  </footer>
+
+{% endblock %}

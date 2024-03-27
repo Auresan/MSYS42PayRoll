@@ -282,3 +282,6 @@ def tax_module(request):
 
 def encode_page(request):
     return render(request, 'payrollapp/encode_page.html')
+
+def payroll_breakdown(request):
+    return render(request, 'payrollapp/payroll_breakdown.html')
