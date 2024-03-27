@@ -159,7 +159,7 @@ def add_employee(request):
                 return redirect('employee_database')
             except:#None Type
                 #Message warning, Employee exists/ID in use
-                messages.warning(request, "Empty field/Incorrect inputs detected!"+" Employee "  + str(type(employee)) +str(employee) + " ID "  +str(type(idnumber)) +str(idnumber) + " Status " +str(status) + " Department " +str(department) + " Role " +str(position) + " Date " +str(joindate) + " PN " +str(pnumber) + " Email " +str(email) + "Join Date " + str(type(joindate)) + str(joindate))
+                messages.warning(request, "Empty field/Incorrect inputs detected!"+" Employee "  + str(type(last_name)) +str(last_name) + " ID "  +str(type(idnumber)) +str(idnumber) + " Status " +str(status) + " Department " +str(department) + " Role " +str(position) + " Date " +str(joindate) + " PN " +str(pnumber) + " Email " +str(email) + "Join Date " + str(type(joindate)) + str(joindate))
                 #Render create employee
                 return render(request, 'payrollapp/add_employee.html')
     else:
