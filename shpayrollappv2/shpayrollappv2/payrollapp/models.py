@@ -77,7 +77,7 @@ class COLA(models.Model):
 class ADDITIONAL_EARNINGS(models.Model):
     AddtlEarning_ID = models.IntegerField(primary_key=True)
     Type = models.CharField(max_length=255)
-    COLA_Amount = models.IntegerField()
+    ADD_EARNINGS = models.IntegerField()
     def getID(self):
         return self.AddtlEarning_ID
     def __str__(self):
@@ -190,10 +190,9 @@ class ATTENDANCE_HISTORY(models.Model):
     Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE)
     Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE)
     Transaction_ID = models.ForeignKey(Payslip_Transaction, on_delete=models.CASCADE)
-    Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    Time = models.TimeField()
-    IN_OUT = models.CharField(max_length=255)
-    Date = models.DateField(blank=True, null=True)
+    Absent = models.CharField(max_length=255)
+    OT = models.FloatField()
+    HoursWorked = models.FloatField()
     def getID(self):
         return self.History_ID
     def __str__(self):
