@@ -213,5 +213,18 @@ class ATTENDANCE_RECORD(models.Model):
         z = str(self.pk)+':'+str(self.getID())
         return z
     
+class USER_ACCOUNT(models.Model):
+    username = models.CharField(max_length=300)
+    password = models.CharField(max_length=300)
+    objects = models.Manager()
+
+    def getUsername(self):
+        return str(self.username)
+    
+    def getPassword(self):
+        return str(self.password)
+    
+    def __str__(self):
+        return str(self.pk) + ": " + self.getUsername() + " " + self.getPassword()
 
     

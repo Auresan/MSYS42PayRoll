@@ -12,7 +12,20 @@ def dashboard(request):
     return render(request, 'payrollapp/dashboard.html')
 
 def login(request):
-    return render(request, 'payrollapp/login.html')
+    if(request.method=="POST"):
+        
+        username = request.POST.get('userlogin')
+        password = request.POST.get('pwlogin')
+        account = USER_ACCOUNT.objects.filter(username=username, password=password)
+
+        if(account.exists()):
+            return redirect('payrollapp/dashboard.html') 
+        else:
+            messages.error(request, "Invalid login")
+            return render(request, 'payrollapp/login.html')
+            
+    else:
+        return render(request, 'payrollapp/login.html')
 
 def employee_database(request):
     a = Employee.objects.all()
