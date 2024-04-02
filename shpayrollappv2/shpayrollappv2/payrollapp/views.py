@@ -267,10 +267,15 @@ def generate_page(request):
         #Run the calculation for values
         #for x in employee_list:
         #    calculateSALARY(x.id_number)
-        total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID = calculateSALARY(employee.id_number, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
-        LatestPayslip = Payslip_Transaction.objects.last()
-        PayslipID = LatestPayslip.Transaction_ID() + 1
-        Payslip_Transaction.objects.create(Transaction_ID = PayslipID,
+        total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID = calculateSALARY(employee, start, end, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
+        try:
+            LatestPayslip = Payslip_Transaction.objects.last()
+            PayslipID = LatestPayslip.Transaction_ID+ 1
+        except:
+            PayslipID = 1
+        
+        try:
+            Payslip_Transaction.objects.create(Transaction_ID = PayslipID,
             Date_Distributed = datetime.date.today(),
             Start_Date = start,
             End_Date = end,
@@ -288,6 +293,8 @@ def generate_page(request):
             COLA_Rate_ID = COLA.objects.last(),
             AddtlEarning_Rate_ID = ADDITIONAL_EARNINGS.objects.last()
             )
+        except:
+            print("Soemthing fked up")
 
 
 

@@ -9,23 +9,25 @@ from django.db.models import Sum
 #Z is for any string passed
 def calculateHMO(y):#CLARIFY HERE
     #Retrive all of the tables
-    HMO_M = get_object_or_404(HMO, HMO_ID = y)
+    print(y)
+    HMO_M = get_object_or_404(HMO, pk = y)
     HMO_M_Amount = HMO_M.HMO_Amount
+    
     return HMO_M_Amount
 def calculateULD(x,z):
     #Retrive all of the tables
     ULD_E = UNIFORMLAPTOPDEDUCTIONS.objects.last()
     try:
-        ULD_E_ID = ULD_E.AddtlEarning_ID +1
+        ULD_E_ID = ULD_E.ULDeductions_ID +1
     except:
         ULD_E_ID = 1
-    UNIFORMLAPTOPDEDUCTIONS.objects.create(ULDeductions_ID=ULD_E_ID, Type=z,Amount=x)
+    UNIFORMLAPTOPDEDUCTIONS.objects.create(ULDeductions_ID=ULD_E_ID, Type=z,ULDeductions_Amount=x)
     return x
 def calculateCA(x):#DEPENDS IF CA is Used to add to that payslips value or if that's a deduction from last week's CA
     #Retrive all of the tables
-    CA_M = COLA.objects.last()
+    CA_M = CA.objects.last()
     try:
-        CA_M_ID = CA_M.AddtlEarning_ID +1
+        CA_M_ID = CA_M.CA_ID +1
     except:
         CA_M_ID = 1
     CA.objects.create(CA_ID=CA_M_ID, CA_Amount=x)
@@ -34,16 +36,16 @@ def calculateCOOP(x):#CLARIFY HERE
     #Retrive all of the tables
     COOP_M = COOP.objects.last()
     try:
-        COOP_M_ID = COOP_M.AddtlEarning_ID +1
+        COOP_M_ID = COOP_M.COOP_ID +1
     except:
         COOP_M_ID = 1
-    COOP.objects.create(COOP_M=COOP_M_ID, COOP_Amount=x)
+    COOP.objects.create(COOP_ID=COOP_M_ID, COOP_Amount=x)
     return x
 def calculateCOLA(x):
     #Retrive all of the tables
     COLA_M = COLA.objects.last()
     try:
-        COLA_M_ID = COLA_M.AddtlEarning_ID +1
+        COLA_M_ID = COLA_M.COLA_ID +1
     except:
         COLA_M_ID = 1
     COLA.objects.create(COLA_ID=COLA_M_ID, COLA_Amount=x)
@@ -55,7 +57,7 @@ def calculateADDE(x,z): #Remember to ADD this
         ADD_E_ID = ADD_E.AddtlEarning_ID +1
     except:
         ADD_E_ID = 1
-    ADDITIONAL_EARNINGS.objects.create(AddtlEarning_ID=ADD_E_ID, Type=z,Amount=x)
+    ADDITIONAL_EARNINGS.objects.create(AddtlEarning_ID=ADD_E_ID, Type=z,ADD_EARNINGS=x)
     return x
 def calculateSSS(x): #SUBTRACT THIS
     #Retrive all of the tables
@@ -116,9 +118,9 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     #Get Absences
     total_days = (end - start).days + 1
     existing_records_count = ATTENDANCE_RECORD.objects.filter(
-    date_recorded__range=[start, end]).count()
+    Date__range=[start, end]).count()
     abse = total_days - existing_records_count
-    holidays = HOLIDAY.objects.filter(date__range=[start, end])
+    holidays = HOLIDAY.objects.filter(Date__range=[start, end])
     for holiday in holidays:
         abse -= 1
 
@@ -131,13 +133,15 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     ADDE_Amount = calculateADDE(ADDE_AM, ADDE_TYPE)
     SSS_Amount, SSS_EC, SSS_WISP_Amount, SSS_RATE_ID = calculateSSS(emp.Salary)
     PH_Amount, PH_ID = calculatePH(emp.Salary)
-    HDMF_Amount, HDMF_ID = calculateHDMF(emp.Salary)
+    HDMF_Amount, HDMF_ER, HDMF_EE_R, HDMF_ER_R, HDMF_ID = calculateHDMF(emp.Salary)
     WithTax_Amount, WithTax_Excess,  WITH_ID = calculateWithTax(emp_BP)#FIX THIS
     #lateDues = (emp_DR*((LATEHERE/8)/60))*-1 Currently not in use due to how the office does it(Culmulative time = Absence)
     absenceDues = emp_BP*2*12/314*-abse
-    OT = ATTENDANCE_HISTORY.objects.filter(date__range=(start, end)).aggregate(sum=Sum('OT'))['sum']
+    OT = ATTENDANCE_RECORD.objects.filter(Date__range=(start, end)).aggregate(sum=Sum('OT'))['sum']
+    if OT == None:
+        OT = 0
     OT = emp_DR/8*1.25*OT
 
     #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT
-    total = emp_BP + HMO_Amount- ULD_Amount - CA_Amount - COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT
+    total = emp_BP + HMO_Amount- float(ULD_Amount) - float(CA_Amount) - float(COOP_Amount)+ float(COLA_Amount)+ float(ADDE_Amount)- float(SSS_Amount)- float(SSS_EC)- float(SSS_WISP_Amount)- float(PH_Amount) - float(HDMF_Amount) - float(WithTax_Amount) - float(WithTax_Excess)- float(absenceDues) + float(OT)
     return total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID

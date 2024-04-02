@@ -191,7 +191,7 @@ class ATTENDANCE_HISTORY(models.Model):
     Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE)
     Transaction_ID = models.ForeignKey(Payslip_Transaction, on_delete=models.CASCADE)
     Absent = models.CharField(max_length=255)
-    OT = models.FloatField()
+    #OT = models.FloatField()
     HoursWorked = models.FloatField()
     def getID(self):
         return self.History_ID
@@ -206,6 +206,7 @@ class ATTENDANCE_RECORD(models.Model):
     Time = models.TimeField()
     IN_OUT = models.CharField(max_length=255)
     Date = models.DateField(blank=True, null=True)
+    OT = models.FloatField()
     def getID(self):
         return self.Attendance_ID
     def __str__(self):
