@@ -180,7 +180,123 @@ def add_employee(request):
         return render(request, 'payrollapp/add_employee.html')
 
 def generate_page(request):
-    return render(request, 'payrollapp/generate_page.html')
+    a = Employee.objects.all()
+    if (request.method == "POST"):
+        #Get the department type
+        try:
+        #    department  = request.POST.get('inputDept')
+            employee = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        #Get Start Date
+        try:
+            start  = request.POST.get('inputStartDate')
+            try:
+            # Convert the date string to a datetime object
+                start = datetime.strptime(start, "%Y-%m-%d").date()
+        
+            except ValueError:
+            # Handle the case where the date string is not in the correct format
+                messages.warning(request, "Invalid date format. Please use YYYY-MM-DD.")
+                return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        #Get End Date
+        try:
+            end  = request.POST.get('inputEndDate')
+            try:
+            # Convert the date string to a datetime object
+                end = datetime.strptime(end, "%Y-%m-%d").date()
+        
+            except ValueError:
+            # Handle the case where the date string is not in the correct format
+                messages.warning(request, "Invalid date format. Please use YYYY-MM-DD.")
+                return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        
+        #Tax inputs
+
+        try:
+        #    department  = request.POST.get('inputDept')
+            ULD_AM = request.POST.get('inputULD')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        try:
+        #    department  = request.POST.get('inputDept')
+            ULD_T = request.POST.get('inputULDT')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        try:
+        #    department  = request.POST.get('inputDept')
+            CA_AM = request.POST.get('inputCA')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        try:
+        #    department  = request.POST.get('inputDept')
+            COOP_AM = request.POST.get('inputCOOP')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        try:
+        #    department  = request.POST.get('inputDept')
+            COLA_AM = request.POST.get('inputCOLA')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        try:
+        #    department  = request.POST.get('inputDept')
+            ADDE_AM = request.POST.get('inputADDE')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        try:
+        #    department  = request.POST.get('inputDept')
+            ADDE_T = request.POST.get('inputADDET')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/generate_page.html' , {'a':a})
+        #Get all
+        #employee_list = Employee.objects.filter(Department=department)
+        #Run the calculation for values
+        #for x in employee_list:
+        #    calculateSALARY(x.id_number)
+        total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID = calculateSALARY(employee.id_number, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
+        LatestPayslip = Payslip_Transaction.objects.last()
+        PayslipID = LatestPayslip.Transaction_ID() + 1
+        Payslip_Transaction.objects.create(Transaction_ID = PayslipID,
+            Date_Distributed = datetime.date.today(),
+            Start_Date = start,
+            End_Date = end,
+            Net_Pay = total,
+            Absence_Deductions = absenceDues,
+            Employee_ID = get_object_or_404(Employee, pk=employee),
+            SSS_Rate_ID = get_object_or_404(SSS, pk=SSS_RATE_ID),
+            PhilHealth_Rate_ID = get_object_or_404(PhilHealth, pk=PH_ID),
+            HDMF_Rate_ID = get_object_or_404(HDMF, pk=HDMF_ID),
+            WTAX_Rate_ID = get_object_or_404(WitholdingTax, pk=WITH_ID),
+            HMO_Rate_ID = get_object_or_404(HMO, pk=employee),
+            ULDeductions_Rate_ID = UNIFORMLAPTOPDEDUCTIONS.objects.last(),
+            CA_Rate_ID = CA.objects.last(),
+            COOP_Rate_ID = COOP.objects.last(),
+            COLA_Rate_ID = COLA.objects.last(),
+            AddtlEarning_Rate_ID = ADDITIONAL_EARNINGS.objects.last()
+            )
+
+
+
+
+
+
+        return render(request, 'payrollapp/generate_page.html' , {'a':a})
+    else:
+        return render(request, 'payrollapp/generate_page.html' , {'a':a})
 
 def employee_info(request, EID):
     if(request.method=="POST"):
