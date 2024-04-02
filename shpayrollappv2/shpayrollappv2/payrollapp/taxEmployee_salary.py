@@ -67,7 +67,7 @@ def calculateSSS(x): #SUBTRACT THIS
         #Note: Look into how the rows are indexed, that way we can instead remember the index number and overwrite the variables once to cut down on process time
         if row.Start_Range < x:
             #SSS_ER = row.Regular_SS_Employer_Rate
-            SSS_EE = row.Regular_SS_Employer_Rate
+            SSS_EE = row.Regular_SS_Employee_Rate*x
             SSS_EC = row.EC_Contribution
             #SSS_WISP_ER = row.WISP_Employer_Rate
             SSS_WISP_EE = row.WISP_Employee_Rate
