@@ -1,6 +1,7 @@
 from .models import *
 from django.shortcuts import  get_object_or_404
 from datetime import *
+from django.db.models import Sum
 #HMO, COOP*, WithTax
 
 #X is the base value we are basing off of
@@ -76,23 +77,21 @@ def calculateHDMF(x): #SUBTRACT THIS
             HDMF_EE = x * row.Employee_Rate
             HDMF_ER = x * row.Employer_Rate
     return HDMF_EE, HDMF_ER, HDMF_EE_R, HDMF_ER_R
-def calculateWithTax(x,y,z): #ASK FOR ASSISTANCE HERE
+def calculateWithTax(x): #ASK FOR ASSISTANCE HERE
     #Retrive all of the tables
-    pny = []
-    s1 = 0
-    s2 = 0
-    s3 = 0
+    WITHTAX = WitholdingTax.objects.all()
     #compare to all values to find the appropriate range
-    for pny_i in pny:
-        if (x < s1) and (x > s2):
-            y = s3
-    return y
+    for row in WITHTAX:
+        if x > row.Start_Range:
+            FIXTAX = row.Fix_Tax_Amount
+            EXCESS = row.Tax_Rate_On_Excess * x
+    return FIXTAX, EXCESS
 
 def calculateSALARY(employeeID, ULD_AM, ULD_Type, CA_AM, COOP_AM, COLA_AM,  ADDE_AM, ADDE_TYPE, WITHTAX_AM):
     #Get Employee ID
     emp = get_object_or_404(Employee, id_number = employeeID)
     #Get Daily rate
-    emp_DR = emp.Salary/30
+    emp_DR = emp.Salary*2*12/314
     #Get Basic Pay
     emp_BP = emp.Salary/2
     #Get Absences
@@ -110,10 +109,12 @@ def calculateSALARY(employeeID, ULD_AM, ULD_Type, CA_AM, COOP_AM, COLA_AM,  ADDE
     SSS_Amount, SSS_EC, SSS_WISP_Amount = calculateSSS(emp.Salary)
     PH_Amount = calculatePH(emp.Salary)
     HDMF_Amount = calculateHDMF(emp.Salary)
-    WithTax_Amount = calculateWithTax()#FIX THIS
-    #lateDues = (emp_DR*((8/8)/60))*-1 Currently not in use due to how the office does it(Culmulative time = Absence)
+    WithTax_Amount, WithTax_Excess = calculateWithTax(emp_BP)#FIX THIS
+    #lateDues = (emp_DR*((LATEHERE/8)/60))*-1 Currently not in use due to how the office does it(Culmulative time = Absence)
     absenceDues = emp_BP*2*12/314*-abse
+    OT = ATTENDANCE_HISTORY.objects.filter(date__range=(start_date, end_date)).aggregate(sum=Sum('OT'))['sum']
+    OT = emp_DR/8*1.25*OT
 
-    total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount+ SSS_Amount+ SSS_EC+ SSS_WISP_Amount+ PH_Amount + HDMF_Amount + WithTax_Amount + absenceDues
-
+    #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT
+    total = emp_BP + HMO_Amount- ULD_Amount - CA_Amount - COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT
     return total
