@@ -299,3 +299,6 @@ def encode_page(request):
 
 def payroll_breakdown(request):
     return render(request, 'payrollapp/payroll_breakdown.html')
+
+def edit_attendance(request):
+    return render(request, 'payrollapp/edit_attendance.html')

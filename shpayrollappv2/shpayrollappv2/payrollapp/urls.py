@@ -29,5 +29,6 @@ urlpatterns = [
     path('employee_attendance', views.employee_attendance, name='employee_attendance'),
     path('encode_page', views.encode_page, name='encode_page'),
     path('tax_module', views.tax_module, name='tax_module'),
-    path('payroll_breakdown', views.payroll_breakdown, name='payroll_breakdown')
+    path('payroll_breakdown', views.payroll_breakdown, name='payroll_breakdown'),
+    path('edit_attendance', views.edit_attendance, name='edit_attendance')
 ]
