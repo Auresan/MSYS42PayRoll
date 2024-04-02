@@ -1,0 +1,95 @@
+{% extends 'payrollapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main">
+    <div class="dashboard-navbar">
+        <form action="#">
+            <div class="nav-search">
+                <input type="text" class="search-query mr-3" placeholder="Name/Code" id="eName">
+                <input type="text" class="search-query px-3" id="eDepa" placeholder="Search Department" >
+            </div>
+        </form>
+        <div class="navbar-content">
+            <ul class="main-nav">
+                <div class="nav-search">
+                    <a href="{% url 'upload_attendance' %}"  class="btn">+ Upload Attendance</a>                              
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Attendance Database</h2>
+        <div style="overflow-x:auto;">
+            <table id="posts">
+                <thead>
+                    <tr>
+                        <th style="width:10%">ID</th>
+                        <th style="width:20%">Name</th>
+                        <th style="width:15%">Days Present</th>
+                        <th style="width:15%">Total Working Days</th>
+                        <th style="width:15%">Overtime Hours</th>
+                        <th style="width:10%">Leaves Taken</th>
+                        <th style="width:10%">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a href="{% url 'employee_attendance' %}">Edit</a> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function searchName() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("eName");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("posts");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+
+    function searchDepartment() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("eDepa");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("posts");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[3];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+</script>
+
+
+{% endblock %}

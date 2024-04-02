@@ -1,0 +1,103 @@
+<!--from uploadattendance-->
+{% extends 'payrollapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="main">
+    <div class="dashboard-navbar">
+        <form action="#">
+            <div class="nav-search">
+                <input type="text" class="search-query mr-3" placeholder="Name/Code" id="eName">
+                <input type="text" class="search-query px-3" id="eDepa" placeholder="Search Department" >
+            </div>
+        </form>
+        <div class="navbar-content">
+            <ul class="main-nav">
+                <div class="nav-search">
+                    <a href="#" class="btn" id="uploadBtn">+ Upload Attendance</a>                              
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Attendance Database</h2>
+        <div style="overflow-x:auto;">
+            <table id="posts">
+                <thead>
+                    <tr>
+                        <th style="width:10%">ID</th>
+                        <th style="width:20%">Name</th>
+                        <th style="width:15%">Days Present</th>
+                        <th style="width:15%">Total Working Days</th>
+                        <th style="width:15%">Overtime Hours</th>
+                        <th style="width:10%">Leaves Taken</th>
+                        <th style="width:10%">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a href="{% url 'employee_attendance' %}">Edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Upload CSV File of Attendance Record</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="csvFile" name="csv_file" accept=".csv" required>
+            <div style="text-align: center;">
+                <button type="button" id="cancelBtn">Cancel</button>
+                <button type="submit" id="confirmBtn">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("uploadModal");
+
+    // Get the button that opens the modal
+    var uploadBtn = document.getElementById("uploadBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    uploadBtn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Cancel button action
+    var cancelBtn = document.getElementById("cancelBtn");
+    cancelBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+</script>
+{% endblock %}

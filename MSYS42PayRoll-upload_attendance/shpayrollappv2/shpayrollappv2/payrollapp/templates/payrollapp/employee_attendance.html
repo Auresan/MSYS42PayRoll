@@ -1,0 +1,54 @@
+{% extends 'payrollapp/base.html' %}
+{% load static %}
+
+{% block content %}
+   
+<div class="content">
+   <h2> Attendance History </h2> 
+   <div class="form-row">
+    <div class="form-group col-md-2">
+        <label for="inputID">ID Number</label>
+        <input type="text" class="form-control" id="inputID" readonly>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputFullName"> Name</label>
+      <input type="text" class="form-control" id="inputFullName" readonly>
+    </div>
+    <div class="form-group col-md-3">
+        <label for="inputDept">Department</label>
+        <select id="inputDept" class="form-control">
+          <option selected>Choose Department</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+    </div>
+    <div class="form-group col-md-3">
+        <label for="mth_yr">Month & Year</label>
+        <input type="date" class="form-control" id="mth_yr">
+    </div>
+  </div>
+  <div style="overflow-x:auto;">
+    <table id="posts">
+        <thead>
+            <tr>
+                <th style="width:10%">Date</th>
+                <th style="width:20%">Attendance Status</th>
+                <th style="width:15%">Time In</th>
+                <th style="width:15%">Time Out</th>
+                <th style="width:15%">Overtime Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                </tr>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+{% endblock %}
