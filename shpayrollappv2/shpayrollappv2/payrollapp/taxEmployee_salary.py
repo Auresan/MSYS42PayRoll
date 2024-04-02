@@ -142,6 +142,23 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
         OT = 0
     OT = emp_DR/8*1.25*OT
 
+    print(emp_BP)
+    print(HMO_Amount)
+    print(ULD_Amount)
+    print(CA_Amount)
+    print(COOP_Amount)
+    print(COLA_Amount)
+    print(ADDE_Amount)
+    print(SSS_Amount)
+    print(SSS_EC)
+    print(SSS_WISP_Amount)
+    print(PH_Amount)
+    print(HDMF_Amount)
+    print(WithTax_Amount)
+    print(WithTax_Excess)
+    print(absenceDues)
+    print(OT)
     #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT
-    total = emp_BP + HMO_Amount- float(ULD_Amount) - float(CA_Amount) - float(COOP_Amount)+ float(COLA_Amount)+ float(ADDE_Amount)- float(SSS_Amount)- float(SSS_EC)- float(SSS_WISP_Amount)- float(PH_Amount) - float(HDMF_Amount) - float(WithTax_Amount) - float(WithTax_Excess)- float(absenceDues) + float(OT)
+    total = emp_BP + HMO_Amount- float(ULD_Amount) - float(CA_Amount) - float(COOP_Amount)+ float(COLA_Amount)+ float(ADDE_Amount)- float(SSS_Amount)- float(SSS_EC)- float(SSS_WISP_Amount)- float(PH_Amount) - float(HDMF_Amount) - float(WithTax_Amount) - float(WithTax_Excess)+ float(absenceDues) + float(OT)
+    print(total)
     return total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID
