@@ -276,7 +276,7 @@ def generate_page(request):
         
         try:
             Payslip_Transaction.objects.create(Transaction_ID = PayslipID,
-            Date_Distributed = datetime.date.today(),
+            Date_Distributed = datetime.now().date(),
             Start_Date = start,
             End_Date = end,
             Net_Pay = total,
