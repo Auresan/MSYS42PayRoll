@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib import messages
 from django.utils import timezone
+from datetime import *
 from .taxEmployee_salary import *
-
 
 # Create your views here.
 
@@ -118,7 +118,7 @@ def add_employee(request):
         
         try:
             # Convert the date string to a datetime object
-            joindate = timezone.datetime.strptime(joindate, "%Y-%m-%d").date()
+            joindate = datetime.strptime(joindate, "%Y-%m-%d").date()
         
         except ValueError:
             # Handle the case where the date string is not in the correct format

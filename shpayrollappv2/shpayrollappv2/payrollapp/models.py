@@ -29,7 +29,7 @@ class Employee(models.Model):
         return z
     
 class HMO(models.Model):
-    HMO_ID = models.CharField(primary_key=True)
+    HMO_ID = models.CharField(max_length=6, primary_key=True)
     HMO_Amount = models.IntegerField()
     def getID(self):
         return self.HMO_ID
