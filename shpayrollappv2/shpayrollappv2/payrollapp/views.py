@@ -20,7 +20,7 @@ def login(request):
         account = USER_ACCOUNT.objects.filter(username=username, password=password)
 
         if(account.exists()):
-            return redirect('payrollapp/dashboard.html') 
+            return redirect('dashboard') 
         else:
             messages.error(request, "Invalid login")
             return render(request, 'payrollapp/login.html')
