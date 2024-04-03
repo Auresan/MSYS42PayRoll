@@ -21,7 +21,7 @@
         <div class="navbar-content">
             <ul class="main-nav">
                 <div class="nav-search">
-                    <a href="{% url 'add_employee' %}" class="btn">+ Add Employee</a>
+                    <a href="{% url 'add_employee' UID=user.pk %}" class="btn">+ Add Employee</a>
                 </div>
             </ul>
         </div>
@@ -55,7 +55,7 @@
                         <td> {{ b.Department }} </td>
                         <td> {{ b.Role }} </td>
                         <td> {{ b.Join_Date }} </td>
-                        <td> <a href="{% url 'employee_info' EID=b.pk %}">Edit</a> </td>
+                        <td> <a href="{% url 'employee_info' UID=user.pk EID=b.pk %}">Edit</a> </td>
                     </tr>
                 {% endfor %}
                 </tbody>

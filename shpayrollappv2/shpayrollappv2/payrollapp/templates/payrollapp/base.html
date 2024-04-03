@@ -31,7 +31,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="{% url 'dashboard' %}" class="sidebar-link">
+                    <a href="{% url 'dashboard' UID=user.pk %}" class="sidebar-link">
                         <i class="lni lni-layout"></i>
                         <span>Dashboard</span>
                     </a>
@@ -44,13 +44,13 @@
                     </a>
                     <ul id="payroll" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="{% url 'generate_page' %}" class="sidebar-link">Generate</a>
+                            <a href="{% url 'generate_page' UID=user.pk %}" class="sidebar-link">Generate</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{% url 'tax_module' %}" class="sidebar-link">Credit & Deductibles</a>
+                            <a href="{% url 'tax_module' UID=user.pk %}" class="sidebar-link">Credit & Deductibles</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{% url 'encode_page' %}" class="sidebar-link">Encode</a>
+                            <a href="{% url 'encode_page' UID=user.pk %}" class="sidebar-link">Encode</a>
                         </li>
                     </ul>
                 </li>
@@ -62,10 +62,10 @@
                     </a>
                     <ul id="employees" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="{% url 'employee_database' %}" class="sidebar-link">Database</a>
+                            <a href="{% url 'employee_database' UID=user.pk %}" class="sidebar-link">Database</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{% url 'attendance_db' %}" class="sidebar-link">Attendance</a>
+                            <a href="{% url 'attendance_db' UID=user.pk %}" class="sidebar-link">Attendance</a>
                         </li>
                     </ul>
                 </li>

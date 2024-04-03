@@ -95,7 +95,7 @@
         <hr>
         <div>
             <ul class="action-icons">
-                <li><a class="btn btn-danger" href="{% url 'employee_database' %}">Cancel</a></li>
+                <li><a class="btn btn-danger" href="{% url 'employee_database' UID=user.pk %}">Cancel</a></li>
                 <li><button class="btn btn-success" type="submit">Create Employee</button></li>
             </ul>
         </div>
@@ -105,7 +105,7 @@
 <footer>
   <div class="footer-wrap">
     <div class="back-button">
-        <a class="btn btn-dark mx-3" href="{% url 'employee_database' %}" type="button">Back</a>
+        <a class="btn btn-dark mx-3" href="{% url 'employee_database' UID=user.pk %}" type="button">Back</a>
     </div>
   </div>
 </footer>
