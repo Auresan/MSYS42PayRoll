@@ -19,16 +19,16 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.dashboard, name='dashboard'),
-    path('login', views.login, name='login'),
-    path('employee_database', views.employee_database, name='employee_database'),
-    path('add_employee', views.add_employee, name='add_employee'),
-    path('generate_page', views.generate_page, name='generate_page'),
-    path('employee_info/<str:EID>/', views.employee_info, name='employee_info'),
-    path('attendance_db', views.attendance_db, name='attendance_db'),
-    path('employee_attendance', views.employee_attendance, name='employee_attendance'),
-    path('encode_page', views.encode_page, name='encode_page'),
-    path('tax_module', views.tax_module, name='tax_module'),
-    path('payroll_breakdown', views.payroll_breakdown, name='payroll_breakdown'),
-    path('edit_attendance', views.edit_attendance, name='edit_attendance')
+    path('dashboard/<int:UID>', views.dashboard, name='dashboard'),
+    path('', views.login, name='login'),
+    path('employee_database/<int:UID>/', views.employee_database, name='employee_database'),
+    path('add_employee/<int:UID>/', views.add_employee, name='add_employee'),
+    path('generate_page/<int:UID>/', views.generate_page, name='generate_page'),
+    path('employee_info/<int:UID>/<str:EID>/', views.employee_info, name='employee_info'),
+    path('attendance_db/<int:UID>', views.attendance_db, name='attendance_db'),
+    path('employee_attendance/<int:UID>', views.employee_attendance, name='employee_attendance'),
+    path('encode_page/<int:UID>', views.encode_page, name='encode_page'),
+    path('tax_module/<int:UID>', views.tax_module, name='tax_module'),
+    path('payroll_breakdown/<int:UID>', views.payroll_breakdown, name='payroll_breakdown'),
+    path('edit_attendance/<int:UID>', views.edit_attendance, name='edit_attendance')
 ]
