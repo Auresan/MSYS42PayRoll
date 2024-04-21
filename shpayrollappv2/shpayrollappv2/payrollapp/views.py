@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from .models import *
 from django.contrib import messages
 from django.utils import timezone
 from datetime import *
 from .taxEmployee_salary import *
+from .ModifierDBchanges import *
 
 # Create your views here.
 
@@ -425,3 +426,23 @@ def encode_page(request, UID):
 def payroll_breakdown(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/payroll_breakdown.html', {'user':user})
+
+def HMO_DB(request, UID):
+    a = HMO.objects.all()
+    c = Employee.objects.all()
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
+
+    if (request.method=='POST'):
+    #Get the values
+        EID = request.POST.get('A_EID')
+        A_HMOA = request.POST.get('A_HMOA')
+        if a.filter(HMO_ID=EID).exists():#If we selected new item, Create new entry
+            HMO.objects.filter(HMO_ID=EID).update(HMO_ID=EID, HMO_Amount=A_HMOA)
+        else:#Update path
+            HMO.objects.create(HMO_ID=EID, HMO_Amount=A_HMOA)
+            messages.success(request, "Updated successfully!")
+        return redirect(reverse('HMO_DB', kwargs={'UID': user.id}))#No idea why it works, the mysterious forums solved this one
+    else:#First time viewing/non-form open
+        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a, 'c':c} )
+        

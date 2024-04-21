@@ -5,6 +5,8 @@
 
 <div class="content">
     <h1> Credit & Deductibles Module </h1>
+    <div id="resultDiv"></div>
+    
     <div style="overflow-x:auto;">
         <table id="posts">
             <thead>
@@ -16,9 +18,29 @@
             </thead>
             <tbody>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td><a href="#">Edit</a> </td>
+                    <td>HDMF</td>
+                    <td>Deductions</td>
+                    <td><button id="executeButton_HDMF">Update HDMF</button></td>
+                </tr>
+                <tr>
+                    <td>SSS</td>
+                    <td>Deductions</td>
+                    <td><button id="executeButton_SSS">Update SSS</button></td>
+                </tr>
+                <tr>
+                    <td>PhilHealth</td>
+                    <td>Deductions</td>
+                    <td><button id="executeButton_PH">Update PhilHealth </button></td>
+                </tr>
+                <tr>
+                    <td>Witholding Tax</td>
+                    <td>Deductions</td>
+                    <td><button id="executeButton_WT">Update Witholding Tax </button></td>
+                </tr>
+                <tr>
+                    <td>HMO</td>
+                    <td>Deductions</td>
+                    <td><a href="{% url 'HMO_DB' UID=user.pk %}">Open HMO DB</a></td>
                 </tr>
             </tbody>
         </table>
@@ -28,5 +50,71 @@
 
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#executeButton_HDMF').click(function() {
+            $.ajax({
+                url: '{% url "HDMF_UPLOAD" %}',
+                type: 'GET',  // Or 'POST' depending on your view's implementation
+                success: function(response) {
+                    $('#resultDiv').text('Data imported and database cleared successfully.');
+                },
+                error: function() {
+                    $('#resultDiv').text('Error executing Python code.');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#executeButton_SSS').click(function() {
+            $.ajax({
+                url: '{% url "SSS_UPLOAD" %}',
+                type: 'GET',  // Or 'POST' depending on your view's implementation
+                success: function(response) {
+                    $('#resultDiv').text('Data imported and database cleared successfully.');
+                },
+                error: function() {
+                    $('#resultDiv').text('Error executing Python code.');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#executeButton_PH').click(function() {
+            $.ajax({
+                url: '{% url "PH_UPLOAD" %}',
+                type: 'GET',  // Or 'POST' depending on your view's implementation
+                success: function(response) {
+                    $('#resultDiv').text('Data imported and database cleared successfully.');
+                },
+                error: function() {
+                    $('#resultDiv').text('Error executing Python code.');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#executeButton_WT').click(function() {
+            $.ajax({
+                url: '{% url "WT_UPLOAD" %}',
+                type: 'GET',  // Or 'POST' depending on your view's implementation
+                success: function(response) {
+                    $('#resultDiv').text('Data imported and database cleared successfully.');
+                },
+                error: function() {
+                    $('#resultDiv').text('Error executing Python code.');
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

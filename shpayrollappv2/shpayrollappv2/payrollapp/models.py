@@ -114,7 +114,6 @@ class SSS(models.Model):
     EC_Contribution = models.FloatField()
     WISP_Employer_Rate = models.FloatField()
     WISP_Employee_Rate = models.FloatField()
-    Type = models.CharField(max_length=255)
     Total_Contribution = models.FloatField()
     Start_Range = models.FloatField()
     End_Range = models.FloatField()
@@ -187,28 +186,18 @@ class Payslip_Transaction(models.Model):
 
 class ATTENDANCE_HISTORY(models.Model):
     History_ID = models.IntegerField(primary_key=True)
-    Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE)
+    Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE)#Here null blank=true
     Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE)
-    Transaction_ID = models.ForeignKey(Payslip_Transaction, on_delete=models.CASCADE)
-    Absent = models.CharField(max_length=255)
+    TimeIn = models.TimeField()
+    TimeOut = models.TimeField()
+    TimeIn_2 = models.TimeField()
+    TimeOut_2 = models.TimeField()
+    Date = models.DateField(blank=True, null=True)
+    OT = models.FloatField()
     #OT = models.FloatField()
     HoursWorked = models.FloatField()
     def getID(self):
         return self.History_ID
-    def __str__(self):
-        z = str(self.pk)+':'+str(self.getID())
-        return z
-
-class ATTENDANCE_RECORD(models.Model):
-    Attendance_ID = models.IntegerField(primary_key=True)
-    Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    History_ID = models.ForeignKey(ATTENDANCE_HISTORY, on_delete=models.CASCADE)
-    Time = models.TimeField()
-    IN_OUT = models.CharField(max_length=255)
-    Date = models.DateField(blank=True, null=True)
-    OT = models.FloatField()
-    def getID(self):
-        return self.Attendance_ID
     def __str__(self):
         z = str(self.pk)+':'+str(self.getID())
         return z
@@ -226,5 +215,3 @@ class USER_ACCOUNT(models.Model):
     
     def __str__(self):
         return str(self.pk) + ": " + self.getUsername() + " " + self.getPassword()
-
-    
