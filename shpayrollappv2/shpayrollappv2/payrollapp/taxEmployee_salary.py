@@ -117,8 +117,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     emp_BP = emp.Salary/2
     #Get Absences
     total_days = (end - start).days + 1
-    existing_records_count = ATTENDANCE_RECORD.objects.filter(
-    Date__range=[start, end]).count()
+    existing_records_count = ATTENDANCE_HISTORY.objects.filter(Date__range=[start, end]).count()
     abse = total_days - existing_records_count
     holidays = HOLIDAY.objects.filter(Date__range=[start, end])
     for holiday in holidays:
@@ -137,7 +136,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     WithTax_Amount, WithTax_Excess,  WITH_ID = calculateWithTax(emp_BP)#FIX THIS
     #lateDues = (emp_DR*((LATEHERE/8)/60))*-1 Currently not in use due to how the office does it(Culmulative time = Absence)
     absenceDues = emp_BP*2*12/314*-abse
-    OT = ATTENDANCE_RECORD.objects.filter(Date__range=(start, end)).aggregate(sum=Sum('OT'))['sum']
+    OT = ATTENDANCE_HISTORY.objects.filter(Date__range=(start, end)).aggregate(sum=Sum('OT'))['sum']
     if OT == None:
         OT = 0
     OT = emp_DR/8*1.25*OT
