@@ -183,6 +183,7 @@ def A_UPLOAD(file_path):
     if file_path:
     # Load data from the selected file into a pandas DataFrame
         print(file_path)
+        Employee_check = Employee.objects.all
         holiday_check = HOLIDAY.objects.all
         Leave_check = Leave.objects.all
         holiday_true = ''
@@ -192,6 +193,9 @@ def A_UPLOAD(file_path):
         for _, row in workinghours_df.iterrows():
             #Data cleaning
             new_ID = ATTENDANCE_HISTORY.objects.latest('History_ID') + 1
+            for x in Employee_check:
+                if x.id_number == row['Name']:
+                    Employee= get_object_or_404(Employee, id_number=x.id_number)
             for x in holiday_check:
                 if x.date == row['Date']:
                     holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
@@ -239,7 +243,7 @@ def A_UPLOAD(file_path):
                     HoursWorked = TimeOut_2 - TimeIn_2
             HoursWorked = HoursWorked+HoursWorked_2
 
-            ATTENDANCE_HISTORY.objects.create(History_ID=new_ID, Date=date, OT=OT_Total, HoursWorked=HoursWorked)
+            ATTENDANCE_HISTORY.objects.create(History_ID=new_ID, Employee_ID=Employee, Date=date, OT=OT_Total, HoursWorked=HoursWorked)
             if TimeIn:
                 ATTENDANCE_HISTORY.objects.latest('History_ID').update(TimeIn=TimeIn)
             if TimeOut:

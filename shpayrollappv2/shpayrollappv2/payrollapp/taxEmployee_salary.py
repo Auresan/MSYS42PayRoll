@@ -124,6 +124,8 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
         abse -= 1
 
     #Do all modifiers
+    ATTENDANCE_HISTORY.objects.filter=()
+
     HMO_Amount = calculateHMO(employeeID)
     ULD_Amount = calculateULD(ULD_AM, ULD_Type)
     CA_Amount = calculateCA(CA_AM)
