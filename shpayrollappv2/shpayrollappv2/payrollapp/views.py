@@ -271,7 +271,7 @@ def generate_page(request, UID):
         #Run the calculation for values
         #for x in employee_list:
         #    calculateSALARY(x.id_number)
-        total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID = calculateSALARY(employee, start, end, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
+        total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID, OT, Holiday_Comp, Total_Deductions = calculateSALARY(employee, start, end, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
         try:
             LatestPayslip = Payslip_Transaction.objects.last()
             PayslipID = LatestPayslip.Transaction_ID+ 1
@@ -279,18 +279,22 @@ def generate_page(request, UID):
             PayslipID = 1
         
         try:
+            xyz = get_object_or_404(HMO, pk=employee)
             Payslip_Transaction.objects.create(Transaction_ID = PayslipID,
             Date_Distributed = datetime.now().date(),
             Start_Date = start,
             End_Date = end,
             Net_Pay = total,
+            Total_Deductions= Total_Deductions,
             Absence_Deductions = absenceDues,
+            OT= OT,
+            Holiday_Comp = Holiday_Comp,
             Employee_ID = get_object_or_404(Employee, pk=employee),
-            SSS_Rate_ID = get_object_or_404(SSS, pk=SSS_RATE_ID),
-            PhilHealth_Rate_ID = get_object_or_404(PhilHealth, pk=PH_ID),
-            HDMF_Rate_ID = get_object_or_404(HDMF, pk=HDMF_ID),
-            WTAX_Rate_ID = get_object_or_404(WitholdingTax, pk=WITH_ID),
-            HMO_Rate_ID = get_object_or_404(HMO, pk=employee),
+            SSS_Rate_ID = SSS_RATE_ID,
+            PhilHealth_Rate_ID = PH_ID,
+            HDMF_Rate_ID = HDMF_ID,
+            WTAX_Rate_ID = WITH_ID,
+            HMO_Rate_ID = xyz.HMO_Amount,
             ULDeductions_Rate_ID = UNIFORMLAPTOPDEDUCTIONS.objects.last(),
             CA_Rate_ID = CA.objects.last(),
             COOP_Rate_ID = COOP.objects.last(),
@@ -427,10 +431,13 @@ def encode_page(request, UID):
 #GO BACK TO BREAKDOWN AND ENCODE
 def payroll_breakdown(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
-    EID = get_object_or_404(Employee, id_number=EID)
-    #payrolls =  get_object_or_404(Payslip_Transaction, Employee_ID=EID)
-    
-    return render(request, 'payrollapp/payroll_breakdown.html', {'user':user , 'EID':EID})
+    #EID = get_object_or_404(Employee, id_number=EID)
+    payrolls =  get_object_or_404(Payslip_Transaction, Employee_ID=EID)#Swap to Payroll ID later
+    employee = payrolls.Employee_ID
+    name = employee.Last_name+', '+employee.First_name+' '+employee.Middle_name
+    start = payrolls.Start_Date.strftime('%Y-%m-%d')
+    end = payrolls.End_Date_Date.strftime('%Y-%m-%d')
+    return render(request, 'payrollapp/payroll_breakdown.html', {'user':user , 'payrolls':payrolls, 'name':name, 'start':start, 'end':end})
 
 def HMO_DB(request, UID):
     a = HMO.objects.all()

@@ -1,4 +1,5 @@
 {% extends 'payrollapp/base.html' %}
+{% load mathfilters %}
 {% load static %}
 
 {% block content %}
@@ -9,23 +10,23 @@
     <div class="form-row">
         <div class="form-group col-md-2">
             <label for="inputID">ID Number</label>
-            <input type="text" class="form-control" id="inputID" readonly>
+            <input type="text" class="form-control" id="inputID" value={{payrolls.Employee_ID.id_number}} readonly>
         </div>
         <div class="form-group col-md-4">
           <label for="inputFullName"> Name</label>
-          <input type="text" class="form-control" id="inputFullName" readonly>
+          <input type="text" class="form-control" id="inputFullName" value={{name}} readonly>
         </div>
         <div class="form-group col-md-2">
             <label for="inputDept">Department</label>
-            <input type="text" class="form-control" id="inputDept" readonly>
+            <input type="text" class="form-control" id="inputDept" value={{payrolls.Employee_ID.Department}} readonly>
         </div>
         <div class="form-group col-md-2">
-            <label for="mth_yr">Payroll Range Start Date</label>
-            <input type="date" class="form-control" id="mth_yr" readonly>
+            <label for="start">Payroll Range Start Date</label>
+            <input type="date" class="form-control" id="start" value={{start}}readonly>
         </div>
         <div class="form-group col-md-2">
-            <label for="mth_yr">Payroll Range End Date</label>
-            <input type="date" class="form-control" id="mth_yr" readonly>
+            <label for="end">Payroll Range End Date</label>
+            <input type="date" class="form-control" id="end" value={{end}}readonly>
         </div>
     </div>
     <div style="overflow-x:auto;">
@@ -34,7 +35,6 @@
                 <tr>
                     <th style="width:10%">Basic Pay</th>
                     <th style="width:10%"> Daily Rate</th>
-                    <th style="width:10%"> SSS Rate </th>
                     <th style="width:10%">COLA & Others</th>
                     <th style="width:11%">GROSS COMPENSATION</th>
                 </tr>
@@ -42,19 +42,17 @@
             <tbody>
                 <tr>
                     <td>
-                    <input type="date" class="form-control" id="mth_yr" readonly>
+                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.Employee_ID.Salary|div:2}} readonly>
                     </td>
                     <td>
-                    <input type="date" class="form-control" id="mth_yr" readonly>
+                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.Employee_ID.Salary|mul:2|mul:12|div:314}} readonly>
+                    </td>
+                    
+                    <td>
+                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.AddtlEarning_Rate_ID.ADD_EARNINGS|add:payrolls.COLA_Rate_ID.COLA_Amount|add:payrolls.OT|add:payrolls.Holiday_Comp }} readonly>
                     </td>
                     <td>
-                    <input type="date" class="form-control" id="mth_yr" readonly>
-                    </td>
-                    <td>
-                    <input type="date" class="form-control" id="mth_yr" readonly>
-                    </td>
-                    <td>
-                    <input type="date" class="form-control" id="mth_yr" readonly>
+                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.Net_pay}} readonly>
                     </td>
                 </tr>
             </tbody>
@@ -64,8 +62,7 @@
                 <tr>
                     <th style="width:7%">Absences</th>
                     <th style="width:7%"> W/ Tax</th>
-                    <th style="width:7%"> WISP -SSS </th>
-                    <th style="width:7%">SSS Prem</th>
+                    <th style="width:7%">SSS</th>
                     <th style="width:7%">Philhealth</th>
                     <th style="width:7%">HDMF</th>
                     <th style="width:10%">COOP & Others</th>
@@ -75,29 +72,26 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="date" class="form-control" id="mth_yr" readonly>
+                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.Absence_Deductions}} readonly>
                         </td>
                         <td>
-                        <input type="date" class="form-control" id="mth_yr" readonly>
+                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.WTAX_Rate_ID}} readonly>
+                        </td>
+                        <td><!--I am betting this basic bandaid module doesn't follow PEMDAS-->
+                            <input type="date" class="form-control" id="mth_yr" value={{payrolls.SSS_Rate_ID}} readonly>
+                            </td>
+                        <td>
+                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.PhilHealth_Rate_ID}} readonly>
                         </td>
                         <td>
-                        <input type="date" class="form-control" id="mth_yr" readonly>
+                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.HDMF_Rate_ID}} readonly>
                         </td>
                         <td>
-                        <input type="date" class="form-control" id="mth_yr" readonly>
-                        </td>
-                        <td>
-                        <input type="date" class="form-control" id="mth_yr" readonly>
-                        </td>
-                        <td>
-                            <input type="date" class="form-control" id="mth_yr" readonly>
+                            <input type="date" class="form-control" id="mth_yr" value={{payrolls.HMO_Rate_ID|add:payrolls.ULDeductions_Rate_ID.ULDeductions_Amount|add:payrolls.CA_Rate_ID.CA_Amount|add:payrolls.COOP_Rate_ID.COOP_Amount}} readonly>
                             </td>
                             <td>
-                            <input type="date" class="form-control" id="mth_yr" readonly>
+                            <input type="date" class="form-control" id="mth_yr" value={{payrolls.Total_Deductions}} readonly>
                             </td>
-                            <td>
-                                <input type="date" class="form-control" id="mth_yr" readonly>
-                                </td>
                 </tr>
             </tbody>
         </table>

@@ -126,12 +126,14 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     TimeOut_2__isnull=True
 ).count()
     abse = total_days - noShow_records_count
+    
     holidays = HOLIDAY.objects.filter(Date__range=date_range)
     for holiday in holidays:
         abse -= 1
     leaves = Leave.objects.filter(Start_Date__range=date_range, Employee_ID=emp)
     for leave in leaves:
         abse -= 1
+    #10BIT: ADD THE CHECK FOR AMOUNT OF TIME SPENT TOTAL
 
     #Holiday Pay for emergency calls(ADD TO THE END ANOTHER CALC WITH 2x BASIC COLA)
     holidayWork = ATTENDANCE_HISTORY.objects.filter(Date__range=date_range, Holiday_ID__isnull=False).count()
@@ -155,7 +157,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     if OT == None:
         OT = 0
     OT = emp_DR/8*1.25*OT
-
+    Holiday_Comp = (emp_DR+COLA_Amount)*emp_DR
     print(emp_BP)
     print(HMO_Amount)
     print(ULD_Amount)
@@ -173,6 +175,10 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     print(absenceDues)
     print(OT)
     #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT + (DR+COLA)*holiday
-    total = emp_BP + HMO_Amount- float(ULD_Amount) - float(CA_Amount) - float(COOP_Amount)+ float(COLA_Amount)+ float(ADDE_Amount)- float(SSS_Amount)- float(SSS_EC)- float(SSS_WISP_Amount)- float(PH_Amount) - float(HDMF_Amount) - float(WithTax_Amount) - float(WithTax_Excess)+ float(absenceDues) + float(OT) + (emp_DR+COLA_Amount)*emp_DR
+    total = emp_BP + HMO_Amount- float(ULD_Amount) - float(CA_Amount) - float(COOP_Amount)+ float(COLA_Amount)+ float(ADDE_Amount)- float(SSS_Amount)- float(SSS_EC)- float(SSS_WISP_Amount)- float(PH_Amount) - float(HDMF_Amount) - float(WithTax_Amount) - float(WithTax_Excess)+ float(absenceDues) + float(OT) + Holiday_Comp
     print(total)
-    return total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID
+    
+    SSS_Amount =  float(SSS_Amount)+ float(SSS_EC)+ float(SSS_WISP_Amount)
+    WithTax_Amount = float(WithTax_Amount) + float(WithTax_Excess)
+    Total_Deductions = float(ULD_Amount) + float(CA_Amount) + float(COOP_Amount) + float(SSS_Amount)+float(WithTax_Amount)+ float(PH_Amount) + float(HDMF_Amount)- float(absenceDues)
+    return total, absenceDues, SSS_Amount, PH_Amount, HDMF_Amount,  WithTax_Amount, OT, Holiday_Comp, Total_Deductions
