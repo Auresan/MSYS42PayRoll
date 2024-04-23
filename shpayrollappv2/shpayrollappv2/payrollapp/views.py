@@ -5,7 +5,8 @@ from django.utils import timezone
 from datetime import *
 from .taxEmployee_salary import *
 from .ModifierDBchanges import *
-
+#'%d/%m/%Y
+#"%Y-%m-%d"
 # Create your views here.
 
 def dashboard(request, UID):

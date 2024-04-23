@@ -119,14 +119,14 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     total_days = (end - start).days + 1
     noShow_records_count = ATTENDANCE_HISTORY.objects.filter(
     Date__range=[start, end],
-    timein__isnull=True, timein='',
-    timeout__isnull=True, timeout='',
-    timein_2__isnull=True, timein_2='',
-    timeout_2__isnull=True, timeout_2='',
-    timein__blank=True,
-    timeout__blank=True,
-    timein_2__blank=True,
-    timeout_2__blank=True
+    TimeIn__isnull=True, TimeIn='',
+    TimeOut__isnull=True, TimeOut='',
+    TimeIn_2__isnull=True, TimeIn_2='',
+    TimeOut_2__isnull=True, TimeOut_2='',
+    TimeIn__blank=True,
+    TimeOut__blank=True,
+    TimeIn_2__blank=True,
+    TimeOut_2__blank=True
 ).count()
     abse = total_days - noShow_records_count
     holidays = HOLIDAY.objects.filter(Date__range=[start, end])
