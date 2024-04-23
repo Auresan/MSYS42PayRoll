@@ -140,6 +140,8 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     holidayWork = ATTENDANCE_HISTORY.objects.filter(Date__range=[start,end], Holiday_id__isnull=False).count()
 
     #Do all modifiers
+    ATTENDANCE_HISTORY.objects.filter=()
+
     HMO_Amount = calculateHMO(employeeID)
     ULD_Amount = calculateULD(ULD_AM, ULD_Type)
     CA_Amount = calculateCA(CA_AM)

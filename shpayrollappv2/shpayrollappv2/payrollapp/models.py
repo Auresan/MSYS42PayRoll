@@ -186,12 +186,13 @@ class Payslip_Transaction(models.Model):
 
 class ATTENDANCE_HISTORY(models.Model):
     History_ID = models.IntegerField(primary_key=True)
-    Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE)#Here null blank=true
-    Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE)
-    TimeIn = models.TimeField()
-    TimeOut = models.TimeField()
-    TimeIn_2 = models.TimeField()
-    TimeOut_2 = models.TimeField()
+    Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=True, null=True)
+    Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE, blank=True, null=True)#Here null blank=true
+    Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE, blank=True, null=True)
+    TimeIn = models.TimeField(blank=True, null=True)
+    TimeOut = models.TimeField(blank=True, null=True)
+    TimeIn_2 = models.TimeField(blank=True, null=True)
+    TimeOut_2 = models.TimeField(blank=True, null=True)
     Date = models.DateField(blank=True, null=True)
     OT = models.FloatField()
     #OT = models.FloatField()
