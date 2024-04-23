@@ -1,7 +1,7 @@
 from .models import *
 from django.shortcuts import  get_object_or_404
 from datetime import *
-from django.db.models import Sum
+from django.db.models import Sum, Count
 #HMO, COOP*, WithTax
 
 #X is the base value we are basing off of

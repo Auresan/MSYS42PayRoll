@@ -428,45 +428,9 @@ def encode_page(request, UID):
 def payroll_breakdown(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     EID = get_object_or_404(Employee, id_number=EID)
-    payrolls =  get_object_or_404(Payslip_Transaction, Employee_ID=EID)
-    if(request.method=="POST"):
-        try:
-            inputULD = request.POST.get('inputULD')
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
-        try:
-            inputULDT = request.POST.get('inputULDT')
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
-        try:
-            inputCA = request.POST.get('inputCA')
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
-        try:
-            inputCOOP = request.POST.get('inputCOOP')
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
-        try:
-            inputCOLA = request.POST.get('inputCOLA')
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
-        try:
-            inputADDE = request.POST.get('inputADDE')
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
-        try:
-            inputADDET = request.POST.get('inputADDET')
-        except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
-    else:
-        return render(request, 'payrollapp/payroll_breakdown.html', {'user':user})
+    #payrolls =  get_object_or_404(Payslip_Transaction, Employee_ID=EID)
+    
+    return render(request, 'payrollapp/payroll_breakdown.html', {'user':user , 'EID':EID})
 
 def HMO_DB(request, UID):
     a = HMO.objects.all()
@@ -483,7 +447,7 @@ def HMO_DB(request, UID):
         else:#Update path
             HMO.objects.create(HMO_ID=EID, HMO_Amount=A_HMOA)
             messages.success(request, "Updated successfully!")
-        return redirect(reverse('HMO_DB', kwargs={'UID': user.id}))#No idea why it works, the mysterious forums solved this one
+        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a, 'c':c} )
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a, 'c':c} )
         
