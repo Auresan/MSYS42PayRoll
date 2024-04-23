@@ -92,6 +92,7 @@
 
                 </tr>
             </thead>
+            {% for i in a %}
             <tbody>
                 <tr>
                     <td>ABC028</td>
@@ -107,8 +108,8 @@
                 </tr>
                 <tr>
                     <tr>
-                        <td>ABC028</td>
-                        <td><a href="#">Payslip generated, cannot edit</a></td>
+                        <td>{{a.id_number}}</td>
+                        <td>{{a.Last_name}}, {{a.First_name}} {{a.Middle_name}}></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -120,6 +121,7 @@
                     </tr>
                 </tr>
             </tbody>
+            {% endfor %}
         </table>
     </div>
 
