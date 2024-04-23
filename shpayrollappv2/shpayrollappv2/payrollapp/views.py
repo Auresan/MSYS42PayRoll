@@ -430,37 +430,37 @@ def payroll_breakdown(request, UID, EID):
     payrolls =  get_object_or_404(Payslip_Transaction, Employee_ID=EID)
     if(request.method=="POST"):
         try:
-            ULD = request.POST.get('inputID')
+            inputULD = request.POST.get('inputULD')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
         try:
-            ULD = request.POST.get('inputID')
+            inputULDT = request.POST.get('inputULDT')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
         try:
-            ULD = request.POST.get('inputID')
+            inputCA = request.POST.get('inputCA')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
         try:
-            ULD = request.POST.get('inputID')
+            inputCOOP = request.POST.get('inputCOOP')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
         try:
-            ULD = request.POST.get('inputID')
+            inputCOLA = request.POST.get('inputCOLA')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
         try:
-            ULD = request.POST.get('inputID')
+            inputADDE = request.POST.get('inputADDE')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
         try:
-            ULD = request.POST.get('inputID')
+            inputADDET = request.POST.get('inputADDET')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
