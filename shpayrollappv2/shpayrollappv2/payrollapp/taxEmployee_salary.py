@@ -62,6 +62,10 @@ def calculateADDE(x,z): #Remember to ADD this
 def calculateSSS(x): #SUBTRACT THIS
     #Retrive all of the tables
     sss = SSS.objects.all()
+    SSS_EE =0 
+    SSS_EC=0
+    SSS_WISP_EE=0
+    SSS_RATE_ID=0
 
     #compare to all values to find the appropriate range
     for row in sss:
@@ -79,6 +83,8 @@ def calculateSSS(x): #SUBTRACT THIS
 def calculatePH(x):
     #Retrive all of the tables
     PhilHealth_Table = PhilHealth.objects.all()
+    PH_EE =0 
+    PH_ID=0
     #compare to all values to find the appropriate range
     for row in PhilHealth_Table:
         if x > row.Start_Range:
@@ -88,6 +94,11 @@ def calculatePH(x):
 def calculateHDMF(x): #SUBTRACT THIS
     #Retrive all of the tables
     HDMF_Table = HDMF.objects.all()
+    HDMF_EE_R = 0
+    HDMF_ER_R = 0
+    HDMF_EE = 0
+    HDMF_ER = 0
+    HDMF_ID = 0
     #compare to all values to find the appropriate range
     for row in HDMF_Table:
         if x > row.Start_Range:
@@ -100,6 +111,9 @@ def calculateHDMF(x): #SUBTRACT THIS
 def calculateWithTax(x): #ASK FOR ASSISTANCE HERE
     #Retrive all of the tables
     WITHTAX = WitholdingTax.objects.all()
+    FIXTAX = 0
+    EXCESS = 0
+    WITH_ID = 0
     #compare to all values to find the appropriate range
     for row in WITHTAX:
         if x > row.Start_Range:
@@ -108,7 +122,10 @@ def calculateWithTax(x): #ASK FOR ASSISTANCE HERE
             WITH_ID = row.WTAX_Rate_ID
     return FIXTAX, EXCESS,  WITH_ID
 
+
 def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, COLA_AM,  ADDE_AM, ADDE_TYPE):
+    date_range = [start + timedelta(days=x) for x in range((end - start).days + 1)]
+
     #Get Employee ID
     emp = get_object_or_404(Employee, id_number = employeeID)
     #Get Daily rate
@@ -116,48 +133,51 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     #Get Basic Pay
     emp_BP = emp.Salary/2
     #Get Absences 10BIT:Remove the ='' if it doesn't work probs
-    date_range = [start + timedelta(days=x) for x in range((end - start).days + 1)]
+    #print(date_range)
+
     total_days = (end - start).days + 1
-    noShow_records_count = ATTENDANCE_HISTORY.objects.filter(
-    Date__range=date_range,
-    TimeIn__isnull=True,
-    TimeOut__isnull=True, 
-    TimeIn_2__isnull=True, 
-    TimeOut_2__isnull=True
-).count()
+    #
+
+    try:
+        print(type(date_range))
+        print(type(start))
+        noShow_records_count = ATTENDANCE_HISTORY.objects.filter(Date__in=date_range,TimeIn__isnull=True,TimeOut__isnull=True, TimeIn_2__isnull=True, TimeOut_2__isnull=True).count()
+    except:
+        noShow_records_count = ATTENDANCE_HISTORY.objects.filter(Date__range=(start, end),TimeIn__isnull=True,TimeOut__isnull=True, TimeIn_2__isnull=True, TimeOut_2__isnull=True).count()
     abse = total_days - noShow_records_count
     
-    holidays = HOLIDAY.objects.filter(Date__range=date_range)
+    holidays = HOLIDAY.objects.filter(Date__range=(start, end))
     for holiday in holidays:
         abse -= 1
-    leaves = Leave.objects.filter(Start_Date__range=date_range, Employee_ID=emp)
+    leaves = Leave.objects.filter(Start_Date__range=(start, end), Employee_ID=emp)
     for leave in leaves:
         abse -= 1
     #10BIT: ADD THE CHECK FOR AMOUNT OF TIME SPENT TOTAL
 
     #Holiday Pay for emergency calls(ADD TO THE END ANOTHER CALC WITH 2x BASIC COLA)
-    holidayWork = ATTENDANCE_HISTORY.objects.filter(Date__range=date_range, Holiday_ID__isnull=False).count()
+    holidayWork = ATTENDANCE_HISTORY.objects.filter(Date__range=(start, end), Holiday_ID__isnull=False).count()
 
     #Do all modifiers
     ATTENDANCE_HISTORY.objects.filter=()
 
     HMO_Amount = calculateHMO(employeeID)
-    ULD_Amount = calculateULD(ULD_AM, ULD_Type)
-    CA_Amount = calculateCA(CA_AM)
-    COOP_Amount = calculateCOOP(COOP_AM)
-    COLA_Amount = calculateCOLA(COLA_AM)
-    ADDE_Amount = calculateADDE(ADDE_AM, ADDE_TYPE)
+    ULD_Amount = calculateULD(float(ULD_AM), ULD_Type)
+    CA_Amount = calculateCA(float(CA_AM))
+    COOP_Amount = calculateCOOP(float(COOP_AM))
+    COLA_Amount = calculateCOLA(float(COLA_AM))
+    ADDE_Amount = calculateADDE(float(ADDE_AM), ADDE_TYPE)
     SSS_Amount, SSS_EC, SSS_WISP_Amount, SSS_RATE_ID = calculateSSS(emp.Salary)
     PH_Amount, PH_ID = calculatePH(emp.Salary)
     HDMF_Amount, HDMF_ER, HDMF_EE_R, HDMF_ER_R, HDMF_ID = calculateHDMF(emp.Salary)
     WithTax_Amount, WithTax_Excess,  WITH_ID = calculateWithTax(emp_BP)#FIX THIS
     #lateDues = (emp_DR*((LATEHERE/8)/60))*-1 Currently not in use due to how the office does it(Culmulative time = Absence)
     absenceDues = emp_BP*2*12/314*-abse
-    OT = ATTENDANCE_HISTORY.objects.filter(Date__range=date_range).aggregate(sum=Sum('OT'))['sum']
+    OT=0
+    #OT = ATTENDANCE_HISTORY.objects.filter(Date__range=(start,end)).aggregate(Sum('OT'))
     if OT == None:
         OT = 0
     OT = emp_DR/8*1.25*OT
-    Holiday_Comp = (emp_DR+COLA_Amount)*emp_DR
+    Holiday_Comp = float((emp_DR+COLA_Amount)*emp_DR)
     print(emp_BP)
     print(HMO_Amount)
     print(ULD_Amount)

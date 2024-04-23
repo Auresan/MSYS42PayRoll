@@ -71,6 +71,8 @@ def add_employee(request, UID):
         if Employee.objects.filter(id_number=idnumber).exists():
             while Employee.objects.filter(id_number=idnumber).exists() or emergency<999:
                 emergency +=1
+                idnumber = idnumber[:3]
+                print(id_no)
                 id_no = int(id_no)
                 if id_no == 999:
                     id_no = 0
@@ -78,6 +80,7 @@ def add_employee(request, UID):
                 id_no = str(id_no)
                 id_no = id_no.zfill(3)
                 idnumber = idnumber + id_no
+                print(idnumber)
             if emergency == 999:
                 messages.warning(request, "ERROR, 999 employee records hold the same starting letters and number. Please contact IT to upgrade") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
                 return render(request, 'payrollapp/add_employee.html', {'user':user})
@@ -173,7 +176,7 @@ def add_employee(request, UID):
                                         BankNumber=banknumber, 
                                         Salary=salary)
                 messages.success(request, "Employee created successfully!")
-                return redirect('employee_database', {'user':user})
+                return render(request, 'payrollapp/add_employee.html', {'user':user})
             except:#None Type
                 #Message warning, Employee exists/ID in use
                 messages.warning(request, "Empty field/Incorrect inputs detected!"+" Employee "  + str(type(last_name)) +str(last_name) + " ID "  +str(type(idnumber)) +str(idnumber) + " Status " +str(status) + " Department " +str(department) + " Role " +str(position) + " Date " +str(joindate) + " PN " +str(pnumber) + " Email " +str(email) + "Join Date " + str(type(joindate)) + str(joindate))
@@ -426,7 +429,8 @@ def tax_module(request, UID):
 
 def encode_page(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
-    return render(request, 'payrollapp/encode_page.html', {'user':user})
+    a = BANK_FILES.objects.all()
+    return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a})
 
 #GO BACK TO BREAKDOWN AND ENCODE
 def payroll_breakdown(request, UID, EID):

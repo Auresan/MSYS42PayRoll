@@ -219,3 +219,10 @@ class USER_ACCOUNT(models.Model):
     
     def __str__(self):
         return str(self.pk) + ": " + self.getUsername() + " " + self.getPassword()
+    
+class BANK_FILES(models.Model):
+    BANK_ENTRY_ID = models.IntegerField(primary_key=True)
+    BANK_FILE_NAME = models.CharField(max_length=250)
+    PAYROLL_PERIOD = models.CharField(max_length=250)
+    def __str__(self):
+        return str(self.BANK_FILE_NAME)

@@ -10,7 +10,8 @@
                 <div class="form-row">
                     <div class="form-group col-md-10">
                         <select id="inputDept" class="form-control">
-                            <option selected>Choose Payroll Batch</option>
+                            <option selected disabled="disabled">Choose Payroll Batch</option>
+                            {{}}
                         </select>
                         <small id="inputDept" class="form-text text-muted">A Bank Payroll File can only be encoded if the payslips for the period have been successfully generated.</small> 
                     </div>
@@ -31,16 +32,16 @@
                         <th style="width:10%">ID</th>
                         <th style="width:20%">File Name</th>
                         <th style="width:20%">Payroll Period</th>
-                        <th style="width:20%">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {%for b in a%}
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><a href="#">Edit</a> </td>
+                        <td>{{b.BANK_ENTRY_ID}}</td>
+                        <td>{{b.BANK_FILE_NAME}}</td>
+                        <td>{{b.PAYROLL_PERIOD}}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
