@@ -188,7 +188,7 @@ def A_UPLOAD(file_path):
         Leave_check = Leave.objects.all
         holiday_true = ''
         leave_true = ''
-        workinghours_df = pd.read_excel(file_path, sheet_name='cleaned data')  # Assuming the file is CSV, adjust if needed
+        workinghours_df = pd.read_excel(file_path, sheet_name='CleanData')  # Assuming the file is CSV, adjust if needed
     # Add data from the DataFrame into the database
         for _, row in workinghours_df.iterrows():
             #Data cleaning
