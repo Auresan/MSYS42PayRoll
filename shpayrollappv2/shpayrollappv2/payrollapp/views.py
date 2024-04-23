@@ -424,9 +424,48 @@ def encode_page(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/encode_page.html', {'user':user})
 
-def payroll_breakdown(request, UID):
+def payroll_breakdown(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
-    return render(request, 'payrollapp/payroll_breakdown.html', {'user':user})
+    EID = get_object_or_404(Employee, id_number=EID)
+    payrolls =  get_object_or_404(Payslip_Transaction, Employee_ID=EID)
+    if(request.method=="POST"):
+        try:
+            ULD = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
+        try:
+            ULD = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
+        try:
+            ULD = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
+        try:
+            ULD = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
+        try:
+            ULD = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
+        try:
+            ULD = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
+        try:
+            ULD = request.POST.get('inputID')
+        except:
+            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
+            return render(request, 'payrollapp/payroll_breakdown.html' , {'user':user, 'EID':EID})
+    else:
+        return render(request, 'payrollapp/payroll_breakdown.html', {'user':user})
 
 def HMO_DB(request, UID):
     a = HMO.objects.all()
