@@ -116,24 +116,25 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     #Get Basic Pay
     emp_BP = emp.Salary/2
     #Get Absences 10BIT:Remove the ='' if it doesn't work probs
+    date_range = [start + timedelta(days=x) for x in range((end - start).days + 1)]
     total_days = (end - start).days + 1
     noShow_records_count = ATTENDANCE_HISTORY.objects.filter(
-    Date__range=[start, end],
+    Date__range=date_range,
     TimeIn__isnull=True,
     TimeOut__isnull=True, 
     TimeIn_2__isnull=True, 
     TimeOut_2__isnull=True
 ).count()
     abse = total_days - noShow_records_count
-    holidays = HOLIDAY.objects.filter(Date__range=[start, end])
+    holidays = HOLIDAY.objects.filter(Date__range=date_range)
     for holiday in holidays:
         abse -= 1
-    leaves = Leave.objects.filter(Start_Date__range=[start,end], Employee_ID=emp)
+    leaves = Leave.objects.filter(Start_Date__range=date_range, Employee_ID=emp)
     for leave in leaves:
         abse -= 1
 
     #Holiday Pay for emergency calls(ADD TO THE END ANOTHER CALC WITH 2x BASIC COLA)
-    holidayWork = ATTENDANCE_HISTORY.objects.filter(Date__range=[start,end], Holiday_id__isnull=False).count()
+    holidayWork = ATTENDANCE_HISTORY.objects.filter(Date__range=date_range, Holiday_ID__isnull=False).count()
 
     #Do all modifiers
     ATTENDANCE_HISTORY.objects.filter=()
@@ -150,7 +151,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     WithTax_Amount, WithTax_Excess,  WITH_ID = calculateWithTax(emp_BP)#FIX THIS
     #lateDues = (emp_DR*((LATEHERE/8)/60))*-1 Currently not in use due to how the office does it(Culmulative time = Absence)
     absenceDues = emp_BP*2*12/314*-abse
-    OT = ATTENDANCE_HISTORY.objects.filter(Date__range=(start, end)).aggregate(sum=Sum('OT'))['sum']
+    OT = ATTENDANCE_HISTORY.objects.filter(Date__range=date_range).aggregate(sum=Sum('OT'))['sum']
     if OT == None:
         OT = 0
     OT = emp_DR/8*1.25*OT

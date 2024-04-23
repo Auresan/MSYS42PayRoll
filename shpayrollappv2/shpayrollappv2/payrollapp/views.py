@@ -424,6 +424,7 @@ def encode_page(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/encode_page.html', {'user':user})
 
+#GO BACK TO BREAKDOWN AND ENCODE
 def payroll_breakdown(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     EID = get_object_or_404(Employee, id_number=EID)
