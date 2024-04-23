@@ -115,13 +115,29 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     emp_DR = emp.Salary*2*12/314
     #Get Basic Pay
     emp_BP = emp.Salary/2
-    #Get Absences
+    #Get Absences 10BIT:Remove the ='' if it doesn't work probs
     total_days = (end - start).days + 1
-    existing_records_count = ATTENDANCE_HISTORY.objects.filter(Date__range=[start, end]).count()
-    abse = total_days - existing_records_count
+    noShow_records_count = ATTENDANCE_HISTORY.objects.filter(
+    Date__range=[start, end],
+    timein__isnull=True, timein='',
+    timeout__isnull=True, timeout='',
+    timein_2__isnull=True, timein_2='',
+    timeout_2__isnull=True, timeout_2='',
+    timein__blank=True,
+    timeout__blank=True,
+    timein_2__blank=True,
+    timeout_2__blank=True
+).count()
+    abse = total_days - noShow_records_count
     holidays = HOLIDAY.objects.filter(Date__range=[start, end])
     for holiday in holidays:
         abse -= 1
+    leaves = Leave.objects.filter(Date__range=[start,end], EmployeeID=emp)
+    for leave in leaves:
+        abse -= 1
+
+    #Holiday Pay for emergency calls(ADD TO THE END ANOTHER CALC WITH 2x BASIC COLA)
+    holidayWork = ATTENDANCE_HISTORY.objects.filter(Date__range=[start,end], Holiday_id__isnull=False).count()
 
     #Do all modifiers
     HMO_Amount = calculateHMO(employeeID)
@@ -157,7 +173,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     print(WithTax_Excess)
     print(absenceDues)
     print(OT)
-    #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT
-    total = emp_BP + HMO_Amount- float(ULD_Amount) - float(CA_Amount) - float(COOP_Amount)+ float(COLA_Amount)+ float(ADDE_Amount)- float(SSS_Amount)- float(SSS_EC)- float(SSS_WISP_Amount)- float(PH_Amount) - float(HDMF_Amount) - float(WithTax_Amount) - float(WithTax_Excess)+ float(absenceDues) + float(OT)
+    #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT + (DR+COLA)*holiday
+    total = emp_BP + HMO_Amount- float(ULD_Amount) - float(CA_Amount) - float(COOP_Amount)+ float(COLA_Amount)+ float(ADDE_Amount)- float(SSS_Amount)- float(SSS_EC)- float(SSS_WISP_Amount)- float(PH_Amount) - float(HDMF_Amount) - float(WithTax_Amount) - float(WithTax_Excess)+ float(absenceDues) + float(OT) + (emp_DR+COLA_Amount)*emp_DR
     print(total)
     return total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID
