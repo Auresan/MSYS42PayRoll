@@ -126,5 +126,37 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#executeButton_HOLI').click(function() {
+            $.ajax({
+                url: '{% url "Holiday_UPLOAD" %}',
+                type: 'GET',  // Or 'POST' depending on your view's implementation
+                success: function(response) {
+                    $('#resultDiv').text('Data imported and database cleared successfully.');
+                },
+                error: function() {
+                    $('#resultDiv').text('Error executing Python code.');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#executeButton_LEAVE').click(function() {
+            $.ajax({
+                url: '{% url "Leave_UPLOAD" %}',
+                type: 'GET',  // Or 'POST' depending on your view's implementation
+                success: function(response) {
+                    $('#resultDiv').text('Data imported and database cleared successfully.');
+                },
+                error: function() {
+                    $('#resultDiv').text('Error executing Python code.');
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

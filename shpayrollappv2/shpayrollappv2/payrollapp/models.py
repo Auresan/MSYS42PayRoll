@@ -100,7 +100,7 @@ class Leave(models.Model):
     Type = models.CharField(max_length=255)
     Leaves_Left = models.IntegerField()
     Start_Date = models.DateField(blank=True, null=True)
-    End_Date = models.DateField(blank=True, null=True)
+    End_Date = models.DateField(blank=True, null=True)#10BIT: TO BE REMOVED Why did we even add this
     def getID(self):
         return self.Leave_ID
     def __str__(self):

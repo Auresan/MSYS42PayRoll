@@ -35,5 +35,7 @@ urlpatterns = [
     path('PH_UPLOAD/', views.PH_UPLOAD, name='PH_UPLOAD'),
     path('WT_UPLOAD/', views.WitholdingTax_UPLOAD, name='WT_UPLOAD'),
     path('A_UPLOAD/', views.A_UPLOAD, name='A_UPLOAD'),
+    path('Holiday_UPLOAD/', views.Holiday_UPLOAD, name='Holiday_UPLOAD'),
+    path('Leave_UPLOAD/', views.Leave_UPLOAD, name='Leave_UPLOAD'),
     path('HMO_DB/<int:UID>', views.HMO_DB, name='HMO_DB'),
 ]

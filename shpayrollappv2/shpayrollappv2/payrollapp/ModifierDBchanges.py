@@ -193,14 +193,17 @@ def A_UPLOAD(file_path):
         for _, row in workinghours_df.iterrows():
             #Data cleaning
             new_ID = ATTENDANCE_HISTORY.objects.latest('History_ID') + 1
+            current_date_str = datetime.now().strftime('%d/%m/%Y')
+            date = row['Date'][:-4] + current_date_str[-4:]#10BIT: Check this again
+            date = datetime.strptime(date, '%d/%m/%Y')
             for x in Employee_check:
                 if x.id_number == row['Name']:
                     Employee= get_object_or_404(Employee, id_number=x.id_number)
             for x in holiday_check:
-                if x.date == row['Date']:
+                if x.date == date:
                     holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
             for x in Leave_check:
-                if x.date == row['Date']:
+                if x.date == date:
                     leave_true = get_object_or_404(Leave, Leave_ID=x.Leave_ID)
             try:
                 TimeIn = datetime.strptime(row['In'], "%H:%M").time()
@@ -220,8 +223,7 @@ def A_UPLOAD(file_path):
                 pass
             
             
-            current_date_str = datetime.now().strftime('%d/%m/%Y')
-            date = row['Date'][:-4] + current_date_str[-4:]#10BIT: Check this again
+            
 
             try:
                 OT_IN = datetime.datetime.strptime(row['OT_IN'], "%H:%M")
@@ -259,6 +261,72 @@ def A_UPLOAD(file_path):
             if leave_true != '':
                 ATTENDANCE_HISTORY.objects.latest.latest('History_ID').update(Leave_ID=leave_true)
 
+        print("Data imported and database cleared successfully.")
+        root.destroy()
+        return HttpResponse("Data imported and database cleared successfully.")
+    else:
+        print("No file selected.")
+        root.destroy()
+        return HttpResponse("Data imported and database cleared unsuccessfully.")
+    
+def Holiday_UPLOAD(file_path):
+    # Create a tkinter window
+    print(1)
+    root = tk.Tk()
+    print(1)
+    #root.withdraw()  # Hide the main window
+    file_path = filedialog.askopenfilename(title="Select a file")
+    print(1)
+    if file_path:
+    # Load data from the selected file into a pandas DataFrame
+        print(file_path)
+        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
+    
+    
+        
+    
+    # Add data from the DataFrame into the database
+        for _, row in df.iterrows():
+            date = datetime.strptime(row['Date'], "%Y-%m-%d")
+            HOLIDAY.objects.create(Holiday_ID=row['Holiday_ID'], Type=row['Type'], Date=date)
+        print("Data imported and database cleared successfully.")
+        root.destroy()
+        return HttpResponse("Data imported successfully.")
+    else:
+        print("No file selected.")
+        root.destroy()
+        return HttpResponse("Data imported unsuccessfully.")
+    
+def Leave_UPLOAD(file_path):
+    # Create a tkinter window
+    print(1)
+    root = tk.Tk()
+    print(1)
+    #root.withdraw()  # Hide the main window
+    file_path = filedialog.askopenfilename(title="Select a file")
+    print(1)
+    if file_path:
+    # Load data from the selected file into a pandas DataFrame
+        print(file_path)
+        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
+    
+
+    
+        
+    
+    # Add data from the DataFrame into the database
+        for _, row in df.iterrows():
+            emp = get_object_or_404(Employee, id_number = row['Employee_ID'])
+            date = datetime.strptime(row['Date'], "%Y-%m-%d")
+            try:
+                last_leave = get_object_or_404(Leave, Employee_ID=emp)
+                ll = last_leave.Leaves_Left - 1
+                if ll >= 0:
+                    Leave.objects.create(Employee_ID=emp, Type=row['Type'], Leaves_Left=ll, Start_Date=date, End_Date=date)
+                else:
+                    print("Max leaves reached: Please contact admin for manual input")
+            except:
+                Leave.objects.create(Employee_ID=emp, Type=row['Type'], Leaves_Left=5, Start_Date=date, End_Date=date)
         print("Data imported and database cleared successfully.")
         root.destroy()
         return HttpResponse("Data imported and database cleared successfully.")
