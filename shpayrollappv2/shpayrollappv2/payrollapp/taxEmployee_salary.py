@@ -128,7 +128,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     holidays = HOLIDAY.objects.filter(Date__range=[start, end])
     for holiday in holidays:
         abse -= 1
-    leaves = Leave.objects.filter(Start_Date=[start,end], EmployeeID=emp)
+    leaves = Leave.objects.filter(Start_Date=[start,end], Employee_ID=emp)
     for leave in leaves:
         abse -= 1
 
