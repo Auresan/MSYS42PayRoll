@@ -187,6 +187,7 @@ def add_employee(request, UID):
 
 def generate_page(request, UID):
     a = Employee.objects.all()
+    b = Payslip_Transaction.objects.all()
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     if (request.method == "POST"):
         #Get the department type
