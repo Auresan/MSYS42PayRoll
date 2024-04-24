@@ -1,4 +1,5 @@
 from .models import *
+from .models import Employee
 from django.shortcuts import  render, redirect, get_object_or_404
 from datetime import *
 from django.db.models import Sum
@@ -182,88 +183,139 @@ def A_UPLOAD(file_path):
     print(1)
     if file_path:
     # Load data from the selected file into a pandas DataFrame
-        print(file_path)
-        Employee_check = Employee.objects.all
-        holiday_check = HOLIDAY.objects.all
-        Leave_check = Leave.objects.all
+        Employee_check = Employee.objects.all()
+        holiday_check = HOLIDAY.objects.all()
+        Leave_check = Leave.objects.all()
         holiday_true = ''
         leave_true = ''
-        workinghours_df = pd.read_excel(file_path, sheet_name='CleanData')  # Assuming the file is CSV, adjust if needed
+        Employee_t = ''
+        workinghours_df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
+        print(workinghours_df)
     # Add data from the DataFrame into the database
         for _, row in workinghours_df.iterrows():
+            if row['Date'] == 'NaT':
+                pass
+            else:
+            
+
             #Data cleaning
-            new_ID = ATTENDANCE_HISTORY.objects.latest('History_ID') + 1
-            current_date_str = datetime.now().strftime('%d/%m/%Y')
-            date = row['Date'][:-4] + current_date_str[-4:]#10BIT: Check this again
-            date = datetime.strptime(date, '%d/%m/%Y')
-            for x in Employee_check:
-                if x.id_number == row['Name']:
-                    Employee= get_object_or_404(Employee, id_number=x.id_number)
-            for x in holiday_check:
-                if x.date == date:
-                    holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
-            for x in Leave_check:
-                if x.date == date:
-                    leave_true = get_object_or_404(Leave, Leave_ID=x.Leave_ID)
-            try:
-                TimeIn = datetime.strptime(row['In'], "%H:%M").time()
-            except:
-                pass
-            try:
-                TimeOut  = datetime.strptime(row['Out'], "%H:%M").time()
-            except:
-                pass
-            try:
-                TimeIn_2 = datetime.strptime(row['In_2'], "%H:%M").time()
-            except:
-                pass
-            try:
-                TimeOut_2 = datetime.strptime(row['Out_2'], "%H:%M").time()
-            except:
-                pass
-            
-            
-            
-
-            try:
-                OT_IN = datetime.datetime.strptime(row['OT_IN'], "%H:%M")
-                OT_OUT = datetime.datetime.strptime(row['OT_OUT'], "%H:%M")
-                OT = OT_OUT - OT_IN
-                OT_Total = OT.seconds / 3600.0
-            except:
-                OT_Total = 0
-
-            HoursWorked = 0
-            HoursWorked_2 = 0
-            try:
-                HoursWorked = TimeOut - TimeIn
-                HoursWorked_2 = TimeOut_2 - TimeIn_2
-            except:
+                current_date_str = datetime.now().strftime('%d/%m/%Y')
+                print(type(row['Date']))
+                date = str(row['Date'])
+                print(date)
+                date = date.split(' ')
+                print(date)
+                date = date[0]
+                date = date[4:]
+                date = current_date_str[-4:] + date #10BIT: Check this again
+                date = datetime.strptime(date, "%Y-%m-%d")
+                for x in Employee_check:
+                    if x.id_number == row['NAME']:
+                        Employee_t= get_object_or_404(Employee, id_number=x.id_number)
+                for x in holiday_check:
+                    if x.date == date:
+                        holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
+                for x in Leave_check:
+                    if x.date == date:
+                        leave_true = get_object_or_404(Leave, Leave_ID=x.Leave_ID)
+                print("HELP")
+                print(type(row['In']))
+                print(row['In'])
                 try:
-                    HoursWorked = TimeOut_2 - TimeIn
+                    TimeIn = row['In'] 
+                    print(TimeIn)
+                    print(type(TimeIn))
                 except:
-                    HoursWorked = TimeOut_2 - TimeIn_2
-            HoursWorked = HoursWorked+HoursWorked_2
+                    pass
+                try:
+                    TimeOut  = row['Out']
+                    print(TimeOut)
+                except:
+                    pass
+                try:
+                    TimeIn_2 = row['In_2'] 
+                except:
+                    pass
+                try:
+                    print(1)
+                    TimeOut_2 = row['Out_2']
+                    print(2)
+                except:
+                    pass
+            
+            
+            
 
-            ATTENDANCE_HISTORY.objects.create(History_ID=new_ID, Employee_ID=Employee, Date=date, OT=OT_Total, HoursWorked=HoursWorked)
-            if TimeIn:
-                ATTENDANCE_HISTORY.objects.latest('History_ID').update(TimeIn=TimeIn)
-            if TimeOut:
-                ATTENDANCE_HISTORY.objects.latest.latest('History_ID').update(TimeOut=TimeOut)
-            if TimeIn_2:
-                ATTENDANCE_HISTORY.objects.latest('History_ID').update(TimeIn_2=TimeIn_2)
-            if TimeOut_2:
-                ATTENDANCE_HISTORY.objects.latest('History_ID').update(TimeOut_2=TimeOut_2)
+                try:
+                    OT_IN = row['OT_IN']
+                    OT_OUT = row['OT_OUT'] 
+                    OT = OT_OUT - OT_IN
+                    print(OT)
+                    OT_Total = OT.seconds / 3600.0
+                except:
+                    OT_Total = 0
 
-            #10BIT:Go back to fixing this
-            if holiday_true != '':
-                ATTENDANCE_HISTORY.objects.latest.latest('History_ID').update(Holiday_ID=holiday_true)
-            if leave_true != '':
-                ATTENDANCE_HISTORY.objects.latest.latest('History_ID').update(Leave_ID=leave_true)
+                HoursWorked = 0
+                HoursWorked_2 = 0
+                try:
+                # Calculate the difference in minutes
+                    HoursWorked = (TimeOut.hour * 60 + TimeOut.minute) - (TimeIn.hour * 60 + TimeIn.minute)
+                    # Convert minutes to hours (float)
+                    HoursWorked = HoursWorked / 60.0
+                    # Calculate the difference in minutes
+                    HoursWorked_2 = (TimeOut_2.hour * 60 + TimeOut_2.minute) - (TimeIn_2.hour * 60 + TimeIn_2.minute)
+                    # Convert minutes to hours (float)
+                    HoursWorked_2 = HoursWorked / 60.0
+                except:
+                    try:
+                        # Calculate the difference in minutes
+                        HoursWorked = (TimeOut_2.hour * 60 + TimeOut_2.minute) - (TimeIn.hour * 60 + TimeIn.minute)
+                        # Convert minutes to hours (float)
+                        HoursWorked = HoursWorked / 60.0
+                    except:
+                        # Calculate the difference in minutes
+                        HoursWorked_2 = (TimeOut_2.hour * 60 + TimeOut_2.minute) - (TimeIn_2.hour * 60 + TimeIn_2.minute)
+                        # Convert minutes to hours (float)
+                        HoursWorked_2 = HoursWorked / 60.0
+                HoursWorked = HoursWorked+HoursWorked_2
+                x=0
+                ATTENDANCE_HISTORY.objects.create(Employee_ID=Employee_t, Date=date, OT=OT_Total, HoursWorked=HoursWorked)
+                if TimeIn:
+                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                    x.TimeIn = TimeIn
+                    x.save()
+                    print("WOOHOO")
+                if TimeOut:
+                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                    x.TimeOut = TimeOut
+                    x.save()
+                    print("WOOHOO")
+                if TimeIn_2:
+                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                    x.TimeIn_2 = TimeIn_2
+                    x.save()
+                    print("WOOHOO")
+                if TimeOut_2:
+                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                    x.TimeOut_2 = TimeOut_2
+                    x.save()
+                    print("WOOHOO")
 
-        print("Data imported and database cleared successfully.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared successfully.")
+                #10BIT:Go back to fixing this
+                if holiday_true != '':
+                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                    x.Holiday_ID = holiday_true
+                    x.save()
+                    print("WOOHOO")
+                if leave_true != '':
+                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                    x.Leave_ID = leave_true
+                    x.save()
+                    print("WOOHOO")
+
+            print("Data imported and database cleared successfully.")
+            root.destroy()
+            return HttpResponse("Data imported and database cleared successfully.")
     else:
         print("No file selected.")
         root.destroy()
