@@ -429,8 +429,31 @@ def tax_module(request, UID):
 
 def encode_page(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
+    z = Payslip_Transaction.objects.values_list('End_Date', flat=True).distinct()
     a = BANK_FILES.objects.all()
-    return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a})
+    if (request.method == "POST"):
+        companyaccountnumber = 1234567890
+        companycode="WT9"
+        current_date = datetime.now()
+        current_date = current_date.strftime('%Y%m%d')
+        try:
+            inputDate = request.POST.get('inputDate')
+            inputDate = datetime.strptime(inputDate, '%Y%m%d')
+            #messages.success(request, str(joindate))
+        except:
+            pass
+        payslip_match = Payslip_Transaction.objects.filter(End_Date=inputDate)
+        
+        with open('output.txt', 'w') as file:
+            file.write("H          "+"1"+str(companyaccountnumber)+"\t"+companycode+inputDate+'\n')
+            sum = 0
+            for x in payslip_match:
+                file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
+                sum += x.Net_Pay
+            file.write("T\t"+str(sum))
+        return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})
+    else:
+        return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})
 
 #GO BACK TO BREAKDOWN AND ENCODE
 def payroll_breakdown(request, UID, EID):
