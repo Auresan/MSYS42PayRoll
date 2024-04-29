@@ -33,18 +33,18 @@ def reset_pw(request):
     return render(request, 'payrollapp/reset_pw.html')
 
 
-@login_required
+
 def dashboard(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/dashboard.html',{'user':user} )
 
-@login_required
+##@login_required
 def employee_database(request, UID):
     a = Employee.objects.all()
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/employee_database.html', {'user':user, 'a':a})
 
-@login_required
+##@login_required
 def add_employee(request, UID):
     #If form is submitted
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
@@ -196,7 +196,6 @@ def add_employee(request, UID):
     else:
         return render(request, 'payrollapp/add_employee.html', {'user':user})
 
-@login_required
 def generate_page(request, UID):
     a = Employee.objects.all()
     payslip=Payslip_Transaction.objects.all()
@@ -323,7 +322,7 @@ def generate_page(request, UID):
     else:
         return render(request, 'payrollapp/generate_page.html' , {'user':user,'a':a, 'payslip':payslip})
 
-@login_required
+##@login_required
 def employee_info(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
 
@@ -429,22 +428,22 @@ def employee_info(request, UID, EID):
         a = get_object_or_404(Employee, pk = EID)
         return render(request, 'payrollapp/employee_info.html', {'user':user , 'a':a})
 
-@login_required
+##@login_required
 def attendance_db(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/attendance_db.html', {'user':user})
 
-@login_required
+##@login_required
 def employee_attendance(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/employee_attendance.html', {'user':user})
 
-@login_required
+##@login_required
 def tax_module(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/tax_module.html', {'user':user})
 
-@login_required
+##@login_required
 def encode_page(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     z = Payslip_Transaction.objects.values_list('End_Date', flat=True).distinct()
@@ -474,7 +473,7 @@ def encode_page(request, UID):
         return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})
 
 #GO BACK TO BREAKDOWN AND ENCODE
-@login_required
+##@login_required
 def payroll_breakdown(request, UID, TID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     #EID = get_object_or_404(Employee, id_number=EID)
@@ -485,7 +484,7 @@ def payroll_breakdown(request, UID, TID):
     end = payrolls.End_Date.strftime('%Y-%m-%d')
     return render(request, 'payrollapp/payroll_breakdown.html', {'user':user , 'payrolls':payrolls, 'name':name, 'start':start, 'end':end})
 
-@login_required
+#@login_required
 def HMO_DB(request, UID):
     a = HMO.objects.all()
     c = Employee.objects.all()
