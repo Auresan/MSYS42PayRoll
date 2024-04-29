@@ -29,7 +29,7 @@ urlpatterns = [
     path('employee_attendance/<int:UID>', views.employee_attendance, name='employee_attendance'),
     path('encode_page/<int:UID>', views.encode_page, name='encode_page'),
     path('tax_module/<int:UID>', views.tax_module, name='tax_module'),
-    path('payroll_breakdown/<int:UID>/<str:EID>', views.payroll_breakdown, name='payroll_breakdown'),
+    path('payroll_breakdown/<int:UID>/<str:TID>', views.payroll_breakdown, name='payroll_breakdown'),
     path('HDMF_UPLOAD/', views.HDMF_UPLOAD, name='HDMF_UPLOAD'),
     path('SSS_UPLOAD/', views.SSS_UPLOAD, name='SSS_UPLOAD'),
     path('PH_UPLOAD/', views.PH_UPLOAD, name='PH_UPLOAD'),
@@ -38,4 +38,5 @@ urlpatterns = [
     path('Holiday_UPLOAD/', views.Holiday_UPLOAD, name='Holiday_UPLOAD'),
     path('Leave_UPLOAD/', views.Leave_UPLOAD, name='Leave_UPLOAD'),
     path('HMO_DB/<int:UID>', views.HMO_DB, name='HMO_DB'),
+    path('reset_pw/', views.reset_pw, name='reset_pw')
 ]

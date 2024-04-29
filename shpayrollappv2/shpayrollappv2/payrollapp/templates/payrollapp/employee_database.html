@@ -55,7 +55,7 @@
                         <td> {{ b.Department }} </td>
                         <td> {{ b.Role }} </td>
                         <td> {{ b.Join_Date }} </td>
-                        <td> <a href="{% url 'employee_info' UID=user.pk EID=b.pk %}">Edit</a> </td>
+                        <td> <a class="btn" href="{% url 'employee_info' UID=user.pk EID=b.pk %}"><i class="lni lni-pencil-alt"></i></a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

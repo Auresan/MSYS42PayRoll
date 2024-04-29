@@ -42,17 +42,17 @@
             <tbody>
                 <tr>
                     <td>
-                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.Employee_ID.Salary|div:2}} readonly>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Employee_ID.Salary|div:2}} readonly>
                     </td>
                     <td>
-                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.Employee_ID.Salary|mul:2|mul:12|div:314}} readonly>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Employee_ID.Salary|mul:2|mul:12|div:314}} readonly>
                     </td>
                     
                     <td>
-                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.AddtlEarning_Rate_ID.ADD_EARNINGS|add:payrolls.COLA_Rate_ID.COLA_Amount|add:payrolls.OT|add:payrolls.Holiday_Comp }} readonly>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.AddtlEarning_Rate_ID.ADD_EARNINGS|add:payrolls.COLA_Rate_ID.COLA_Amount|add:payrolls.OT|add:payrolls.Holiday_Comp }} readonly>
                     </td>
                     <td>
-                    <input type="date" class="form-control" id="mth_yr" value={{payrolls.Net_pay}} readonly>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Net_pay}} readonly>
                     </td>
                 </tr>
             </tbody>
@@ -72,28 +72,33 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.Absence_Deductions}} readonly>
-                        </td>
-                        <td>
-                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.WTAX_Rate_ID}} readonly>
-                        </td>
-                        <td><!--I am betting this basic bandaid module doesn't follow PEMDAS-->
-                            <input type="date" class="form-control" id="mth_yr" value={{payrolls.SSS_Rate_ID}} readonly>
-                            </td>
-                        <td>
-                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.PhilHealth_Rate_ID}} readonly>
-                        </td>
-                        <td>
-                        <input type="date" class="form-control" id="mth_yr" value={{payrolls.HDMF_Rate_ID}} readonly>
-                        </td>
-                        <td>
-                            <input type="date" class="form-control" id="mth_yr" value={{payrolls.HMO_Rate_ID|add:payrolls.ULDeductions_Rate_ID.ULDeductions_Amount|add:payrolls.CA_Rate_ID.CA_Amount|add:payrolls.COOP_Rate_ID.COOP_Amount}} readonly>
-                            </td>
-                            <td>
-                            <input type="date" class="form-control" id="mth_yr" value={{payrolls.Total_Deductions}} readonly>
-                            </td>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Absence_Deductions}} readonly>
+                    </td>
+                    <td>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.WTAX_Rate_ID}} readonly>
+                    </td>
+                    <td><!--I am betting this basic bandaid module doesn't follow PEMDAS-->
+                            <input type="float" class="form-control" id="mth_yr" value={{payrolls.SSS_Rate_ID}} readonly>
+                    </td>
+                    <td>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.PhilHealth_Rate_ID}} readonly>
+                    </td>
+                    <td>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.HDMF_Rate_ID}} readonly>
+                    </td>
+                    <td>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.HMO_Rate_ID|add:payrolls.ULDeductions_Rate_ID.ULDeductions_Amount|add:payrolls.CA_Rate_ID.CA_Amount|add:payrolls.COOP_Rate_ID.COOP_Amount}} readonly>
+                    </td>
+                    <td>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Total_Deductions}} readonly>
+                    </td>
                 </tr>
             </tbody>
+            <thead>
+                <tr>
+                    <th style="width:10%">Total Net Pay</th>
+                </tr>
+            </thead>
         </table>
     </div>
 </div>

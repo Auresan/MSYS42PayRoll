@@ -24,8 +24,13 @@ class Employee(models.Model):
     #ULdeductions   = models.FloatField()
     def getID(self):
         return self.id_number
+    
+    def getFullName(self):
+        full_name = self.Last_name + ", " + self.First_name + self.Middle_name
+        return full_name
+
     def __str__(self):
-        z = str(self.pk)+':'+str(self.getID())
+        z = str(self.getID())
         return z
     
 class HMO(models.Model):
