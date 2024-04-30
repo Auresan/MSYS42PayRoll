@@ -13,44 +13,44 @@
                 <tr>
                     <th style="width:15%">Module</th>
                     <th style="width:20%">Category</th>
-                    <th style="width:10%">Actions</th>
+                    <th style="width:10%">Update Modules</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>HDMF</td>
                     <td>Deductions</td>
-                    <td><button id="executeButton_HDMF">Update HDMF</button></td>
+                    <td><button class="btn" id="executeButton_HDMF"><i class="lni lni-pencil-alt"></i></button></td>
                 </tr>
                 <tr>
                     <td>SSS</td>
                     <td>Deductions</td>
-                    <td><button id="executeButton_SSS">Update SSS</button></td>
+                    <td><button class="btn" id="executeButton_SSS"><i class="lni lni-pencil-alt"></i></button></td>
                 </tr>
                 <tr>
                     <td>PhilHealth</td>
                     <td>Deductions</td>
-                    <td><button id="executeButton_PH">Update PhilHealth </button></td>
+                    <td><button class="btn" id="executeButton_PH"><i class="lni lni-pencil-alt"></i></button></td>
                 </tr>
                 <tr>
                     <td>Witholding Tax</td>
                     <td>Deductions</td>
-                    <td><button id="executeButton_WT">Update Witholding Tax </button></td>
+                    <td><button class="btn" id="executeButton_WT"><i class="lni lni-pencil-alt"></i></button></td>
                 </tr>
                 <tr>
                     <td>Witholding Tax</td>
                     <td>Additions</td>
-                    <td><button id="executeButton_HOLI">Update Holiday WIP</button></td>
+                    <td><button class="btn" id="executeButton_HOLI"><i class="lni lni-pencil-alt"></i></button></td>
                 </tr>
                 <tr>
                     <td>Witholding Tax</td>
                     <td>Additions</td>
-                    <td><button id="executeButton_LEAVE">Update Leave WIP</button></td>
+                    <td><button class="btn" id="executeButton_LEAVE"><i class="lni lni-pencil-alt"></i></button></td>
                 </tr>
                 <tr>
                     <td>HMO</td>
                     <td>Deductions</td>
-                    <td><a href="{% url 'HMO_DB' UID=user.pk %}">Open HMO DB</a></td>
+                    <td><a class="btn" href="{% url 'HMO_DB' UID=user.pk %}"><i class="lni lni-pencil-alt"></i></a></td>
                 </tr>
             </tbody>
         </table>

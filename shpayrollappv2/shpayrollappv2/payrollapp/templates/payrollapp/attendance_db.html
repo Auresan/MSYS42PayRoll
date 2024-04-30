@@ -36,7 +36,7 @@
         <div class="navbar-content">
             <ul class="main-nav">
                 <div class="nav-search">
-                    <button name="U_A" id="U_A"><i class="lni lni-upload"></i> Upload Attendance</button>
+                    <button class="btn" name="U_A" id="U_A"><i class="lni lni-upload"></i> Upload Attendance</button>
                 </div>
             </ul>
         </div>
@@ -64,7 +64,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><a href="{% url 'employee_attendance' UID=user.pk %}">Edit</a> </td>
+                        <td><a class="btn" href="{% url 'employee_attendance' UID=user.pk %}"><i class="lni lni-pencil-alt"></i></a></td>
                     </tr>
                 </tbody>
             </table>

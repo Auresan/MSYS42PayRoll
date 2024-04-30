@@ -400,3 +400,12 @@ a.sidebar-link:hover {
         color: #000;
     }
 }
+
+#posts.btn {
+    border: 0;
+    background-color: #861D1A;
+    color: #FFF;
+    padding: 0.45rem 0.9rem;
+    font-family: 'Product Sans', sans-serif;
+    cursor: pointer;
+}

@@ -24,7 +24,7 @@
                 <form class="login-form" method="POST" action=""> {% csrf_token %}
                     <div class="text-center">
                         <img class= "login_logo" src="{% static '/sh logo.png' %}"> 
-                        <h3> Log In </h3> 
+                        <h3> Reset Passwrord </h3> 
 
                         {% if messages %}
                             {% for message in messages %}
@@ -34,18 +34,13 @@
 
                     </div>
                     <div class="form-group my-2">
-                        <label for="userlogin">Username</label>
+                        <label for="userlogin">Enter ID Number</label>
                         <input type="text" class="form-control" id="userlogin" name="userlogin"
-                            placeholder="Enter Username" required>
-                    </div>
-                    <div class="form-group my-2">
-                        <label for="pwlogin">Password</label>
-                        <input type="password" class="form-control" id="pwlogin" name="pwlogin"
-                            placeholder="Enter Password" required>
+                            placeholder="Enter ID Number" required>
                     </div>
                     <div class="text-center">
-                        <button class="btn my-2 btn-primary" type="submit">Log In</button>
-                        <p><a href="{% url 'reset_pw' %}" style="color:#861D1A"> Forgot Password? </a></p>
+                        <button class="btn my-2 btn-primary" type="submit">Reset</button>
+                        <p><a href="{% url 'login' %}" style="color:#861D1A"> Back to Login </a></p>
                     </div>
                 </form>
             </div>      
