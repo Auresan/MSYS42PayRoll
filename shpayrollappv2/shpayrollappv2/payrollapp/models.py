@@ -10,7 +10,7 @@ class Employee(models.Model):
     Department  = models.CharField(max_length=255)
     Role   = models.CharField(max_length=255)
     Join_Date = models.DateField(blank=True, null=True)
-    Phone_Number = models.IntegerField()
+    Phone_Number = models.CharField(max_length=255)
     Email = models.CharField(max_length=255)
     BankNumber = models.IntegerField()
     Salary   = models.FloatField()

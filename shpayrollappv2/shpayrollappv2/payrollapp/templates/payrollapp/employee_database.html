@@ -6,7 +6,8 @@
     <div class="dashboard-navbar">
         <form action="#">
           <div class="nav-search">
-            <input type="text" class="search-query mr-3" placeholder="Search Name or ID" onkeyup="searchName()" id="eName">
+            <input type="text" class="search-query mr-3" placeholder="Search ID" onkeyup="searchID()" id="eID">
+            <input type="text" class="search-query mr-3" placeholder="Search Name" onkeyup="searchName()" id="eName">
             <input type="text" class="search-query px-3" id="eDepa" placeholder="Search Department" onkeyup="searchDepartment()">
             <!-- Fixing the filter command <select id="inputDept" class="search-query">
                 <option selected >Department</option>
@@ -66,6 +67,25 @@
 
 
 <script>
+  function searchID() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("eID");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("posts");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+
     function searchName() {
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("eName");

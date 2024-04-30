@@ -23,23 +23,23 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputFstName">First Name</label>
-            <input type="text" class="form-control" id="inputFstName" name="inputFstName" placeholder="">
+            <input type="text" class="form-control" id="inputFstName" name="inputFstName" placeholder="" required>
           </div>
           <div class="form-group col-md-4">
             <label for="inputMidName">Middle Name</label>
-            <input type="text" class="form-control" id="inputMidName" name="inputMidName" placeholder="">
+            <input type="text" class="form-control" id="inputMidName" name="inputMidName" placeholder="" required>
           </div>
           <div class="form-group col-md-4">
             <label for="inputLtName">Last Name</label>
-            <input type="text" class="form-control" id="inputLtName" name="inputLtName" placeholder="">
+            <input type="text" class="form-control" id="inputLtName" name="inputLtName" placeholder="" required>
           </div>
           <div class="form-group col-md-6">
             <label for="inputPhone">Phone Number</label>
-            <input type="number" class="form-control" id="inputPhone" name="inputPhone" step="1" placeholder="XXXX-XXX-XXXX">
+            <input type="tel" class="form-control" id="inputPhone" name="inputPhone" placeholder='09XX-XXX-XXXX' pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
           </div>
           <div class="form-group col-md-6">
             <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" id="inputEmail4" name="inputEmail4" placeholder="Email">
+            <input type="email" class="form-control" id="inputEmail4" name="inputEmail4" placeholder="Email" required>
           </div>
         </div>
         <hr>
@@ -52,12 +52,11 @@
             </div>
             <div class="form-group col-md-2">
                 <label for="inputJoinDate">Join Date</label>
-                <input type="date" class="form-control" id="inputJoinDate" name="inputJoinDate" placeholder="XXXXXX">
+                <input type="date" class="form-control" id="inputJoinDate" name="inputJoinDate" placeholder="XXXXXX" required>
             </div>
             <div class="form-group col-md-3">
                 <label for="inputEmpStat">Contract Status</label>
                 <select id="inputEmpStat" name="inputEmpStat" class="form-control">
-                  <option selected>Choose Status</option>
                   <option value="Hired">Hired</option>
                   <option value="Terminated">Terminated</option>
                   <option value="On Leave">On Leave</option>
@@ -66,7 +65,6 @@
             <div class="form-group col-md-3">
                 <label for="inputDept">Department</label>
                 <select id="inputDept" name="inputDept" class="form-control">
-                  <option selected>Choose Department</option>
                   <option value="HR">HR</option>
                   <option value="IT">IT</option>
                   <option value="Sales">Sales</option>
@@ -75,7 +73,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="inputPosition">Employee Position</label>
-                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="">
+                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="" required>
             </div>
             
         </div>
@@ -85,11 +83,11 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputBankAccNo">Bank Account Number</label>
-                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="">
+                <input type="number" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="" min='0' minlength='8' maxlength='10' required>
             </div>
             <div class="form-group col-md-4">
                 <label for="inputSalary">Salary</label>
-                <input type="number" step="0.01" class="form-control" id="inputSalary" name="inputSalary" placeholder="">
+                <input type="number" step="0.01" class="form-control" id="inputSalary" name="inputSalary" placeholder="" min='11814.00' required>
             </div>
         </div>
         <hr>
