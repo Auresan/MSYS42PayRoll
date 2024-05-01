@@ -5,84 +5,80 @@
 
 <div class="content">
     <div class="card">
-        <h3 class="card-header">Generate Payroll</h3>
+        <h4 class="card-header">Generate Payroll</h4>
         <div class="card-body">
             <form method="POST" action="#">{% csrf_token %}
-            <div class="form-row">
-                
-                <div class="form-group col-md-1">
-                    <!--<label for="inputDept">Department</label>
-                    <select id="inputDept" name="inputDept"class="form-control">
-                        <option selected>Choose Department</option>
-                        <option value="HR">HR</option>
-                        <option value="IT">IT</option>
-                        <option value="Sales">Sales</option>
-                        <option value="Accounting">Accounting</option>
-                    </select>-->
-                
-                    <label for="inputID">Employee ID</label>
-                    <select id="inputID" name="inputID"class="form-control">
-                    {% for b in a %}
-                        <option value="{{b.id_number}}">{{b.id_number}}</option>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+                        <label for="inputID">Employee ID</label>
+                        <select class="form-control custom-select mr-sm-2" id="inputID" name="inputID" required>
+                        {% for b in a %}
+                            <option value="{{b.id_number}}">{{b.id_number}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputStartDate">Start Date</label>
+                        <input type="date" class="form-control" id="inputStartDate" name="inputStartDate" required>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputEndDate">End Date</label>
+                        <input type="date" class="form-control" id="inputEndDate" name="inputEndDate" required> 
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputULD">ULD</label>
+                        <input type="number" class="form-control" id="inputULD" name="inputULD" required>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputULDT">ULD - TYPE</label>
+                        <input type="text" class="form-control" id="inputULDT" name="inputULDT" required>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputCA">CA</label>
+                        <input type="number" class="form-control" id="inputCA" name="inputCA" required>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputCOOP">COOP</label>
+                        <input type="number" class="form-control" id="inputCOOP" name="inputCOOP" required>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputCOLA">COLA</label>
+                        <input type="number" class="form-control" id="inputCOLA" name="inputCOLA" required>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputADDE">Additional </label>
+                        <input type="number" class="form-control" id="inputADDE" name="inputADDE" required>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="inputADDET">Add'l - TYPE</label>
+                        <input type="text" class="form-control" id="inputADDET" name="inputADDET" required>
+                    </div> 
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-secondary btn-block" type="submit">Generate</button>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                            <strong>Success!</strong> {{ message }}
+                        </div>
                     {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputStartDate">Payroll Range Start Date</label>
-                    <input type="date" class="form-control" id="inputStartDate" name="inputStartDate">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputEndDate">Payroll Range End Date</label>
-                    <input type="date" class="form-control" id="inputEndDate" name="inputEndDate">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputULD">ULD</label>
-                    <input type="number" class="form-control" id="inputULD" name="inputULD">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputULDT">ULD - TYPE</label>
-                    <input type="text" class="form-control" id="inputULDT" name="inputULDT">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputCA">CA</label>
-                    <input type="number" class="form-control" id="inputCA" name="inputCA">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputCOOP">COOP</label>
-                    <input type="number" class="form-control" id="inputCOOP" name="inputCOOP">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputCOLA">COLA</label>
-                    <input type="number" class="form-control" id="inputCOLA" name="inputCOLA">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputADDE">Additional Earnings</label>
-                    <input type="number" class="form-control" id="inputADDE" name="inputADDE">
-                </div>
-                <div class="form-group  col-md-2">
-                    <label for="inputADDET">Additional Earnings - TYPE</label>
-                    <input type="text" class="form-control" id="inputADDET" name="inputADDET">
-                </div>
-
-
-                <button class="btn btn-secondary form-group col-md-2" type="submit">Generate</button>
-                
-            </div>
-            <div class="alert alert-warning" role="alert">
-                <strong>Notice!</strong>
-                If the selected payroll period has payslips already generated, 
-                system will display the final and printable payslips instead of the 
-                computation table that needs confirmation and editing.
-            </div>
-        </form>
+                {% endif %}
+                <!--div class="alert alert-warning" role="alert">
+                    <strong>Notice!</strong>
+                    If the selected payroll period has payslips already generated, 
+                    system will display the final and printable payslips instead of the 
+                    computation table that needs confirmation and editing.
+                </div-->
+            </form>
         </div>
     </div>
     <div style="overflow-x:auto;">
         <table id="posts">
             <thead>
                 <tr>
-                    <th style="width:5%">ID</th>
-                    <th style="width:15%">Employee Name</th>
+                    <th style="width:5%">Employee ID</th>
+                    <!--th style="width:15%">Employee Name</th-->
                     <th style="width:15%">Payoll Period</th>
                     <!--th style="width:10%">Basic Pay</th-->
                     <!--th style="width:10%">Total Deductions</th-->
@@ -96,7 +92,7 @@
                 {% for i in payslip %}
                 <tr>
                     <td>{{i.Employee_ID}}</td>
-                    <td>{{i.Last_name}}, {{i.First_name}} {{i.Middle_name}}</td>
+                    <!--td>{{i.Last_name}}, {{i.First_name}} {{i.Middle_name}}</td-->
                     <td>{{i.Start_Date}} - {{i.End_Date}}</td>
                     <!--td></td-->
                     <!--td>{{i.Total_Deductions}}</td-->

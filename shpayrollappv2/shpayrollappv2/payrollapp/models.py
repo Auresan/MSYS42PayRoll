@@ -26,7 +26,7 @@ class Employee(models.Model):
         return self.id_number
     
     def getFullName(self):
-        full_name = self.Last_name + ", " + self.First_name + self.Middle_name
+        full_name = self.Last_name + ", " + self.First_name + " "+ self.Middle_name
         return full_name
 
     def __str__(self):

@@ -20,7 +20,7 @@
                 <tr>
                 <form method="POST" action="#">{% csrf_token %}
                     <td>
-                        <select id="A_EID" name="A_EID" class="form-control">
+                        <select id="A_EID" name="A_EID" class="form-control custom-select mr-sm-2">
                             {% for d in c %}
                             <option value={{d.id_number}}>{{d.id_number}}</option>
                             {% endfor %}

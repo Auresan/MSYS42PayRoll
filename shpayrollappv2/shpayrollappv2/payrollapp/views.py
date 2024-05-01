@@ -36,7 +36,16 @@ def reset_pw(request):
 
 def dashboard(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
-    return render(request, 'payrollapp/dashboard.html',{'user':user} )
+    count_emp=Employee.objects.all().count()
+    count_payrolls=Payslip_Transaction.objects.all().count()
+    current_hmo=HMO.objects.all().filter().count()
+    count_hmo=count_emp-current_hmo
+    return render(request, 'payrollapp/dashboard.html',{
+        'user':user,
+        'count_emp':count_emp,
+        'count_payrolls':count_payrolls,
+        'count_hmo':count_hmo
+        } )
 
 ##@login_required
 def employee_database(request, UID):
@@ -316,6 +325,8 @@ def generate_page(request, UID):
             COLA_Rate_ID = COLA.objects.last(),
             AddtlEarning_Rate_ID = ADDITIONAL_EARNINGS.objects.last()
             )
+            messages.success(request, "Payroll successfully generated!")
+
         except:
             print("Soemthing fked up")
         return render(request, 'payrollapp/generate_page.html' , {'user':user,'a':a, 'payslip':payslip})
@@ -435,9 +446,12 @@ def attendance_db(request, UID):
     return render(request, 'payrollapp/attendance_db.html', {'user':user})
 
 ##@login_required
-def employee_attendance(request, UID):
+def employee_attendance(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
-    return render(request, 'payrollapp/employee_attendance.html', {'user':user})
+    a = get_object_or_404(Employee, pk=EID)
+    attendance_record = ATTENDANCE_HISTORY.objects.filter(Employee_ID=a).values() 
+
+    return render(request, 'payrollapp/employee_attendance.html', {'user':user, 'a':a, 'attendance_record':attendance_record})
 
 ##@login_required
 def tax_module(request, UID):
@@ -469,6 +483,9 @@ def encode_page(request, UID):
                 file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
                 sum += x.Net_Pay
             file.write("T\t"+str(sum))
+
+            messages.success(request, "Bank File Successfully Encoded!")
+
         return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})
     else:
         return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})
@@ -504,4 +521,14 @@ def HMO_DB(request, UID):
         return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a, 'c':c} )
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a, 'c':c} )
-        
+
+def payslip(request, UID, TID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
+    payrolls =  get_object_or_404(Payslip_Transaction, Transaction_ID=TID)#Swap to Payroll ID later
+    employee = payrolls.Employee_ID
+    name = employee.Last_name+', '+employee.First_name+' '+employee.Middle_name
+    start = payrolls.Start_Date.strftime('%Y-%m-%d')
+    end = payrolls.End_Date.strftime('%Y-%m-%d')
+
+    return render(request, 'payrollapp/payslip.html', {'user':user, 'payrolls':payrolls, 'name':name, 'start':start, 'end':end})
