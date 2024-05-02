@@ -196,7 +196,9 @@ def add_employee(request, UID):
                                         Phone_Number=pnumber, 
                                         Email=email, 
                                         BankNumber=banknumber, 
-                                        Salary=salary)
+                                        Salary=salary,
+                                        Vacation_Leaves=15,
+                                        Sick_Leaves=15)
                 messages.success(request, "Employee created successfully!")
                 return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
             except:#None Type
@@ -480,7 +482,10 @@ def encode_page(request, UID):
         
         with open('output.txt', 'w') as file:
             for x in payslip_match:
-                file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
+                if x.Employee_ID.BankNumber != 000000000000:
+                    file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
+                else:
+                    file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
 
             messages.success(request, "Bank File Successfully Encoded!")
 
@@ -503,22 +508,21 @@ def payroll_breakdown(request, UID, TID):
 #@login_required
 def HMO_DB(request, UID):
     a = HMO.objects.all()
-    c = Employee.objects.all()
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
 
 
     if (request.method=='POST'):
     #Get the values
-        EID = request.POST.get('A_EID')
         A_HMOA = request.POST.get('A_HMOA')
-        if a.filter(HMO_ID=EID).exists():#If we selected new item, Create new entry
-            HMO.objects.filter(HMO_ID=EID).update(HMO_ID=EID, HMO_Amount=A_HMOA)
-        else:#Update path
-            HMO.objects.create(HMO_ID=EID, HMO_Amount=A_HMOA)
+        if a.filter(HMO_ID=1).exists():#If we selected new item, Create new entry
+            HMO.objects.filter(HMO_ID=1).update(HMO_Amount=A_HMOA)
             messages.success(request, "Updated successfully!")
-        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a, 'c':c} )
+        else:#Update path
+            HMO.objects.create(HMO_Amount=A_HMOA)
+            messages.success(request, "Created successfully!")
+        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a} )
     else:#First time viewing/non-form open
-        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a, 'c':c} )
+        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a} )
 
 def payslip(request, UID, TID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)

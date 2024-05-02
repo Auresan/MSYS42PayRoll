@@ -46,7 +46,7 @@
                     <td>
                         <form action={% url "PH_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <input type="file" required name="hdmf_xls"> 
+                            <input type="file" required name="PH_xls"> 
                             <button type="submit">Submit</button> 
                         </form>
 
@@ -58,7 +58,7 @@
                     <td>
                         <form action={% url "WT_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <input type="file" required name="hdmf_xls"> 
+                            <input type="file" required name="WT_xls"> 
                             <button type="submit">Submit</button> 
                         </form>
                     </td>
@@ -69,7 +69,7 @@
                     <td>
                         <form action={% url "Holiday_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <input type="file" required name="hdmf_xls"> 
+                            <input type="file" required name="Holiday_xls"> 
                             <button type="submit">Submit</button> 
                         </form>
                     </td>
@@ -80,7 +80,7 @@
                     <td>
                         <form action={% url "Leave_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <input type="file" required name="hdmf_xls"> 
+                            <input type="file" required name="Leave_xls"> 
                             <button type="submit">Submit</button> 
                         </form>
                     </td>
@@ -101,85 +101,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-        $('#executeButton_SSS').click(function() {
-            $.ajax({
-                url: '{% url "SSS_UPLOAD" %}',
-                type: 'GET',  // Or 'POST' depending on your view's implementation
-                success: function(response) {
-                    $('#resultDiv').text('Data imported and database cleared successfully.');
-                },
-                error: function() {
-                    $('#resultDiv').text('Error executing Python code.');
-                }
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#executeButton_PH').click(function() {
-            $.ajax({
-                url: '{% url "PH_UPLOAD" %}',
-                type: 'GET',  // Or 'POST' depending on your view's implementation
-                success: function(response) {
-                    $('#resultDiv').text('Data imported and database cleared successfully.');
-                },
-                error: function() {
-                    $('#resultDiv').text('Error executing Python code.');
-                }
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#executeButton_WT').click(function() {
-            $.ajax({
-                url: '{% url "WT_UPLOAD" %}',
-                type: 'GET',  // Or 'POST' depending on your view's implementation
-                success: function(response) {
-                    $('#resultDiv').text('Data imported and database cleared successfully.');
-                },
-                error: function() {
-                    $('#resultDiv').text('Error executing Python code.');
-                }
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#executeButton_HOLI').click(function() {
-            $.ajax({
-                url: '{% url "Holiday_UPLOAD" %}',
-                type: 'GET',  // Or 'POST' depending on your view's implementation
-                success: function(response) {
-                    $('#resultDiv').text('Data imported and database cleared successfully.');
-                },
-                error: function() {
-                    $('#resultDiv').text('Error executing Python code.');
-                }
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#executeButton_LEAVE').click(function() {
-            $.ajax({
-                url: '{% url "Leave_UPLOAD" %}',
-                type: 'GET',  // Or 'POST' depending on your view's implementation
-                success: function(response) {
-                    $('#resultDiv').text('Data imported and database cleared successfully.');
-                },
-                error: function() {
-                    $('#resultDiv').text('Error executing Python code.');
-                }
-            });
-        });
-    });
-</script>
+
 
 {% endblock %}

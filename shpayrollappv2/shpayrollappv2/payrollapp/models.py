@@ -14,7 +14,8 @@ class Employee(models.Model):
     Email = models.CharField(max_length=255)
     BankNumber = models.IntegerField()
     Salary   = models.FloatField()
-
+    Vacation_Leaves = models.IntegerField()
+    Sick_Leaves = models.IntegerField()
 
 
     
@@ -34,7 +35,7 @@ class Employee(models.Model):
         return z
     
 class HMO(models.Model):
-    HMO_ID = models.CharField(max_length=6, primary_key=True)
+    HMO_ID = models.IntegerField(primary_key=True)
     HMO_Amount = models.IntegerField()
     def getID(self):
         return self.HMO_ID
@@ -103,9 +104,7 @@ class Leave(models.Model):
     Leave_ID = models.IntegerField(primary_key=True)
     Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
     Type = models.CharField(max_length=255)
-    Leaves_Left = models.IntegerField()
     Start_Date = models.DateField(blank=True, null=True)
-    End_Date = models.DateField(blank=True, null=True)#10BIT: TO BE REMOVED Why did we even add this
     def getID(self):
         return self.Leave_ID
     def __str__(self):

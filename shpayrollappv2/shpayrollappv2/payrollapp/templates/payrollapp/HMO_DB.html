@@ -20,11 +20,6 @@
                 <tr>
                 <form method="POST" action="#">{% csrf_token %}
                     <td>
-                        <select id="A_EID" name="A_EID" class="form-control custom-select mr-sm-2">
-                            {% for d in c %}
-                            <option value={{d.id_number}}>{{d.id_number}}</option>
-                            {% endfor %}
-                        </select>
                     </td>
                     <td><input type="number" class="form-control w-fill" id="A_HMOA" name="A_HMOA"></td>
                     <td><button class="btn btn-success" type="submit">ADD HMO</button></td>

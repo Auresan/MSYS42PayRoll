@@ -172,24 +172,28 @@ def WitholdingTax_UPLOAD(request, UID):
         #
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     
-def A_UPLOAD(file_path):
-    # Create a tkinter window
+def A_UPLOAD(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
     print(1)
-    root = tk.Tk()
-    print(1)
-    #root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select a file")
-    print(1)
-    if file_path:
-    # Load data from the selected file into a pandas DataFrame
+    if request.method == 'POST':
+        file = request.FILES['A_xls']
+        obj = File.objects.create(
+            file=file
+        )
+
+        path = file.file
+        df = pd.read_excel(path)
+    
+        workinghours_df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+        print(workinghours_df)
         Employee_check = Employee.objects.all()
         holiday_check = HOLIDAY.objects.all()
         Leave_check = Leave.objects.all()
         holiday_true = ''
         leave_true = ''
         Employee_t = ''
-        workinghours_df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
-        print(workinghours_df)
+        
     # Add data from the DataFrame into the database
         for _, row in workinghours_df.iterrows():
             if row['Date'] == 'NaT':
@@ -313,12 +317,10 @@ def A_UPLOAD(file_path):
                     print("WOOHOO")
 
             print("Data imported and database cleared successfully.")
-            root.destroy()
-            return HttpResponse("Data imported and database cleared successfully.")
+            return render(request, 'payrollapp/attendance_db.html', {'user':user})
     else:
         print("No file selected.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared unsuccessfully.")
+        return render(request, 'payrollapp/attendance_db.html', {'user':user})
     
 def Holiday_UPLOAD(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
@@ -360,16 +362,18 @@ def Leave_UPLOAD(request, UID):
         for _, row in df.iterrows():
             emp = get_object_or_404(Employee, id_number = row['Employee_ID'])
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
-            try:
-                last_leave = get_object_or_404(Leave, Employee_ID=emp)
-                ll = last_leave.Leaves_Left - 1
-                if ll >= 0:
-                    Leave.objects.create(Employee_ID=emp, Type=row['Type'], Leaves_Left=ll, Start_Date=date, End_Date=date)
-                else:
-                    print("Max leaves reached: Please contact admin for manual input")
-            except:
-                Leave.objects.create(Employee_ID=emp, Type=row['Type'], Leaves_Left=5, Start_Date=date, End_Date=date)
-        print("Data imported and database cleared successfully.")
+            
+            if row['Type'] == 'Sick' and emp.Sick_Leaves > 0:
+                Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date, End_Date=date)
+                emp.Sick_Leaves -= 1
+                emp.save()
+            if row['Type'] == 'Vacation' and emp.Vacation_Leaves > 0:
+                Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date, End_Date=date)
+                emp.Sick_Leaves -= 1
+                emp.save()
+            if (row['Type'] != 'Sick') or (row['Type'] == 'Vacation'):
+                print(str(row['Type'])+str(row['Employee_ID'])+str(row['Start_Date'])+'Not Added')
+            
         
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
