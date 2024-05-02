@@ -57,7 +57,7 @@
                         <td style="width:8%">Basic Pay</td>
                         <td style="width:7%"></td>
                         <td style="width:8%">W/ Tax</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%">{{payrolls.WTAX_Rate_ID}}</td>
                         <td style="width:8%">COOP</td>
                         <td style="width:7%"></td>
                     </tr>
@@ -65,15 +65,23 @@
                         <td style="width:8%">COLA & Others</td>
                         <td style="width:7%"></td>
                         <td style="width:8%">SSS-WSIP</td>
+                        <td style="width:7%">{{payrolls.SSS_Rate_ID}}</td>
+                        <td style="width:8%"></td>
+                        <td style="width:7%"></td>
+                    </tr>
+                    <tr>
+                        <td style="width:8%">Additional</td>
+                        <td style="width:7%"></td>
+                        <td style="width:8%">SSS-PREM</td>
                         <td style="width:7%"></td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
                     <tr>
+                        <td style="width:8%"></td>
+                        <td style="width:7%"></td>
                         <td style="width:8%">Lates/Absences</td>
-                        <td style="width:7%"></td>
-                        <td style="width:8%">SSS-PREM</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%">{{payrolls.Absence_Deductions}}</td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
@@ -89,7 +97,7 @@
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">HDMF PREM</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%">{{payrolls.HDMF_Rate_ID}}</td>
                         <td style="width:8%">SL</td>
                         <td style="width:7%"></td>
                     </tr>
@@ -137,7 +145,7 @@
                         <td style="width:8%"><b>TOTAL:</b></td>
                         <td style="width:7%"></td>
                         <td style="width:8%"><b>TOTAL:</b></td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%">{{payrolls.Total_Deductions}}</td>
                         <td class="table-secondary" style="width:8%"><b>NET PAY:</b></td>
                         <td class="table-secondary" style="width:7%"></td>
                     </tr>

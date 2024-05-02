@@ -7,23 +7,29 @@
 
 
 <div class="content">
-    {% if messages %}
-      {% for message in messages %}
-      
-      {% if messages.tags == 'success' %}
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> {{ message }}
-      </div>
-      {% endif %}
+    <div>
+      {% if messages %}
+        {% for message in messages %}
 
-      {% if messages.tags == 'error' %}
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> {{ message }}
-      </div>
-      {% endif %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Success!</strong> {{ message }}
+        </div>
+        
+        <!--{% if messages.tags == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Success!</strong> {{ message }}
+        </div>
+        {% endif %}
 
-      {% endfor %}
-    {% endif %}
+        {% if messages.tags == 'error' %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Error!</strong> {{ message }}
+        </div>
+        {% endif %}-->
+
+        {% endfor %}
+      {% endif %}
+    </div>
     <form method="POST" action="#">{% csrf_token %}
         <h1> Create Employee Record </h1><hr>
         <h5> Personal Details </h5>
