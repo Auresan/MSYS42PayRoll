@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 # Application definition
 
 INSTALLED_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,8 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'payrollapp',
-    'mathfilters'
+    'mathfilters',
+    #'django_crontab',
+    'dbbackup',
+    #'import_export',
 ]
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backups'}
+#CRONJOBS = [
+#    ('0 0 */14 * *', 'myapp.cron.my_scheduled_job')
+#]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

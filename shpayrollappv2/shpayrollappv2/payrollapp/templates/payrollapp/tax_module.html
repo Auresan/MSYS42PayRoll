@@ -20,32 +20,70 @@
                 <tr>
                     <td>HDMF</td>
                     <td>Deductions</td>
-                    <td><button class="btn" id="executeButton_HDMF"><i class="lni lni-pencil-alt"></i></button></td>
+                    <td>
+                        <form action={% url "HDMF_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" required name="hdmf_xls"> 
+                            <button type="submit">Submit</button> 
+                        </form>
+
+                    </td>
                 </tr>
                 <tr>
                     <td>SSS</td>
                     <td>Deductions</td>
-                    <td><button class="btn" id="executeButton_SSS"><i class="lni lni-pencil-alt"></i></button></td>
+                    <td>
+                        <form action={% url "SSS_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" required name="sss_xls"> 
+                            <button type="submit">Submit</button> 
+                        </form>
+                    </td>
                 </tr>
                 <tr>
                     <td>PhilHealth</td>
                     <td>Deductions</td>
-                    <td><button class="btn" id="executeButton_PH"><i class="lni lni-pencil-alt"></i></button></td>
+                    <td>
+                        <form action={% url "PH_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" required name="hdmf_xls"> 
+                            <button type="submit">Submit</button> 
+                        </form>
+
+                    </td>
                 </tr>
                 <tr>
                     <td>Witholding Tax</td>
                     <td>Deductions</td>
-                    <td><button class="btn" id="executeButton_WT"><i class="lni lni-pencil-alt"></i></button></td>
+                    <td>
+                        <form action={% url "WT_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" required name="hdmf_xls"> 
+                            <button type="submit">Submit</button> 
+                        </form>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Witholding Tax</td>
+                    <td>Holiday</td>
                     <td>Additions</td>
-                    <td><button class="btn" id="executeButton_HOLI"><i class="lni lni-pencil-alt"></i></button></td>
+                    <td>
+                        <form action={% url "Holiday_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" required name="hdmf_xls"> 
+                            <button type="submit">Submit</button> 
+                        </form>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Witholding Tax</td>
+                    <td>Leave</td>
                     <td>Additions</td>
-                    <td><button class="btn" id="executeButton_LEAVE"><i class="lni lni-pencil-alt"></i></button></td>
+                    <td>
+                        <form action={% url "Leave_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" required name="hdmf_xls"> 
+                            <button type="submit">Submit</button> 
+                        </form>
+                    </td>
                 </tr>
                 <tr>
                     <td>HMO</td>
@@ -62,22 +100,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#executeButton_HDMF').click(function() {
-            $.ajax({
-                url: '{% url "HDMF_UPLOAD" %}',
-                type: 'GET',  // Or 'POST' depending on your view's implementation
-                success: function(response) {
-                    $('#resultDiv').text('Data imported and database cleared successfully.');
-                },
-                error: function() {
-                    $('#resultDiv').text('Error executing Python code.');
-                }
-            });
-        });
-    });
-</script>
+
 <script>
     $(document).ready(function() {
         $('#executeButton_SSS').click(function() {

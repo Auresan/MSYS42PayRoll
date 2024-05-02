@@ -57,6 +57,7 @@ def employee_database(request, UID):
 def add_employee(request, UID):
     #If form is submitted
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
+    a = Department.objects.all()
     if(request.method=="POST"):
         id_no = 1
         id_no = str(id_no)
@@ -68,21 +69,22 @@ def add_employee(request, UID):
             last_name  = request.POST.get('inputLtName')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         try:
             first_name = request.POST.get('inputFstName')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         try:
             middle_name = request.POST.get('inputMidName')
         except:
-            messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            pass
         
         
-        
-        idnumber = str(request.POST.get('inputFstName'))[0].upper() + str(request.POST.get('inputMidName'))[0].upper() + str(request.POST.get('inputLtName'))[0].upper()
+        try:
+            idnumber = first_name[0].upper() + middle_name[0].upper() + last_name[0].upper()
+        except:
+            idnumber = first_name[0].upper() +'_' + last_name[0].upper()
         id_no = id_no.zfill(3)
         idnumber = idnumber + id_no
 
@@ -103,42 +105,42 @@ def add_employee(request, UID):
                 print(idnumber)
             if emergency == 999:
                 messages.warning(request, "ERROR, 999 employee records hold the same starting letters and number. Please contact IT to upgrade") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-                return render(request, 'payrollapp/add_employee.html', {'user':user})
+                return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
 
 
         try:
             pnumber = str(request.POST.get('inputPhone'))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         try:
             email = str(request.POST.get('inputEmail4'))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         
         
         try:
             department  = str(request.POST.get('inputDept'))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         try:
             status  = str(request.POST.get('inputEmpStat'))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         try:
             position = str(request.POST.get('inputPosition'))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         try:
             joindate = request.POST.get('inputJoinDate')
             #messages.success(request, str(joindate))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         
         
         
@@ -149,19 +151,19 @@ def add_employee(request, UID):
         except ValueError:
             # Handle the case where the date string is not in the correct format
             messages.warning(request, "Invalid date format. Please use YYYY-MM-DD.")
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
 
 
         try:
             banknumber = int(request.POST.get('inputBankAccNo'))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         try:
             salary = float(request.POST.get('inputSalary'))
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
 
         
 
@@ -179,7 +181,7 @@ def add_employee(request, UID):
             #Message warning, Employee exists/ID in use
             messages.warning(request, "Employee/ID Number Already Exists!")
             #Render create employee
-            return render(request, 'payrollapp/add_employee.html', {'user':user})
+            return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
         else:
             try:
                 #Attempts to create employee
@@ -196,14 +198,14 @@ def add_employee(request, UID):
                                         BankNumber=banknumber, 
                                         Salary=salary)
                 messages.success(request, "Employee created successfully!")
-                return render(request, 'payrollapp/add_employee.html', {'user':user})
+                return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
             except:#None Type
                 #Message warning, Employee exists/ID in use
                 messages.warning(request, "Empty field/Incorrect inputs detected!"+" Employee "  + str(type(last_name)) +str(last_name) + " ID "  +str(type(idnumber)) +str(idnumber) + " Status " +str(status) + " Department " +str(department) + " Role " +str(position) + " Date " +str(joindate) + " PN " +str(pnumber) + " Email " +str(email) + "Join Date " + str(type(joindate)) + str(joindate))
                 #Render create employee
-                return render(request, 'payrollapp/add_employee.html', {'user':user})
+                return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
     else:
-        return render(request, 'payrollapp/add_employee.html', {'user':user})
+        return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
 
 def generate_page(request, UID):
     a = Employee.objects.all()
@@ -477,12 +479,8 @@ def encode_page(request, UID):
         payslip_match = Payslip_Transaction.objects.filter(End_Date=inputDate)
         
         with open('output.txt', 'w') as file:
-            file.write("H          "+"1"+str(companyaccountnumber)+"\t"+companycode+inputDate+'\n')
-            sum = 0
             for x in payslip_match:
                 file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
-                sum += x.Net_Pay
-            file.write("T\t"+str(sum))
 
             messages.success(request, "Bank File Successfully Encoded!")
 

@@ -34,7 +34,7 @@
           </div>
           <div class="form-group col-md-4">
             <label for="inputMidName">Middle Name</label>
-            <input type="text" class="form-control" id="inputMidName" name="inputMidName" placeholder="" required >
+            <input type="text" class="form-control" id="inputMidName" name="inputMidName" placeholder="" value=''>
           </div>
           <div class="form-group col-md-4">
             <label for="inputLtName">Last Name</label>
@@ -42,7 +42,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputPhone">Phone Number</label>
-            <input type="number" class="form-control" id="inputPhone" name="inputPhone" step="1" placeholder="XXXX-XXX-XXXX">
+            <input type="tel" class="form-control" id="inputPhone" name="inputPhone" placeholder='09XX-XXX-XXXX' pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" required>
           </div>
           <div class="form-group col-md-6">
             <label for="inputEmail4">Email</label>
@@ -66,18 +66,17 @@
                 <select id="inputEmpStat" name="inputEmpStat" class="form-control">
                   <option selected>Choose Status</option>
                   <option value="Hired">Hired</option>
-                  <option value="Terminated">Terminated</option>
+                  <option value="Probationary">Probationary</option>
                   <option value="On Leave">On Leave</option>
+                  <option value="Internship">Internship</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="inputDept">Department</label>
                 <select id="inputDept" name="inputDept" class="form-control">
-                  <option selected>Choose Department</option>
-                  <option value="HR">HR</option>
-                  <option value="IT">IT</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Accounting">Accounting</option>
+                  {% for x in a %}
+                  <option value={{x.Department_ID}}> {{x.Department_ID}} </option>
+                  {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-3">
@@ -92,11 +91,11 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputBankAccNo">Bank Account Number</label>
-                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="">
+                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="" minlength='12' maxlength='12' required>
             </div>
             <div class="form-group col-md-4">
                 <label for="inputSalary">Salary</label>
-                <input type="number" step="0.01" class="form-control" id="inputSalary" name="inputSalary" placeholder="">
+                <input type="number" step="0.01" class="form-control" id="inputSalary" name="inputSalary" placeholder="" min='11814.00' required>
             </div>
         </div>
         <hr>

@@ -4,7 +4,7 @@ from django.db import models
 class Employee(models.Model):
     Last_name = models.CharField(max_length=255)
     First_name = models.CharField(max_length=255)
-    Middle_name = models.CharField(max_length=255)
+    Middle_name = models.CharField(max_length=255, blank=True, null=True)
     id_number = models.CharField(max_length=6, primary_key=True)
     Status  = models.CharField(max_length=255)
     Department  = models.CharField(max_length=255)
@@ -110,6 +110,14 @@ class Leave(models.Model):
         return self.Leave_ID
     def __str__(self):
         z = str(self.pk)+':'+str(self.getID())
+        return z
+    
+class Department(models.Model):
+    Department_ID = models.CharField(primary_key=True, max_length=255)
+    def getID(self):
+        return self.Department_ID
+    def __str__(self):
+        z = str(self.pk)
         return z
 
 class SSS(models.Model):
@@ -231,3 +239,6 @@ class BANK_FILES(models.Model):
     PAYROLL_PERIOD = models.CharField(max_length=250)
     def __str__(self):
         return str(self.BANK_FILE_NAME)
+    
+class File(models.Model):
+    file = models.FileField(upload_to="uploads/") 

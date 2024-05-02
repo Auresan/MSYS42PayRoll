@@ -12,23 +12,21 @@ from django import forms
 from django.http import JsonResponse
 from django.http import HttpResponse
 from datetime import datetime, timedelta
+from django.conf import settings
+import os
 
+def HDMF_UPLOAD(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
 
-def HDMF_UPLOAD(file_path):
-    # Create a tkinter window
     print(1)
-    root = tk.Tk()
-    print(1)
-    #root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select a file")
-    print(1)
-    if file_path:
-    # Load data from the selected file into a pandas DataFrame
-        print(file_path)
-        
-        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
-        file_path = file_path.split('/')[-1]
-        print(file_path)
+    if request.method == 'POST':
+        file = request.FILES['hdmf_xls']
+        obj = File.objects.create(
+            file=file
+        )
+
+        path = file.file
+        df = pd.read_excel(path)
     
     # Export the current Django database into a CSV file
         print(1)
@@ -49,25 +47,26 @@ def HDMF_UPLOAD(file_path):
         for _, row in df.iterrows():
             HDMF.objects.create(HDMF_Rate_ID=row['HDMF_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         print("Data imported and database cleared successfully.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared successfully.")
+        #
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared unsuccessfully.")
+        #
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     
-def SSS_UPLOAD(file_path):
-    # Create a tkinter window
+def SSS_UPLOAD(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
     print(1)
-    root = tk.Tk()
-    print(1)
-    #root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select a file")
-    print(1)
-    if file_path:
-    # Load data from the selected file into a pandas DataFrame
-        print(file_path)
-        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
+    if request.method == 'POST':
+        file = request.FILES['sss_xls']
+        obj = File.objects.create(
+            file=file
+        )
+
+        path = file.file
+        df = pd.read_excel(path)
+    
     
     # Export the current Django database into a CSV file
         print(1)
@@ -88,25 +87,25 @@ def SSS_UPLOAD(file_path):
         for _, row in df.iterrows():
             SSS.objects.create(SSS_Rate_ID=row['SSS_Rate_ID'], Regular_SS_Employer_Rate=row['Regular_SS_Employer_Rate'], Regular_SS_Employee_Rate=row['Regular_SS_Employee_Rate'], EC_Contribution=row['EC_Contribution'], WISP_Employer_Rate=row['WISP_Employer_Rate'], WISP_Employee_Rate=row['WISP_Employee_Rate'], Total_Contribution=row['Total_Contribution'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         print("Data imported and database cleared successfully.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared successfully.")
+        
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared unsuccessfully.")
+        #
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
 
-def PH_UPLOAD(file_path):
-    # Create a tkinter window
+def PH_UPLOAD(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
     print(1)
-    root = tk.Tk()
-    print(1)
-    #root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select a file")
-    print(1)
-    if file_path:
-    # Load data from the selected file into a pandas DataFrame
-        print(file_path)
-        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
+    if request.method == 'POST':
+        file = request.FILES['PH_xls']
+        obj = File.objects.create(
+            file=file
+        )
+
+        path = file.file
+        df = pd.read_excel(path)
     
     # Export the current Django database into a CSV file
         print(1)
@@ -127,25 +126,25 @@ def PH_UPLOAD(file_path):
         for _, row in df.iterrows():
             PhilHealth.objects.create(PhilHealth_Rate_ID=row['PhilHealth_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         print("Data imported and database cleared successfully.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared successfully.")
+        
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared unsuccessfully.")
+        #
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     
-def WitholdingTax_UPLOAD(file_path):
-    # Create a tkinter window
+def WitholdingTax_UPLOAD(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
     print(1)
-    root = tk.Tk()
-    print(1)
-    #root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select a file")
-    print(1)
-    if file_path:
-    # Load data from the selected file into a pandas DataFrame
-        print(file_path)
-        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
+    if request.method == 'POST':
+        file = request.FILES['WT_xls']
+        obj = File.objects.create(
+            file=file
+        )
+
+        path = file.file
+        df = pd.read_excel(path)
     
     # Export the current Django database into a CSV file
         print(1)
@@ -166,12 +165,12 @@ def WitholdingTax_UPLOAD(file_path):
         for _, row in df.iterrows():
             WitholdingTax.objects.create(WTAX_Rate_ID=row['WTAX_Rate_ID'], Fix_Tax_Amount=row['Fix_Tax_Amount'], Tax_Rate_On_Excess=row['Tax_Rate_On_Excess'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         print("Data imported and database cleared successfully.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared successfully.")
+        
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared unsuccessfully.")
+        #
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     
 def A_UPLOAD(file_path):
     # Create a tkinter window
@@ -321,51 +320,42 @@ def A_UPLOAD(file_path):
         root.destroy()
         return HttpResponse("Data imported and database cleared unsuccessfully.")
     
-def Holiday_UPLOAD(file_path):
-    # Create a tkinter window
+def Holiday_UPLOAD(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
     print(1)
-    root = tk.Tk()
-    print(1)
-    #root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select a file")
-    print(1)
-    if file_path:
-    # Load data from the selected file into a pandas DataFrame
-        print(file_path)
-        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
-    
-    
-        
-    
+    if request.method == 'POST':
+        file = request.FILES['Holiday_xls']
+        obj = File.objects.create(
+            file=file
+        )
+
+        path = file.file
+        df = pd.read_excel(path)
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
             HOLIDAY.objects.create(Holiday_ID=row['Holiday_ID'], Type=row['Type'], Date=date)
         print("Data imported and database cleared successfully.")
-        root.destroy()
-        return HttpResponse("Data imported successfully.")
+        
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
-        root.destroy()
-        return HttpResponse("Data imported unsuccessfully.")
+        #
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     
-def Leave_UPLOAD(file_path):
-    # Create a tkinter window
-    print(1)
-    root = tk.Tk()
-    print(1)
-    #root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select a file")
-    print(1)
-    if file_path:
-    # Load data from the selected file into a pandas DataFrame
-        print(file_path)
-        df = pd.read_excel(file_path)  # Assuming the file is CSV, adjust if needed
-    
+def Leave_UPLOAD(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
 
-    
-        
-    
+    print(1)
+    if request.method == 'POST':
+        file = request.FILES['Leave_xls']
+        obj = File.objects.create(
+            file=file
+        )
+
+        path = file.file
+        df = pd.read_excel(path)
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
             emp = get_object_or_404(Employee, id_number = row['Employee_ID'])
@@ -380,9 +370,9 @@ def Leave_UPLOAD(file_path):
             except:
                 Leave.objects.create(Employee_ID=emp, Type=row['Type'], Leaves_Left=5, Start_Date=date, End_Date=date)
         print("Data imported and database cleared successfully.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared successfully.")
+        
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
-        root.destroy()
-        return HttpResponse("Data imported and database cleared unsuccessfully.")
+        #
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
