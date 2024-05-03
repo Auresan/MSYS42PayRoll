@@ -6,7 +6,15 @@
 <div class="content">
     <h1> Credit & Deductibles Module </h1>
     <div id="resultDiv"></div>
-    
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    <strong>Success!</strong> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
     <div style="overflow-x:auto;">
         <table id="posts">
             <thead>
@@ -24,7 +32,7 @@
                         <form action={% url "HDMF_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="file" required name="hdmf_xls"> 
-                            <button type="submit">Submit</button> 
+                            <button class="btn btn-dark" type="submit" style="float:right;">Submit</button> 
                         </form>
 
                     </td>
@@ -36,7 +44,7 @@
                         <form action={% url "SSS_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="file" required name="sss_xls"> 
-                            <button type="submit">Submit</button> 
+                            <button class="btn btn-dark" type="submit" style="float:right;">Submit</button> 
                         </form>
                     </td>
                 </tr>
@@ -47,7 +55,7 @@
                         <form action={% url "PH_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="file" required name="PH_xls"> 
-                            <button type="submit">Submit</button> 
+                            <button class="btn btn-dark" type="submit" style="float:right;">Submit</button> 
                         </form>
 
                     </td>
@@ -59,7 +67,7 @@
                         <form action={% url "WT_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="file" required name="WT_xls"> 
-                            <button type="submit">Submit</button> 
+                            <button class="btn btn-dark" type="submit" style="float:right;">Submit</button> 
                         </form>
                     </td>
                 </tr>
@@ -70,7 +78,7 @@
                         <form action={% url "Holiday_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="file" required name="Holiday_xls"> 
-                            <button type="submit">Submit</button> 
+                            <button class="btn btn-dark" type="submit" style="float:right;">Submit</button> 
                         </form>
                     </td>
                 </tr>
@@ -81,14 +89,14 @@
                         <form action={% url "Leave_UPLOAD" UID=user.pk %} method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="file" required name="Leave_xls"> 
-                            <button type="submit">Submit</button> 
+                            <button class="btn btn-dark" type="submit" style="float:right;" >Submit</button> 
                         </form>
                     </td>
                 </tr>
                 <tr>
                     <td>HMO</td>
                     <td>Deductions</td>
-                    <td><a class="btn" href="{% url 'HMO_DB' UID=user.pk %}"><i class="lni lni-pencil-alt"></i></a></td>
+                    <td><a class="btn btn-dark" style="float:right;" href="{% url 'HMO_DB' UID=user.pk %}"><i class="lni lni-pencil-alt mr-2"></i>Update</a></td>
                 </tr>
             </tbody>
         </table>
