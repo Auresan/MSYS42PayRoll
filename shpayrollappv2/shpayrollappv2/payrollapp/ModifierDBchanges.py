@@ -183,8 +183,6 @@ def A_UPLOAD(request, UID):
         )
 
         path = file.file
-        df = pd.read_excel(path)
-    
         workinghours_df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
         print(workinghours_df)
         Employee_check = Employee.objects.all()
@@ -212,9 +210,13 @@ def A_UPLOAD(request, UID):
                 date = date[4:]
                 date = current_date_str[-4:] + date #10BIT: Check this again
                 date = datetime.strptime(date, "%Y-%m-%d")
+                id = row['NAME']
+                id = id.upper()
+                print('ID: ' + str(id))
                 for x in Employee_check:
-                    if x.id_number == row['NAME']:
+                    if x.id_number == id:
                         Employee_t= get_object_or_404(Employee, id_number=x.id_number)
+
                 for x in holiday_check:
                     if x.date == date:
                         holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
@@ -240,49 +242,151 @@ def A_UPLOAD(request, UID):
                 except:
                     pass
                 try:
-                    print(1)
+                    
                     TimeOut_2 = row['Out_2']
-                    print(2)
                 except:
                     pass
             
             
             
-
+                Night_In = 0
+                Night_out = 0
+                NightShift_Total=0
                 try:
                     OT_IN = row['OT_IN']
-                    OT_OUT = row['OT_OUT'] 
-                    OT = OT_OUT - OT_IN
-                    print(OT)
-                    OT_Total = OT.seconds / 3600.0
+                    OT_OUT = row['OT_OUT']
+
+                    #if no OT At all
+                    if (OT_IN == 'NaT') and (OT_OUT == 'NaT'):
+                        print(1) 
+                        OT_IN = time(18,0)
+                        OT_OUT = time(18,0)
+                        Night_In = time(18,0)
+                        Night_out = time(18,0)
+
+                    #If no OT_IN but OT_OUT
+                    if (OT_IN == 'NaT') and (OT_OUT != 'NaT'):
+                        print(2) 
+                        OT_IN = time(18, 0)
+
+                    #If no OT_OUT but OT_IN
+                    if (OT_IN != 'NaT') and (OT_OUT == 'NaT'):
+                        print(3) 
+                        OT_OUT = time(22,0)
+                    
+                    #If OT_IN earlier than 6
+                    if OT_IN <= time(18, 0):
+                        print(4) 
+                        OT_IN = time(18, 0)
+                        print(OT_IN)
+                        print(OT_OUT)
+                        print(Night_In)
+                        print(Night_out)
+
+                    #IF OT_IN at 10pm onwards NIGHT SHIFT
+                    if OT_IN >= time(22, 0):#A check to see if they worked night shift and is not OT
+                        print(5) 
+                        Night_In = OT_IN
+                        OT_IN = time(18, 0)
+                        OT_OUT = time(18, 0)
+
+                    #IF Late Night Shift Start
+                    if (OT_IN >= time(0,0)) and (OT_IN <= time(7,0)):#If starts late nightshift
+                        print(6) 
+                        Night_In = OT_IN
+                        OT_IN = time(18,0)
+                    
+
+                    #If Late Night end
+                    if (OT_OUT >= time(0,0)) and (OT_OUT <= time(7,0)):#If ends late nightshift
+                        print(7) 
+                        Night_out = OT_OUT
+                        print(7.5)
+                        OT_OUT = time(22,0)
+                        print(7.9)
+                        print(OT_IN)
+                        print(OT_OUT)
+                        print(Night_In)
+                        print(Night_out)
+                        
+                    #Overnight 
+                    if (OT_OUT >= time(22,0) and Night_out == 0): #OT_In is declared and normal range but not OT_OUT or Night_In or Out
+                        print(8) 
+                        Night_out = OT_OUT
+                        Night_In = time(22,0)
+                        OT_OUT = time(22,0)
+                    
+                    #Cap NightShift
+                    if (OT_OUT >= time(7,0)) and (OT_OUT != time(22,0)) and (Night_In != 0):
+                        print(9) 
+                        Night_out = time(7,0)
+
+                    #No Nightshift
+                    if Night_In == 0:
+                        print(10) 
+                        Night_In = time(22,0)
+                    if Night_out == 0:    
+                        print(11) 
+                        Night_out = time(22,0)
+                    
+
+                    seconds_Night_In = (Night_In.hour * 3600) + (Night_In.minute * 60)
+                    seconds_Night_out = (Night_out.hour * 3600) + (Night_out.minute * 60)
+                    if seconds_Night_out < seconds_Night_In:
+                        seconds_Night_out += 24 * 3600
+                    night_shift_seconds = seconds_Night_out - seconds_Night_In
+                    print(12) 
+                    NightShift_Total = night_shift_seconds / 3600.0
+                    print(13) 
+
+                    
+                    OT = (OT_OUT.hour * 60 + OT_OUT.minute) - (OT_IN.hour * 60 + OT_IN.minute)
+                    print(14) 
+                    OT_Total = OT / 60.0 
+                    print(OT_Total)
                 except:
                     OT_Total = 0
+                
 
                 HoursWorked = 0
                 HoursWorked_2 = 0
                 try:
                 # Calculate the difference in minutes
                     HoursWorked = (TimeOut.hour * 60 + TimeOut.minute) - (TimeIn.hour * 60 + TimeIn.minute)
+                    print(1)
+                    print(HoursWorked)
                     # Convert minutes to hours (float)
                     HoursWorked = HoursWorked / 60.0
+                    print(2)
                     # Calculate the difference in minutes
                     HoursWorked_2 = (TimeOut_2.hour * 60 + TimeOut_2.minute) - (TimeIn_2.hour * 60 + TimeIn_2.minute)
+                    print(3)
+                    print(HoursWorked_2)
                     # Convert minutes to hours (float)
-                    HoursWorked_2 = HoursWorked / 60.0
+                    HoursWorked_2 = HoursWorked_2 / 60.0
+                    print(4)
                 except:
                     try:
                         # Calculate the difference in minutes
                         HoursWorked = (TimeOut_2.hour * 60 + TimeOut_2.minute) - (TimeIn.hour * 60 + TimeIn.minute)
+                        print(5)
                         # Convert minutes to hours (float)
                         HoursWorked = HoursWorked / 60.0
+                        print(6)
                     except:
                         # Calculate the difference in minutes
                         HoursWorked_2 = (TimeOut_2.hour * 60 + TimeOut_2.minute) - (TimeIn_2.hour * 60 + TimeIn_2.minute)
+                        print(7)
                         # Convert minutes to hours (float)
-                        HoursWorked_2 = HoursWorked / 60.0
+                        HoursWorked_2 = HoursWorked_2 / 60.0
+                        print(8)
+                print('Hours Worked: '+ str(HoursWorked))
+                print('Hours Worked: '+ str(HoursWorked_2))
                 HoursWorked = HoursWorked+HoursWorked_2
-                x=0
-                ATTENDANCE_HISTORY.objects.create(Employee_ID=Employee_t, Date=date, OT=OT_Total, HoursWorked=HoursWorked)
+                OT = OT + (HoursWorked-8)
+                
+                x=0#Code bugs if I dont declare this
+                ATTENDANCE_HISTORY.objects.create(Employee_ID=Employee_t, Date=date, OT=OT_Total, NightShift=NightShift_Total, HoursWorked=HoursWorked)
                 if TimeIn:
                     x = ATTENDANCE_HISTORY.objects.latest('History_ID')
                     x.TimeIn = TimeIn
