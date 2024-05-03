@@ -31,6 +31,8 @@
               <tr>
                   <th style="width:10%">Date</th>
                   <!--th style="width:20%">Attendance Status</t-->
+                  <th style="width:15%">Leave</th>
+                  <th style="width:15%">Holiday</th>
                   <th style="width:15%">Time In</th>
                   <th style="width:15%">Time Out</th>
                   <th style="width:15%">Overtime Hours</th>
@@ -41,6 +43,9 @@
               {% for x in attendance_record %}
               <tr>
                   <td>{{x.Date}}</td>
+                  <td><input type="float" class="form-control" id="" value=""></td>
+                  <td><input type="float" class="form-control" id="" value=""></td>
+                  <td></td>
                   <td>{{x.TimeIn}}</td>
                   <td>{{x.TimeOut_2}}</td>
                   <td><input type="float" class="form-control" id="empOT" value=" {{x.OT}}"></td>
