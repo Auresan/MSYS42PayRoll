@@ -13,7 +13,7 @@
                             <select id="inputDate" name="inputDate" class="form-control custom-select mr-sm-2" required>
                                 <option selected disabled="disabled">Choose Payroll Batch</option>
                                 {% for y in z %}
-                                <option value={{y|date:"Y-m-d"}}>{{y|date:"Y-m-d"}}</option>
+                                <option value={{y|date:"Y-m-d"}} required>{{y|date:"Y-m-d"}}</option>
                                 {% endfor %}
                             </select>
                             <small id="inputDept" class="form-text text-muted">A Bank Payroll File can only be encoded if the payslips for the period have been successfully generated.</small> 

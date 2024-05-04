@@ -30,42 +30,57 @@
         <input type="date" class="form-control" id="mth_yr">
     </div-->
   </div>
-  <form method="POST" action="#">
     <div style="overflow-x:auto;">
       <table id="posts">
           <thead>
               <tr>
-                  <th style="width:10%">Date</th>
+                  <th style="width:15%">Date</th>
                   <!--th style="width:20%">Attendance Status</t-->
-                  <th style="width:10%">Leave</th>
-                  <th style="width:10%">Holiday</th>
+                  <th style="width:5%">Leave</th>
+                  <th style="width:5%">Holiday</th>
                   <th style="width:15%">Time In</th>
                   <th style="width:15%">Time Out</th>
-                  <th style="width:15%">Overtime Hours</th>
-                  <th style="width:15%">Night Shift Hours</th>
+                  <th style="width:10%">Overtime Hours</th>
+                  <th style="width:10%">Night Shift Hours</th>
+                  <th style="width:10%">Update</th>
               </tr>
           </thead>
           <tbody>
               {% for x in attendance_record %}
               <tr>
                   <td>{{x.Date}}</td>
-                  <td><input type="float" class="form-control" id="" value=""></td>
-                  <td><input type="float" class="form-control" id="" value=""></td>
+                  <td>
+                    {{x.Leave_ID}}
+                    <!--select id="inputDept" name="inputDept" class="form-control custom-select mr-sm-2">
+                      <option selected>No</option>
+                      <option>Yes</option>
+                    </select-->
+                  </td>
+                  <td>
+                    {{x.Holiday_ID}}
+                    <!--select id="inputDept" name="inputDept" class="form-control custom-select mr-sm-2">
+                      <option selected>No</option>
+                      <option>Yes</option>
+                    </select-->
+                  </td>
                   <td>{{x.TimeIn}}</td>
                   <td>{{x.TimeOut_2}}</td>
-                  <td><input type="float" class="form-control" id="empOT" value=" {{x.OT}}"></td>
-                  <td><input type="float" class="form-control" id="empNightShft" value=""></td>
+                  <form method="POST" action="#">{% csrf_token %}
+                    <input hidden value="{{x.History_ID}}" id="entryid" name="entryid"></input>
+                      <td><input type="float" class="form-control" id="empOT" name="empOT" value=" {{x.OT}}"></td>
+                      <td><input type="float" class="form-control" id="empNightShft" name="empNightShft" value="{{x.NightShift}}"></td>
+                      <td><li><button class="btn btn-success" type="submit">Update</button></li></td>
+                  </form>
               </tr>
               {% endfor %}
           </tbody>
       </table>
     </div>
-    <div>
+    <!--div>
       <ul class="action-icons">
           <li><button class="btn btn-success" type="submit">Confirm</button></li>
       </ul>
-    </div>
-  </form>
+    </div-->
 </div>
 <!--footer>
     <div class="footer-wrap">

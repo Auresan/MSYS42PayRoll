@@ -97,9 +97,9 @@
                     <td>HMO</td>
                     <td>Deductions</td>
                     <td>
-                        <form method="POST" action={% url 'HMO_DB' UID=user.pk %} enctype="multipart/form-data"  >{% csrf_token %}
-                            <input type="number" class="form-control w-fill" id="A_HMOA" name="A_HMOA">
-                            <button class="btn btn-success" type="submit">ADD HMO</button>
+                        <form class="form-row" method="POST" action={% url 'HMO_DB' UID=user.pk %} enctype="multipart/form-data">{% csrf_token %}
+                            <input class="form-group" type="number" class="form-control w-fill" id="A_HMOA" name="A_HMOA">
+                            <button class="btn btn-success form-group mx-2" type="submit">ADD HMO</button>
                         </form>
 
                     </td>
