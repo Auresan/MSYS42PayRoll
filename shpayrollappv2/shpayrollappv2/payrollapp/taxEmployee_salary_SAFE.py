@@ -217,9 +217,9 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     COOP_Amount = calculateCOOP(float(COOP_AM))
     COLA_Amount = calculateCOLA(float(COLA_AM))
     ADDE_Amount = calculateADDE(float(ADDE_AM), ADDE_TYPE)
-    SSS_Amount, SSS_EC, SSS_WISP_Amount, SSS_RATE_ID = calculateSSS(emp.Salary)
-    PH_Amount, PH_ID = calculatePH(emp.Salary)
-    HDMF_Amount, HDMF_ER, HDMF_EE_R, HDMF_ER_R, HDMF_ID = calculateHDMF(emp.Salary)
+    SSS_Amount, SSS_EC, SSS_WISP_Amount, SSS_RATE_ID = calculateSSS(emp_BP)
+    PH_Amount, PH_ID = calculatePH(emp_BP)
+    HDMF_Amount, HDMF_ER, HDMF_EE_R, HDMF_ER_R, HDMF_ID = calculateHDMF(emp_BP)
     SSS_Amount =  float(SSS_Amount)+ float(SSS_EC)+ float(SSS_WISP_Amount)
     
     current_date = datetime.now()

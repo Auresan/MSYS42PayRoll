@@ -96,7 +96,13 @@
                 <tr>
                     <td>HMO</td>
                     <td>Deductions</td>
-                    <td><a class="btn btn-dark" style="float:right;" href="{% url 'HMO_DB' UID=user.pk %}"><i class="lni lni-pencil-alt mr-2"></i>Update</a></td>
+                    <td>
+                        <form method="POST" action={% url 'HMO_DB' UID=user.pk %} enctype="multipart/form-data"  >{% csrf_token %}
+                            <input type="number" class="form-control w-fill" id="A_HMOA" name="A_HMOA">
+                            <button class="btn btn-success" type="submit">ADD HMO</button>
+                        </form>
+
+                    </td>
                 </tr>
             </tbody>
         </table>

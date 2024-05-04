@@ -528,9 +528,9 @@ def HMO_DB(request, UID):
         else:#Update path
             HMO.objects.create(HMO_Amount=A_HMOA)
             messages.success(request, "Created successfully!")
-        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a} )
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:#First time viewing/non-form open
-        return render(request, 'payrollapp/HMO_DB.html',{'user':user, 'a':a} )
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
 
 def payslip(request, UID, TID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
