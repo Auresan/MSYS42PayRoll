@@ -24,15 +24,15 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputFstName">First Name</label>
-            <input type="text" class="form-control" id="inputFstName" name="inputFstName"value="{{a.First_name}}"  required maxlength="255" pattern="[A-Za-z ]*">
+            <input type="text" class="form-control" id="inputFstName" name="inputFstName"value="{{a.First_name}}"  required maxlength="50" pattern="[A-Za-z ]*">
           </div>
           <div class="form-group col-md-4">
             <label for="inputMidName">Middle Name</label>
-            <input type="text" class="form-control" id="inputMidName" name="inputMidName" value="{{a.Middle_name}}" maxlength="255" pattern="[A-Za-z ]*">
+            <input type="text" class="form-control" id="inputMidName" name="inputMidName" value="{{a.Middle_name}}" maxlength="50" pattern="[A-Za-z ]*">
           </div>
           <div class="form-group col-md-4">
             <label for="inputLtName">Last Name</label>
-            <input type="text" class="form-control" id="inputLtName" name="inputLtName" value="{{a.Last_name}}"  required maxlength="255" pattern="[A-Za-z ]*">
+            <input type="text" class="form-control" id="inputLtName" name="inputLtName" value="{{a.Last_name}}"  required maxlength="50" pattern="[A-Za-z ]*">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPhone">Phone Number</label>
@@ -87,7 +87,7 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputBankAccNo">Bank Account Number</label>
-                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="" min='0' minlength='12' maxlength='1' value="{{a.BankNumber}}" minlength='12' maxlength='12' pattern="^00\d{10}$" required>
+                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder=""  value="{{a.BankNumber}}" minlength='12' maxlength='12' pattern="^00\d{10}$" required>
             </div>
             <div class="form-group col-md-4">
                 <label for="inputSalary">Salary</label>

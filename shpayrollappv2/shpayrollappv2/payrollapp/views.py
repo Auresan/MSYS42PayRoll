@@ -177,7 +177,7 @@ def add_employee(request, UID):
 
 
         try:
-            banknumber = int(request.POST.get('inputBankAccNo'))
+            banknumber = request.POST.get('inputBankAccNo')
         except:
             messages.warning(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/add_employee.html', {'user':user, 'a':a})
@@ -430,7 +430,7 @@ def employee_info(request, UID, EID):
             messages.warning(request, "Invalid date format. Please use YYYY-MM-DD. " + joindate)
             return render(request, 'payrollapp/employee_info.html', {'user':user,'a':a})
         try:
-            banknumber = int(request.POST.get('inputBankAccNo'))
+            banknumber = request.POST.get('inputBankAccNo')
         except:
             messages.warning(request, "Error missing values banknumber") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/employee_info.html', {'user':user, 'a':a})
@@ -458,7 +458,7 @@ def employee_info(request, UID, EID):
                                         Join_Date=joindate, 
                                         Phone_Number=pnumber, 
                                         Email=email, 
-                                        BankNumber=int(banknumber), 
+                                        BankNumber=banknumber, 
                                         Salary=salary)
             messages.success(request, "Employee updated successfully!")
             return render(request, 'payrollapp/employee_info.html', {'user':user, 'a':a})

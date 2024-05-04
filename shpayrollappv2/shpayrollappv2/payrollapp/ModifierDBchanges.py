@@ -466,8 +466,21 @@ def Holiday_UPLOAD(request, UID):
         df = pd.read_excel(path)
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
+            if row['Date'] == 'Nat':
+                continue
+            else:
+                pass
+            if row['Type'] == 'Nat':
+                continue
+            else:
+                pass
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
-            HOLIDAY.objects.create(Holiday_ID=row['Holiday_ID'], Type=row['Type'], Date=date)
+            xms = HOLIDAY.objects.filter(Date=date)
+            if not xms:
+                HOLIDAY.objects.create(Type=row['Type'], Date=date)
+            else:
+                a = HOLIDAY.objects.filter(Date=date)
+                a.update(Type=row['Type'])
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         messages.success(request, "Employee created successfully!")
@@ -491,21 +504,45 @@ def Leave_UPLOAD(request, UID):
         df = pd.read_excel(path)
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
+            #Check for any missing if so skip this log
+            if row['Start_Date'] == 'Nat':
+                continue
+            else:
+                pass
+            if row['Type'] == 'Nat':
+                continue
+            else:
+                pass
+            if row['Employee_ID'] == 'Nat':
+                continue
+            else:
+                pass
             emp = get_object_or_404(Employee, id_number = row['Employee_ID'])
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
-            
+            xms = Leave.objects.filter(Employee_ID=emp, Start_Date=date)
             if row['Type'] == 'Sick' and emp.Sick_Leaves > 0:
-                Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date, End_Date=date)
-                emp.Sick_Leaves -= 1
-                emp.save()
+                if not xms:
+                    Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date)
+                    emp.Sick_Leaves -= 1
+                    emp.save()
+                else:
+                    a = HOLIDAY.objects.filter(Date=date)
+                    a.update(Type=row['Type'])
+                    emp.Sick_Leaves += 1
+                    emp.Vacation_Leaves -= 1
+                    emp.save()
             if row['Type'] == 'Vacation' and emp.Vacation_Leaves > 0:
-                Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date, End_Date=date)
-                emp.Sick_Leaves -= 1
-                emp.save()
-            if (row['Type'] != 'Sick') or (row['Type'] == 'Vacation'):
-                print(str(row['Type'])+str(row['Employee_ID'])+str(row['Start_Date'])+'Not Added')
-            
-        messages.success(request, "Employee created successfully!")
+                if not xms:
+                    Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date)
+                    emp.Vacation_Leaves -= 1
+                    emp.save()
+                else:
+                    a = HOLIDAY.objects.filter(Date=date)
+                    a.update(Type=row['Type'])
+                    emp.Sick_Leaves -= 1
+                    emp.Vacation_Leaves += 1
+                    emp.save()            
+        messages.success(request, "Leaves updated successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
