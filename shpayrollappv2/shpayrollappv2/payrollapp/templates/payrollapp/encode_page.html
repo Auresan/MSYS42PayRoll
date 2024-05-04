@@ -53,7 +53,7 @@
                     {%for b in a%}
                     <tr>
                         <td>{{b.BANK_ENTRY_ID}}</td>
-                        <td>{{b.BANK_FILE_NAME}}</td>
+                        <td><a href="{% url 'download_file' file_id=b.BANK_FILE_NAME %}">{{b.BANK_FILE_NAME}}</a></td>
                         <td>{{b.PAYROLL_PERIOD}}</td>
                     </tr>
                     {% endfor %}

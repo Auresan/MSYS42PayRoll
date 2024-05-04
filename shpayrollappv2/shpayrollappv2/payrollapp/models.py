@@ -237,6 +237,7 @@ class USER_ACCOUNT(models.Model):
 class BANK_FILES(models.Model):
     BANK_ENTRY_ID = models.IntegerField(primary_key=True)
     BANK_FILE_NAME = models.CharField(max_length=250)
+    BANK_FILE = models.FileField(upload_to='files/')
     PAYROLL_PERIOD = models.CharField(max_length=250)
     def __str__(self):
         return str(self.BANK_FILE_NAME)

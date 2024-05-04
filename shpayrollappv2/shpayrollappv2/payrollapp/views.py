@@ -8,7 +8,7 @@ from .ModifierDBchanges import *
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-
+from django.http import FileResponse
 
 
 #'%d/%m/%Y
@@ -477,12 +477,13 @@ def encode_page(request, UID):
     z = Payslip_Transaction.objects.values_list('End_Date', flat=True).distinct()
     a = BANK_FILES.objects.all()
     if (request.method == "POST"):
-        companyaccountnumber = 1234567890
-        companycode="WT9"
+        #companyaccountnumber = 1234567890
+        #companycode="WT9"
         current_date = datetime.now()
         current_date = current_date.strftime('%Y%m%d')
         try:
             inputDate = request.POST.get('inputDate')
+            IDD = inputDate
             inputDate = datetime.strptime(inputDate, '%Y%m%d')
             #messages.success(request, str(joindate))
         except:
@@ -490,14 +491,18 @@ def encode_page(request, UID):
         payslip_match = Payslip_Transaction.objects.filter(End_Date=inputDate)
         current_date = datetime.now()
         formatted_date = current_date.strftime("%Y%m%d")
-        filename = 'EX' + formatted_date
+        filename = 'EX' + formatted_date + ".txt"
+        startDate = 0
         with open(filename, 'w') as file:
             for x in payslip_match:
+                startDate = x.Start_Date
                 if x.Employee_ID.BankNumber != 000000000000:
                     file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
                 else:
                     file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
-
+            startDate = startDate.strftime("%Y-%m-%d")
+            period = startDate + '-'+IDD
+            BANK_FILES.objects.create(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
             messages.success(request, "Bank File Successfully Encoded!")
 
         return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})
@@ -551,3 +556,8 @@ def settings(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     a = Department.objects.all()
     return render(request, 'payrollapp/settings.html', {'user':user, 'a':a})
+
+def download_file(request, file_id):
+    file_instance = get_object_or_404(BANK_FILES, BANK_FILE_NAME=file_id)
+    file_path = file_instance.BANK_FILE.path
+    return FileResponse(open(file_path, 'rb'), as_attachment=True)

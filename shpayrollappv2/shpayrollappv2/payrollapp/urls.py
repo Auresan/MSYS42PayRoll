@@ -43,5 +43,6 @@ urlpatterns = [
     path('settings/<int:UID>/', views.settings, name='settings'),
     path('Department_add/<int:UID>/', views.Department_add, name='Department_add'),
     path('Department_del/<int:UID>/', views.Department_del, name='Department_del'),
+    path('download/<str:file_id>/', views.download_file, name='download_file'),
     path('Reset_Leaves/<int:UID>/', views.Reset_Leaves, name='Reset_Leaves')
 ]
