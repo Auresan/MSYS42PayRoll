@@ -548,7 +548,7 @@ def HMO_DB(request, UID):
             messages.success(request, "Updated successfully!")
         else:#Update path
             HMO.objects.create(HMO_Amount=A_HMOA)
-            messages.success(request, "Created successfully!")
+            messages.success(request, "Updated successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/tax_module.html', {'user':user})

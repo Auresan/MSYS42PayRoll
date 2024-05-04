@@ -12,6 +12,13 @@
     </div>
   </div> 
    <hr>
+
+   {% for message in messages %}
+          <!--p class="{{ message.tags }}">{{ message }}</p-->
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Success!</strong> {{ message }}
+        </div>
+    {% endfor %}
    <div class="form-row">
     <div class="form-group col-md-2">
         <label for="inputID">ID Number</label>

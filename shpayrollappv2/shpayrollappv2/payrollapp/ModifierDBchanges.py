@@ -47,6 +47,7 @@ def HDMF_UPLOAD(request, UID):
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
             HDMF.objects.create(HDMF_Rate_ID=row['HDMF_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
+        messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         #
         return render(request, 'payrollapp/tax_module.html', {'user':user})
@@ -87,6 +88,7 @@ def SSS_UPLOAD(request, UID):
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
             SSS.objects.create(SSS_Rate_ID=row['SSS_Rate_ID'], Regular_SS_Employer_Rate=row['Regular_SS_Employer_Rate'], Regular_SS_Employee_Rate=row['Regular_SS_Employee_Rate'], EC_Contribution=row['EC_Contribution'], WISP_Employer_Rate=row['WISP_Employer_Rate'], WISP_Employee_Rate=row['WISP_Employee_Rate'], Total_Contribution=row['Total_Contribution'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
+        messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         
         return render(request, 'payrollapp/tax_module.html', {'user':user})
@@ -126,6 +128,7 @@ def PH_UPLOAD(request, UID):
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
             PhilHealth.objects.create(PhilHealth_Rate_ID=row['PhilHealth_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
+        messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         
         return render(request, 'payrollapp/tax_module.html', {'user':user})
@@ -165,6 +168,7 @@ def WitholdingTax_UPLOAD(request, UID):
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
             WitholdingTax.objects.create(WTAX_Rate_ID=row['WTAX_Rate_ID'], Fix_Tax_Amount=row['Fix_Tax_Amount'], Tax_Rate_On_Excess=row['Tax_Rate_On_Excess'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
+        messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         
         return render(request, 'payrollapp/tax_module.html', {'user':user})
@@ -434,6 +438,7 @@ def A_UPLOAD(request, UID):
                     print("WOOHOO")
             else:
                 pass
+        messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         return render(request, 'payrollapp/attendance_db.html', {'user':user})
     else:
@@ -456,6 +461,7 @@ def Holiday_UPLOAD(request, UID):
         for _, row in df.iterrows():
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
             HOLIDAY.objects.create(Holiday_ID=row['Holiday_ID'], Type=row['Type'], Date=date)
+        messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         
         return render(request, 'payrollapp/tax_module.html', {'user':user})
@@ -513,7 +519,6 @@ def HMO_DB(request, UID):
             messages.success(request, "Updated successfully!")
         else:#Update path
             HMO.objects.create(HMO_Amount=A_HMOA)
-            messages.success(request, "Created successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/tax_module.html', {'user':user})
