@@ -74,8 +74,8 @@
                   <td>{{x.TimeOut_2}}</td>
                   <form method="POST" action="#">{% csrf_token %}
                     <input hidden value="{{x.History_ID}}" id="entryid" name="entryid"></input>
-                      <td><input type="float" class="form-control" id="empOT" name="empOT" value=" {{x.OT}}"></td>
-                      <td><input type="float" class="form-control" id="empNightShft" name="empNightShft" value="{{x.NightShift}}"></td>
+                      <td><input type="float" class="form-control" id="empOT" name="empOT" value=" {{x.OT}}" pattern="[0-4]" required></td>
+                      <td><input type="float" class="form-control" id="empNightShft" name="empNightShft" value="{{x.NightShift}}"  pattern="[0-8]" required></td>
                       <td><li><button class="btn btn-success" type="submit">Update</button></li></td>
                   </form>
               </tr>
