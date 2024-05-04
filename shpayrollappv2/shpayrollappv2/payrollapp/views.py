@@ -488,8 +488,10 @@ def encode_page(request, UID):
         except:
             pass
         payslip_match = Payslip_Transaction.objects.filter(End_Date=inputDate)
-        
-        with open('output.txt', 'w') as file:
+        current_date = datetime.now()
+        formatted_date = current_date.strftime("%Y%m%d")
+        filename = 'EX' + formatted_date
+        with open(filename, 'w') as file:
             for x in payslip_match:
                 if x.Employee_ID.BankNumber != 000000000000:
                     file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
