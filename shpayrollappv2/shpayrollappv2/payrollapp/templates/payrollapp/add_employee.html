@@ -70,9 +70,9 @@
             <div class="form-group col-md-3">
                 <label for="inputEmpStat">Contract Status</label>
                 <select id="inputEmpStat" name="inputEmpStat" class="form-control" required>
-                  <option disabled selected hidden>Choose Status</option>
+                  <!--option >Choose Status</option-->
                   <option value="Hired">Hired</option>
-                  <option value="Probationary">Probationary</option>
+                  <option selected value="Probationary">Probationary</option>
                   <option value="On Leave">Terminated</option>
                 </select>
             </div>
@@ -86,7 +86,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="inputPosition">Employee Position</label>
-                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="" pattern="[A-Za-z ]*" required >
+                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="" pattern="[A-Za-z]* [A-Za-z ]*" required >
             </div>
             
         </div>
