@@ -55,25 +55,25 @@
                 <tbody>
                     <tr>
                         <td style="width:8%">Basic Pay</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                         <td style="width:8%">W/ Tax</td>
-                        <td style="width:7%" value="">{{payrolls.WTAX_Rate_ID}}</td>
+                        <td style="width:7%"><input value='{{payrolls.WTAX_Rate_ID}}' readonly class="form-control-plaintext "></td>
                         <td style="width:8%">COOP</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='{{payrolls.COOP_Rate_ID.COOP_Amount}}' readonly class="form-control-plaintext "></td>
                     </tr>
                     <tr>
                         <td style="width:8%">COLA & Others</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                         <td style="width:8%">SSS-WSIP</td>
-                        <td style="width:7%">{{payrolls.SSS_Rate_ID}}</td>
+                        <td style="width:7%"><input value='{{payrolls.SSS_Rate_ID}}' readonly class="form-control-plaintext "></td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
                     <tr>
                         <td style="width:8%">Additional</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                         <td style="width:8%">SSS-PREM</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
@@ -81,7 +81,7 @@
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">Lates/Absences</td>
-                        <td style="width:7%">{{payrolls.Absence_Deductions}}</td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext ">{{payrolls.Absence_Deductions}}</td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
@@ -89,7 +89,7 @@
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">PHILHEALTH</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='{{payrolls.PhilHealth_Rate_ID}}' readonly class="form-control-plaintext "></td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
@@ -97,31 +97,31 @@
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">HDMF PREM</td>
-                        <td style="width:7%">{{payrolls.HDMF_Rate_ID}}</td>
+                        <td style="width:7%"><input value='{{payrolls.HDMF_Rate_ID}}' readonly class="form-control-plaintext ">{{payrolls.HDMF_Rate_ID}}</td>
                         <td style="width:8%">SL</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                     </tr>
                     <tr>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">HDMF Loan</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                         <td style="width:8%">VL</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                     </tr>
                     <tr>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">SSS Loan</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='{{payrolls.SSS_Rate_ID}}' readonly class="form-control-plaintext "></td>
                         <td style="width:8%">Absent</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                     </tr>
                     <tr>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">C/A - Personal</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='{{payrolls.CA_Rate_ID.CA_Amount}}' readonly class="form-control-plaintext "></td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
@@ -129,7 +129,7 @@
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">Uniform/Laptop</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='{{payrolls.ULDeductions_Rate_ID.ULDeductions_Amount}}' readonly class="form-control-plaintext "></td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
@@ -137,17 +137,17 @@
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                         <td style="width:8%">Maxicare</td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='{{payrolls.HMO_Rate_ID}}' readonly class="form-control-plaintext "></td>
                         <td style="width:8%"></td>
                         <td style="width:7%"></td>
                     </tr>
                     <tr>
                         <td style="width:8%"><b>TOTAL:</b></td>
-                        <td style="width:7%"></td>
+                        <td style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                         <td style="width:8%"><b>TOTAL:</b></td>
                         <td style="width:7%">{{payrolls.Total_Deductions}}</td>
                         <td class="table-secondary" style="width:8%"><b>NET PAY:</b></td>
-                        <td class="table-secondary" style="width:7%"></td>
+                        <td class="table-secondary" style="width:7%"><input value='' readonly class="form-control-plaintext "></td>
                     </tr>
                 </tbody>
             </table>
