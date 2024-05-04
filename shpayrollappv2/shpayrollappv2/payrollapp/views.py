@@ -42,11 +42,13 @@ def dashboard(request, UID):
     count_payrolls=Payslip_Transaction.objects.all().count()
     current_hmo=HMO.objects.all().filter().count()
     count_hmo=count_emp-current_hmo
+    countdown = (datetime(2024, 5, 10)-datetime.now()) 
     return render(request, 'payrollapp/dashboard.html',{
         'user':user,
         'count_emp':count_emp,
         'count_payrolls':count_payrolls,
-        'count_hmo':count_hmo
+        'count_hmo':count_hmo,
+        'countdown':countdown
         } )
 
 ##@login_required
@@ -463,15 +465,26 @@ def attendance_db(request, UID):
 def employee_attendance(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     a = get_object_or_404(Employee, pk=EID)
-    attendance_record = ATTENDANCE_HISTORY.objects.filter(Employee_ID=a).values() 
+    attendance_record = ATTENDANCE_HISTORY.objects.filter(Employee_ID=a).order_by('-Date').values() 
+
+    if(request.method=="POST"):
+        Over_hrs = request.POST.get('empOT')
+        Night_hrs = request.POST.get('empNightShft')
+        Attendance_entry = request.POST.get('entryid')
+        Attendance_entry=get_object_or_404(ATTENDANCE_HISTORY, History_ID=Attendance_entry)
+        Attendance_entry.OT=Over_hrs
+        Attendance_entry.NightShift=Night_hrs
+        Attendance_entry.save()
+        
+        messages.success(request, "Employee attendance updated successfully!")
+        return render(request, 'payrollapp/employee_attendance.html', {'user':user, 'a':a, 'attendance_record':attendance_record})
+    
     return render(request, 'payrollapp/employee_attendance.html', {'user':user, 'a':a, 'attendance_record':attendance_record})
 
-##@login_required
 def tax_module(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     return render(request, 'payrollapp/tax_module.html', {'user':user})
 
-##@login_required
 def encode_page(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     z = Payslip_Transaction.objects.values_list('End_Date', flat=True).distinct()
@@ -535,7 +548,7 @@ def HMO_DB(request, UID):
             messages.success(request, "Updated successfully!")
         else:#Update path
             HMO.objects.create(HMO_Amount=A_HMOA)
-            messages.success(request, "Created successfully!")
+            messages.success(request, "Updated successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/tax_module.html', {'user':user})
