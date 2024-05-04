@@ -212,6 +212,8 @@ class ATTENDANCE_HISTORY(models.Model):
     Date = models.DateField(blank=True, null=True)
     OT = models.FloatField()#If in excess of 8 add to OT
     NightShift = models.FloatField()
+    OT_applied = models.CharField(max_length=250, blank=True, null=True)#If in excess of 8 add to OT
+    NightShift_applied = models.CharField(max_length=250, blank=True, null=True)
     #OT = models.FloatField()
     HoursWorked = models.FloatField()
     def getID(self):

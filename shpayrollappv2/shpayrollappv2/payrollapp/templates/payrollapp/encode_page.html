@@ -5,6 +5,27 @@
 <div class="main">
     <div class="content">
         <h1> Bank Payroll File Encoding</h1>
+        {% if messages %}
+        {% for message in messages %}
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Success!</strong> {{ message }}
+        </div>
+        
+        <!--{% if messages.tags == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Success!</strong> {{ message }}
+        </div>
+        {% endif %}
+
+        {% if messages.tags == 'error' %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Error!</strong> {{ message }}
+        </div>
+        {% endif %}-->
+
+        {% endfor %}
+      {% endif %}
         <div class="card">
             <div class="card-body">
                 <form method="POST" action="#">{% csrf_token %}

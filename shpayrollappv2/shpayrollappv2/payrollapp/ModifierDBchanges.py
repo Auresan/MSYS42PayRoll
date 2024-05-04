@@ -48,7 +48,8 @@ def HDMF_UPLOAD(request, UID):
         for _, row in df.iterrows():
             HDMF.objects.create(HDMF_Rate_ID=row['HDMF_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         print("Data imported and database cleared successfully.")
-        #
+        messages.success(request, "Employee created successfully!")
+        
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
@@ -88,6 +89,7 @@ def SSS_UPLOAD(request, UID):
         for _, row in df.iterrows():
             SSS.objects.create(SSS_Rate_ID=row['SSS_Rate_ID'], Regular_SS_Employer_Rate=row['Regular_SS_Employer_Rate'], Regular_SS_Employee_Rate=row['Regular_SS_Employee_Rate'], EC_Contribution=row['EC_Contribution'], WISP_Employer_Rate=row['WISP_Employer_Rate'], WISP_Employee_Rate=row['WISP_Employee_Rate'], Total_Contribution=row['Total_Contribution'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         print("Data imported and database cleared successfully.")
+        messages.success(request, "Employee created successfully!")
         
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
@@ -127,7 +129,7 @@ def PH_UPLOAD(request, UID):
         for _, row in df.iterrows():
             PhilHealth.objects.create(PhilHealth_Rate_ID=row['PhilHealth_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         print("Data imported and database cleared successfully.")
-        
+        messages.success(request, "Employee created successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
@@ -166,7 +168,7 @@ def WitholdingTax_UPLOAD(request, UID):
         for _, row in df.iterrows():
             WitholdingTax.objects.create(WTAX_Rate_ID=row['WTAX_Rate_ID'], Fix_Tax_Amount=row['Fix_Tax_Amount'], Tax_Rate_On_Excess=row['Tax_Rate_On_Excess'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         print("Data imported and database cleared successfully.")
-        
+        messages.success(request, "Employee created successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
@@ -213,7 +215,14 @@ def A_UPLOAD(request, UID):
                 date = current_date_str[-4:] + date #10BIT: Check this again
                 date = datetime.strptime(date, "%Y-%m-%d")
 
-            xms = ATTENDANCE_HISTORY.objects.filter(Date=date)
+            id = row['NAME']
+            id = id.upper()
+            print('ID: ' + str(id))
+            for x in Employee_check:
+                if x.id_number == id:
+                    Employee_t= get_object_or_404(Employee, id_number=x.id_number)
+
+            xms = ATTENDANCE_HISTORY.objects.filter(Date=date, Employee_ID=Employee_t)
             print(date)
             print(xms)
             print(type(xms))
@@ -223,12 +232,7 @@ def A_UPLOAD(request, UID):
             print('Benis')
 
             if not xms:
-                id = row['NAME']
-                id = id.upper()
-                print('ID: ' + str(id))
-                for x in Employee_check:
-                    if x.id_number == id:
-                        Employee_t= get_object_or_404(Employee, id_number=x.id_number)
+                
 
                 for x in holiday_check:
                     if x.date == date:
@@ -435,6 +439,7 @@ def A_UPLOAD(request, UID):
             else:
                 pass
         print("Data imported and database cleared successfully.")
+        messages.success(request, "Employee created successfully!")
         return render(request, 'payrollapp/attendance_db.html', {'user':user})
     else:
         print("No file selected.")
@@ -457,7 +462,7 @@ def Holiday_UPLOAD(request, UID):
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
             HOLIDAY.objects.create(Holiday_ID=row['Holiday_ID'], Type=row['Type'], Date=date)
         print("Data imported and database cleared successfully.")
-        
+        messages.success(request, "Employee created successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
@@ -492,7 +497,7 @@ def Leave_UPLOAD(request, UID):
             if (row['Type'] != 'Sick') or (row['Type'] == 'Vacation'):
                 print(str(row['Type'])+str(row['Employee_ID'])+str(row['Start_Date'])+'Not Added')
             
-        
+        messages.success(request, "Employee created successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")
