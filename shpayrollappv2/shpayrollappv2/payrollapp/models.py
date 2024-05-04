@@ -12,7 +12,7 @@ class Employee(models.Model):
     Join_Date = models.DateField(blank=True, null=True)
     Phone_Number = models.CharField(max_length=255)
     Email = models.CharField(max_length=255)
-    BankNumber = models.IntegerField()
+    BankNumber = models.CharField(max_length=255)
     Salary   = models.FloatField()
     Vacation_Leaves = models.IntegerField()
     Sick_Leaves = models.IntegerField()
