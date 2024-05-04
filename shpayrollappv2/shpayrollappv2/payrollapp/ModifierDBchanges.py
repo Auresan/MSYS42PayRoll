@@ -218,13 +218,15 @@ def A_UPLOAD(request, UID):
                 date = date[4:]
                 date = current_date_str[-4:] + date #10BIT: Check this again
                 date = datetime.strptime(date, "%Y-%m-%d")
-
-            id = row['NAME']
-            id = id.upper()
-            print('ID: ' + str(id))
-            for x in Employee_check:
-                if x.id_number == id:
-                    Employee_t= get_object_or_404(Employee, id_number=x.id_number)
+            if row['NAME'] == 'NaT':
+                continue
+            else:
+                id = row['NAME']
+                id = id.upper()
+                print('ID: ' + str(id))
+                for x in Employee_check:
+                    if x.id_number == id:
+                        Employee_t= get_object_or_404(Employee, id_number=x.id_number)
 
             xms = ATTENDANCE_HISTORY.objects.filter(Date=date, Employee_ID=Employee_t)
             print(date)

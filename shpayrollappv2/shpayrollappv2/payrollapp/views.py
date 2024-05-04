@@ -38,6 +38,7 @@ def reset_pw(request):
 
 def dashboard(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
+    a = BANK_FILES.objects.all()
     count_emp=Employee.objects.all().count()
     count_payrolls=Payslip_Transaction.objects.all().count()
     current_hmo=HMO.objects.all().filter().count()
@@ -50,13 +51,22 @@ def dashboard(request, UID):
             target_date = datetime(current_date.year + 1, 1, 10)
         else:
             target_date = datetime(current_date.year, current_date.month + 1, 10)
-    countdown = (target_date-current_date) 
+    countdown = (target_date-current_date)
+    days = countdown.days
+    hours, remainder = divmod(countdown.seconds, 3600)
+    minutes, _ = divmod(remainder, 60)
+
+    # Format into a string
+    formatted_str = f"{days} days, {hours} hours, {minutes} minutes" 
+    print(type(formatted_str))
+    print((formatted_str))
     return render(request, 'payrollapp/dashboard.html',{
         'user':user,
         'count_emp':count_emp,
         'count_payrolls':count_payrolls,
         'count_hmo':count_hmo,
-        'countdown':countdown
+        'countdown':formatted_str,
+        'a':a
         } )
 
 ##@login_required
@@ -408,12 +418,13 @@ def employee_info(request, UID, EID):
         try:
             joindate = request.POST.get('inputJoinDate')
             print(type(joindate))
+            print(joindate)
         except:
             messages.warning(request, "Error missing values joindate") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
             return render(request, 'payrollapp/employee_info.html', {'user':user,'a':a})
         try:
             # Convert the date string to a datetime object
-            joindate = datetime.strptime(joindate, "%B %d, %Y").date()
+            joindate = datetime.strptime(joindate, "%Y-%m-%d").date()
         except ValueError:
             # Handle the case where the date string is not in the correct format
             messages.warning(request, "Invalid date format. Please use YYYY-MM-DD. " + joindate)
@@ -510,7 +521,7 @@ def encode_page(request, UID):
         except:
             pass
         payslip_match = Payslip_Transaction.objects.filter(End_Date=inputDate)
-        current_date = datetime.now()
+        current_date = datetime.now()#It broke so this is being redone again
         formatted_date = current_date.strftime("%Y%m%d")
         filename = 'EX' + formatted_date + ".txt"
         startDate = 0
@@ -524,7 +535,8 @@ def encode_page(request, UID):
                         file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
                     startDate = startDate.strftime("%Y-%m-%d")
                     period = startDate + '-'+IDD
-                    existingFile = BANK_FILES.objects.filter(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
+                    current_date = datetime.now().date()
+                    existingFile = BANK_FILES.objects.filter(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period, Date=current_date)
                     existingFile.update(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
                     messages.success(request, "Bank File Successfully Encoded!")
         else:
@@ -537,7 +549,8 @@ def encode_page(request, UID):
                         file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
                 startDate = startDate.strftime("%Y-%m-%d")
                 period = startDate + '-'+IDD
-                BANK_FILES.objects.create(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
+                current_date = datetime.now().date()
+                BANK_FILES.objects.create(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period, Date=current_date)
                 messages.success(request, "Bank File Successfully Encoded!")
 
         return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})

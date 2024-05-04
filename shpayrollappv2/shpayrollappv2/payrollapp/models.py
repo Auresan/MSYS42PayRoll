@@ -241,6 +241,7 @@ class BANK_FILES(models.Model):
     BANK_FILE_NAME = models.CharField(max_length=250)
     BANK_FILE = models.FileField(upload_to='files/')
     PAYROLL_PERIOD = models.CharField(max_length=250)
+    Date = models.DateField()
     def __str__(self):
         return str(self.BANK_FILE_NAME)
     
