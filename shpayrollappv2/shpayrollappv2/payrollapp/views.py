@@ -7,6 +7,8 @@ from .taxEmployee_salary import *
 from .ModifierDBchanges import *
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+
 
 
 #'%d/%m/%Y
@@ -450,15 +452,17 @@ def employee_info(request, UID, EID):
 
 ##@login_required
 def attendance_db(request, UID):
+    a =  Employee.objects.all()
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
-    return render(request, 'payrollapp/attendance_db.html', {'user':user})
+    b = ATTENDANCE_HISTORY.objects.values('Employee_ID').annotate(OT__sum=Sum('OT'), HoursWorked=Sum('HoursWorked'), leaves_left=15-Count('Leave_ID'))
+
+    return render(request, 'payrollapp/attendance_db.html', {'user':user, 'a':a, 'b':b})
 
 ##@login_required
 def employee_attendance(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     a = get_object_or_404(Employee, pk=EID)
     attendance_record = ATTENDANCE_HISTORY.objects.filter(Employee_ID=a).values() 
-
     return render(request, 'payrollapp/employee_attendance.html', {'user':user, 'a':a, 'attendance_record':attendance_record})
 
 ##@login_required

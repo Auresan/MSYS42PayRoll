@@ -52,25 +52,23 @@
                 <thead>
                     <tr>
                         <th style="width:10%">ID</th>
-                        <th style="width:20%">Name</th>
-                        <th style="width:15%">Days Present</th>
-                        <th style="width:15%">Total Working Days</th>
+                        <th style="width:15%">Total Working Hours</th>
                         <th style="width:15%">Overtime Hours</th>
-                        <th style="width:10%">Leaves Taken</th>
+                        <th style="width:10%">Leaves Left</th>
                         <th style="width:10%">Options</th>
                     </tr>
                 </thead>
+                {% for i in b%}
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><a class="btn" href="#"><i class="lni lni-pencil-alt" style="color:#861C1A"></i></a></td-->
+                        <td>{{i.Employee_ID}}</td>
+                        <td>{{i.HoursWorked}}</td>
+                        <td>{{i.OT__sum}}</td>
+                        <td>{{i.leaves_left}}</td>
+                        <td><a class="btn" href="{% url 'employee_attendance' UID=user.pk EID=i.Employee_ID %}"><i class="lni lni-pencil-alt" style="color:#861C1A"></i></a></td>
                     </tr>
                 </tbody>
+                {% endfor %}
             </table>
         </div>
     </div>

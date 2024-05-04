@@ -4,7 +4,13 @@
 {% block content %}
    
 <div class="content">
-   <h2> Attendance History </h2> 
+  <div class="form-row"> 
+    <h2 class="form-group col-md-6" > Attendance History</h1>
+    <div class="action-icons col-md-6">
+      <a class="btn btn-info form-group" href="{% url 'employee_info' UID=user.pk EID=a.pk %}">Employee Info</a>
+      <a class="btn btn-primary form-group" href="{% url 'attendance_db' UID=user.pk %}">Attendance Database</a>
+    </div>
+  </div> 
    <hr>
    <div class="form-row">
     <div class="form-group col-md-2">
@@ -31,8 +37,8 @@
               <tr>
                   <th style="width:10%">Date</th>
                   <!--th style="width:20%">Attendance Status</t-->
-                  <th style="width:15%">Leave</th>
-                  <th style="width:15%">Holiday</th>
+                  <th style="width:10%">Leave</th>
+                  <th style="width:10%">Holiday</th>
                   <th style="width:15%">Time In</th>
                   <th style="width:15%">Time Out</th>
                   <th style="width:15%">Overtime Hours</th>
@@ -45,7 +51,6 @@
                   <td>{{x.Date}}</td>
                   <td><input type="float" class="form-control" id="" value=""></td>
                   <td><input type="float" class="form-control" id="" value=""></td>
-                  <td></td>
                   <td>{{x.TimeIn}}</td>
                   <td>{{x.TimeOut_2}}</td>
                   <td><input type="float" class="form-control" id="empOT" value=" {{x.OT}}"></td>
@@ -62,11 +67,11 @@
     </div>
   </form>
 </div>
-<footer>
+<!--footer>
     <div class="footer-wrap">
       <div class="back-button">
           <a class="btn btn-dark mx-3" href="{% url 'employee_info' UID=user.pk EID=a.pk %}" type="button">Back</a>
       </div>
     </div>
-  </footer>
+</footer-->
 {% endblock %}
