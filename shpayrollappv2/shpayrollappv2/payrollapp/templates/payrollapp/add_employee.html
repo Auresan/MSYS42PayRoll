@@ -36,15 +36,15 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputFstName">First Name</label>
-            <input type="text" class="form-control" id="inputFstName" name="inputFstName" placeholder="" required >
+            <input type="text" class="form-control" id="inputFstName" name="inputFstName" placeholder="" required maxlength="255" pattern="[A-Za-z]*">
           </div>
           <div class="form-group col-md-4">
             <label for="inputMidName">Middle Name</label>
-            <input type="text" class="form-control" id="inputMidName" name="inputMidName" placeholder="" value=''>
+            <input type="text" class="form-control" id="inputMidName" name="inputMidName" placeholder="" value='' maxlength="255" pattern="[A-Za-z]*">
           </div>
           <div class="form-group col-md-4">
             <label for="inputLtName">Last Name</label>
-            <input type="text" class="form-control" id="inputLtName" name="inputLtName" placeholder="" required>
+            <input type="text" class="form-control" id="inputLtName" name="inputLtName" placeholder="" required maxlength="255" pattern="[A-Za-z]*">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPhone">Phone Number</label>
@@ -69,12 +69,11 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="inputEmpStat">Contract Status</label>
-                <select id="inputEmpStat" name="inputEmpStat" class="form-control">
-                  <option selected>Choose Status</option>
+                <select id="inputEmpStat" name="inputEmpStat" class="form-control" required>
+                  <option disabled selected hidden>Choose Status</option>
                   <option value="Hired">Hired</option>
                   <option value="Probationary">Probationary</option>
-                  <option value="On Leave">On Leave</option>
-                  <option value="Internship">Internship</option>
+                  <option value="On Leave">Terminated</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
@@ -87,7 +86,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="inputPosition">Employee Position</label>
-                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="" required>
+                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="" required pattern="[A-Za-z]*">
             </div>
             
         </div>
@@ -97,7 +96,7 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="inputBankAccNo">Bank Account Number</label>
-                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="For Newhires: 000000000000" minlength='12' maxlength='12' required>
+                <input type="text" class="form-control" id="inputBankAccNo" name="inputBankAccNo" placeholder="For Newhires: 000000000000" minlength='12' maxlength='12' pattern="[00]{10}" required>
             </div>
             <div class="form-group col-md-4">
                 <label for="inputSalary">Salary</label>

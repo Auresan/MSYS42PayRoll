@@ -65,7 +65,7 @@
                         <td>{{i.HoursWorked}}</td>
                         <td>{{i.OT__sum}}</td>
                         <td>{{i.leaves_left}}</td>
-                        <td><a class="btn" href="{% url 'employee_attendance' UID=user.pk EID=i.Employee_ID %}"><i class="lni lni-pencil-alt" style="color:#861C1A"></i></a></td>
+                        <td><a class="btn" href="{% url 'employee_attendance' UID=user.pk EID=i.Employee_ID %}"><i class="lni lni-pencil-alt"></i></a></td>
                     </tr>
                 </tbody>
                 {% endfor %}

@@ -456,6 +456,7 @@ def attendance_db(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     b = ATTENDANCE_HISTORY.objects.values('Employee_ID').annotate(OT__sum=Sum('OT'), HoursWorked=Sum('HoursWorked'), leaves_left=15-Count('Leave_ID'))
 
+
     return render(request, 'payrollapp/attendance_db.html', {'user':user, 'a':a, 'b':b})
 
 ##@login_required
