@@ -42,7 +42,15 @@ def dashboard(request, UID):
     count_payrolls=Payslip_Transaction.objects.all().count()
     current_hmo=HMO.objects.all().filter().count()
     count_hmo=count_emp-current_hmo
-    countdown = (datetime(2024, 5, 10)-datetime.now()) 
+    current_date = datetime.now()
+    if current_date.day < 10:
+        target_date = datetime(current_date.year, current_date.month, 10)
+    else:
+        if current_date.month == 12:  # Handle December case
+            target_date = datetime(current_date.year + 1, 1, 10)
+        else:
+            target_date = datetime(current_date.year, current_date.month + 1, 10)
+    countdown = (target_date-current_date) 
     return render(request, 'payrollapp/dashboard.html',{
         'user':user,
         'count_emp':count_emp,
@@ -506,17 +514,31 @@ def encode_page(request, UID):
         formatted_date = current_date.strftime("%Y%m%d")
         filename = 'EX' + formatted_date + ".txt"
         startDate = 0
-        with open(filename, 'w') as file:
-            for x in payslip_match:
-                startDate = x.Start_Date
-                if x.Employee_ID.BankNumber != 000000000000:
-                    file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
-                else:
-                    file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
-            startDate = startDate.strftime("%Y-%m-%d")
-            period = startDate + '-'+IDD
-            BANK_FILES.objects.create(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
-            messages.success(request, "Bank File Successfully Encoded!")
+        if BANK_FILES.objects.filter(BANK_FILE_NAME=filename).exists():
+            with open(filename, 'w') as file:
+                for x in payslip_match:
+                    startDate = x.Start_Date
+                    if x.Employee_ID.BankNumber != 000000000000:
+                        file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
+                    else:
+                        file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
+                    startDate = startDate.strftime("%Y-%m-%d")
+                    period = startDate + '-'+IDD
+                    existingFile = BANK_FILES.objects.filter(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
+                    existingFile.update(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
+                    messages.success(request, "Bank File Successfully Encoded!")
+        else:
+            with open(filename, 'w') as file:
+                for x in payslip_match:
+                    startDate = x.Start_Date
+                    if x.Employee_ID.BankNumber != 000000000000:
+                        file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
+                    else:
+                        file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
+                startDate = startDate.strftime("%Y-%m-%d")
+                period = startDate + '-'+IDD
+                BANK_FILES.objects.create(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
+                messages.success(request, "Bank File Successfully Encoded!")
 
         return render(request, 'payrollapp/encode_page.html', {'user':user, 'a':a, 'z':z})
     else:
