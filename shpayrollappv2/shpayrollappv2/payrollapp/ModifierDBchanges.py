@@ -195,7 +195,8 @@ def A_UPLOAD(request, UID):
     # Add data from the DataFrame into the database
         for _, row in workinghours_df.iterrows():
             if row['Date'] == 'NaT':
-                pass
+                print('Fail')
+                continue
             else:
             
 
@@ -210,6 +211,17 @@ def A_UPLOAD(request, UID):
                 date = date[4:]
                 date = current_date_str[-4:] + date #10BIT: Check this again
                 date = datetime.strptime(date, "%Y-%m-%d")
+
+            xms = ATTENDANCE_HISTORY.objects.filter(Date=date)
+            print(date)
+            print(xms)
+            print(type(xms))
+            print(xms==None)
+            print(xms.exists())
+            print(not xms.exists())
+            print('Benis')
+
+            if not xms:
                 id = row['NAME']
                 id = id.upper()
                 print('ID: ' + str(id))
@@ -419,9 +431,10 @@ def A_UPLOAD(request, UID):
                     x.Leave_ID = leave_true
                     x.save()
                     print("WOOHOO")
-
-            print("Data imported and database cleared successfully.")
-            return render(request, 'payrollapp/attendance_db.html', {'user':user})
+            else:
+                pass
+        print("Data imported and database cleared successfully.")
+        return render(request, 'payrollapp/attendance_db.html', {'user':user})
     else:
         print("No file selected.")
         return render(request, 'payrollapp/attendance_db.html', {'user':user})

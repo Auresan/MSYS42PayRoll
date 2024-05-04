@@ -3,6 +3,9 @@
 
 {% block content %}
 
+
+
+
 <div class="content">
     <div class="card">
         <h4 class="card-header">Generate Payroll</h4>
@@ -107,8 +110,32 @@
     </div>
 
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const startDateInput = document.getElementById('inputStartDate');
+    const endDateInput = document.getElementById('inputEndDate');
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+    const tenthOfMonth = new Date(currentYear, currentMonth, 10);
+
+    function isValidDate(date) {
+        const day = date.getDate();
+        return (day >= 8 && day <= 12) || (day >= 23 && day <= 27);
+    }
 
 
+    endDateInput.addEventListener('input', function() {
+        const endDate = new Date(endDateInput.value);
+        const startDate = new Date(endDate.getTime() - (14 * 24 * 60 * 60 * 1000)); // Add 14 days
+        const startDateFormatted = startDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
+        startDateInput.value = startDateFormatted;
+        if (!isValidDate(endDate)) {
+            alert('Please select a valid date between 8-12 or 23-27.');
+            dateInput.valueAsDate = tenthOfMonth; // Reset to the 10th of the month
+        }
+    });
+</script>
     
 
 

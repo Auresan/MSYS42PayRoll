@@ -299,37 +299,41 @@ def generate_page(request, UID):
         #Run the calculation for values
         #for x in employee_list:
         #    calculateSALARY(x.id_number)
-        total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID, OT, Holiday_Comp, Total_Deductions = calculateSALARY(employee, start, end, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
-        try:
-            LatestPayslip = Payslip_Transaction.objects.last()
-            PayslipID = LatestPayslip.Transaction_ID+ 1
-        except:
-            PayslipID = 1
+        total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID, OT, NightIncrease , Holiday_Comp, Total_Deductions = calculateSALARY(employee, start, end, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
+#        try:
+ #           LatestPayslip = Payslip_Transaction.objects.last()
+  #          PayslipID = LatestPayslip.Transaction_ID+ 1
+   #     except:
+    #        PayslipID = 1
         
         try:
-            xyz = get_object_or_404(HMO, pk=employee)
-            Payslip_Transaction.objects.create(Transaction_ID = PayslipID,
-            Date_Distributed = datetime.now().date(),
-            Start_Date = start,
-            End_Date = end,
-            Net_Pay = total,
-            Total_Deductions= Total_Deductions,
-            Absence_Deductions = absenceDues,
-            OT= OT,
-            Holiday_Comp = Holiday_Comp,
-            Employee_ID = get_object_or_404(Employee, pk=employee),
-            SSS_Rate_ID = SSS_RATE_ID,
-            PhilHealth_Rate_ID = PH_ID,
-            HDMF_Rate_ID = HDMF_ID,
-            WTAX_Rate_ID = WITH_ID,
-            HMO_Rate_ID = xyz.HMO_Amount,
-            ULDeductions_Rate_ID = UNIFORMLAPTOPDEDUCTIONS.objects.last(),
-            CA_Rate_ID = CA.objects.last(),
-            COOP_Rate_ID = COOP.objects.last(),
-            COLA_Rate_ID = COLA.objects.last(),
-            AddtlEarning_Rate_ID = ADDITIONAL_EARNINGS.objects.last()
-            )
-            messages.success(request, "Payroll successfully generated!")
+            if Payslip_Transaction.objects.filter(End_Date=end).exists():
+                print('error already exists')
+            else:
+                xyz = get_object_or_404(HMO, pk=1)
+                Payslip_Transaction.objects.create(
+                Date_Distributed = datetime.now().date(),
+                Start_Date = start,
+                End_Date = end,
+                Net_Pay = total,
+                Total_Deductions= Total_Deductions,
+                Absence_Deductions = absenceDues,
+                OT= OT,
+                NightShift = NightIncrease,
+                Holiday_Comp = Holiday_Comp,
+                Employee_ID = get_object_or_404(Employee, pk=employee),
+                SSS_Rate_ID = SSS_RATE_ID,
+                PhilHealth_Rate_ID = PH_ID,
+                HDMF_Rate_ID = HDMF_ID,
+                WTAX_Rate_ID = WITH_ID,
+                HMO_Rate_ID = xyz.HMO_Amount,
+                ULDeductions_Rate_ID = UNIFORMLAPTOPDEDUCTIONS.objects.last(),
+                CA_Rate_ID = CA.objects.last(),
+                COOP_Rate_ID = COOP.objects.last(),
+                COLA_Rate_ID = COLA.objects.last(),
+                AddtlEarning_Rate_ID = ADDITIONAL_EARNINGS.objects.last()
+                )
+                messages.success(request, "Payroll successfully generated!")
 
         except:
             print("Soemthing fked up")

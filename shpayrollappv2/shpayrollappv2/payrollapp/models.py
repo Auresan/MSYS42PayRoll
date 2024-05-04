@@ -180,6 +180,7 @@ class Payslip_Transaction(models.Model):
     Total_Deductions = models.FloatField()
     Absence_Deductions = models.FloatField()
     OT = models.FloatField()
+    NightShift = models.FloatField()
     Holiday_Comp = models.FloatField()
     Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
     SSS_Rate_ID = models.FloatField()
