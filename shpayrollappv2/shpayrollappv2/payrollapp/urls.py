@@ -39,5 +39,9 @@ urlpatterns = [
     path('Leave_UPLOAD/<int:UID>', views.Leave_UPLOAD, name='Leave_UPLOAD'),
     path('HMO_DB/<int:UID>', views.HMO_DB, name='HMO_DB'),
     path('reset_pw/', views.reset_pw, name='reset_pw'),
-    path('payslip/<int:UID>/<str:TID>/', views.payslip, name='payslip')
+    path('payslip/<int:UID>/<str:TID>/', views.payslip, name='payslip'),
+    path('settings/<int:UID>/', views.settings, name='settings'),
+    path('Department_add/<int:UID>/', views.Department_add, name='Department_add'),
+    path('Department_del/<int:UID>/', views.Department_del, name='Department_del'),
+    path('Reset_Leaves/<int:UID>/', views.Reset_Leaves, name='Reset_Leaves')
 ]

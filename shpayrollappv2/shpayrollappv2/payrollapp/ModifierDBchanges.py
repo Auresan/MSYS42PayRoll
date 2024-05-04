@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from datetime import datetime, timedelta
 from django.conf import settings
 import os
+from django.contrib import messages
 
 def HDMF_UPLOAD(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
@@ -497,3 +498,55 @@ def Leave_UPLOAD(request, UID):
         print("No file selected.")
         #
         return render(request, 'payrollapp/tax_module.html', {'user':user})
+    
+
+def HMO_DB(request, UID):
+    a = HMO.objects.all()
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+
+
+    if (request.method=='POST'):
+    #Get the values
+        A_HMOA = request.POST.get('A_HMOA')
+        if a.filter(HMO_ID=1).exists():#If we selected new item, Create new entry
+            HMO.objects.filter(HMO_ID=1).update(HMO_Amount=A_HMOA)
+            messages.success(request, "Updated successfully!")
+        else:#Update path
+            HMO.objects.create(HMO_Amount=A_HMOA)
+            messages.success(request, "Created successfully!")
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
+    else:#First time viewing/non-form open
+        return render(request, 'payrollapp/tax_module.html', {'user':user})
+    
+def Department_add(request, UID):
+    a = Department.objects.all()
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+    if (request.method=='POST'):
+    #Get the values
+        A_DEP = request.POST.get('A_DEP')
+        Department.objects.create(Department_ID=A_DEP)
+        messages.success(request, "Created successfully!")
+        return render(request, 'payrollapp/settings.html', {'user':user})
+    else:#First time viewing/non-form open
+        return render(request, 'payrollapp/settings.html', {'user':user})
+    
+def Department_del(request, UID):
+    a = Department.objects.all()
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+    if (request.method=='POST'):
+    #Get the values
+        D_DEP = request.POST.get('D_DEP')
+        Department.objects.filter(Department_ID=D_DEP).delete()
+        messages.success(request, "Deleted Department successfully!")
+        return render(request, 'payrollapp/settings.html', {'user':user})
+    else:#First time viewing/non-form open
+        return render(request, 'payrollapp/settings.html', {'user':user})
+    
+def Reset_Leaves(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+    a = Employee.objects.all()
+    for x in a:
+        x.Vacation_Leaves = x.Vacation_Leaves + 15
+        x.Sick_Leaves = 15
+        x.save()
+    return render(request, 'payrollapp/settings.html', {'user':user})

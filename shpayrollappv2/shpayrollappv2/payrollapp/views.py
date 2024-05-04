@@ -542,3 +542,9 @@ def payslip(request, UID, TID):
     end = payrolls.End_Date.strftime('%Y-%m-%d')
 
     return render(request, 'payrollapp/payslip.html', {'user':user, 'payrolls':payrolls, 'name':name, 'start':start, 'end':end})
+
+
+def settings(request, UID):
+    user = get_object_or_404(USER_ACCOUNT, pk=UID)
+    a = Department.objects.all()
+    return render(request, 'payrollapp/settings.html', {'user':user, 'a':a})

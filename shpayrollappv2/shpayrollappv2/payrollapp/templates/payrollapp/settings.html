@@ -1,0 +1,55 @@
+{% extends 'payrollapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="content">
+    <h1> Credit & Deductibles Module </h1>
+    <div id="resultDiv"></div>
+    
+    <div style="overflow-x:auto;">
+        <table id="posts">
+            <thead>
+                <tr>
+                    <th style="width:25%">Category</th>
+                    <th style="width:10%">Options</th>
+                    <th style="width:10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <form method="POST" action={% url 'Department_add' UID=user.pk %} enctype="multipart/form-data">{% csrf_token %}
+                    <td>Add Department</td>
+                    <td><input type="text" class="form-control w-fill" id="A_DEP" name="A_DEP"></td>
+                    <td><button class="btn btn-success" type="submit">ADD Department</button></td>
+                </form>
+                </tr>
+                <tr>
+                    <form method="POST" action={% url 'Department_del' UID=user.pk %} enctype="multipart/form-data">{% csrf_token %}
+                        <td>Delete Department</td>
+                        <td>
+                            <select id="D_DEP" name="D_DEP" class="form-control">
+                            {% for x in a %}
+                            <option value={{x.Department_ID}}> {{x.Department_ID}} </option>
+                            {% endfor %}
+                            </select>
+                        </td>
+                        <td><button class="btn btn-success" type="submit">Del Department</button></td>
+                    </form>
+                    </tr>
+                    <tr>
+                            <td>Reset Leaves</td>
+                            <td>
+                            </td>
+                            <td><a class="btn btn-success" href={% url 'Reset_Leaves' UID=user.pk %}>Reset Leaves</button></td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
