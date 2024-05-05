@@ -1,6 +1,6 @@
 {% extends 'payrollapp/base.html' %}
 {% load static %}
-
+{% load mathfilters %}
 {% block content %}
 
 
@@ -113,7 +113,7 @@
                     <td>{{i.Start_Date}} - {{i.End_Date}}</td>
                     <!--td></td-->
                     <!--td>{{i.Total_Deductions}}</td-->
-                    <td>{{i.Net_Pay}}</td>
+                    <td>{{i.Net_Pay|floatformat:2}}</td>
                     <td class="form-row">
                         <a class="btn" href="{% url 'payroll_breakdown' UID=user.pk  TID=i.Transaction_ID %}"><i class="lni lni-pencil-alt"></i></a>
                     </td>
