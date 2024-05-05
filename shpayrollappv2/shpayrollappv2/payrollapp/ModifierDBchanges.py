@@ -27,9 +27,10 @@ def HDMF_UPLOAD(request, UID):
             file=file
         )
 
-        path = file.file
+        path = file
         try:
             df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+            print(df)
         except:
             path = '/tax_module/' + str(user.pk)
             return redirect(path)
@@ -63,18 +64,16 @@ def HDMF_UPLOAD(request, UID):
                 continue
             else:
                 pass
-            if ((row['Start_Range'] == 'Nat') or (isinstance(row['Start_Range'], float))):
+            if ((row['Start_Range'] == 'Nat') or (math.isnan(row['Start_Range']))):
                 continue
             else:
                 pass
-            if ((row['End_Range'] == 'Nat') or (isinstance(row['End_Range'], float))):
+            if ((row['End_Range'] == 'Nat') or (math.isnan(row['End_Range']))):
                 continue
             else:
                 pass
             HDMF.objects.create(HDMF_Rate_ID=row['HDMF_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         messages.success(request, "Data imported and database cleared successfully.")
-        print("Data imported and database cleared successfully.")
-        messages.success(request, "Employee created successfully!")
         path = '/tax_module/' + str(user.pk)
         return redirect(path)
     else:
@@ -129,11 +128,11 @@ def SSS_UPLOAD(request, UID):
                 continue
             else:
                 pass
-            if ((row['Start_Range'] == 'Nat') or (isinstance(row['Start_Range'], float))):
+            if ((row['Start_Range'] == 'Nat') or (math.isnan(row['Start_Range']))):
                 continue
             else:
                 pass
-            if ((row['End_Range'] == 'Nat') or (isinstance(row['End_Range'], float))):
+            if ((row['End_Range'] == 'Nat') or (math.isnan(row['End_Range']))):
                 continue
             else:
                 pass
@@ -145,18 +144,16 @@ def SSS_UPLOAD(request, UID):
                 continue
             else:
                 pass
-            if ((row['WISP_Employee_Rate'] == 'Nat') or (isinstance(row['WISP_Employee_Rate'], float))):
+            if ((row['WISP_Employee_Rate'] == 'Nat') or (math.isnan(row['WISP_Employee_Rate']))):
                 continue
             else:
                 pass
-            if ((row['Total_Contribution'] == 'Nat') or (isinstance(row['Total_Contribution'], float))):
+            if ((row['Total_Contribution'] == 'Nat') or (math.isnan(row['Total_Contribution']))):
                 continue
             else:
                 pass
             SSS.objects.create(SSS_Rate_ID=row['SSS_Rate_ID'], Regular_SS_Employer_Rate=row['Regular_SS_Employer_Rate'], Regular_SS_Employee_Rate=row['Regular_SS_Employee_Rate'], EC_Contribution=row['EC_Contribution'], WISP_Employer_Rate=row['WISP_Employer_Rate'], WISP_Employee_Rate=row['WISP_Employee_Rate'], Total_Contribution=row['Total_Contribution'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         messages.success(request, "Data imported and database cleared successfully.")
-        print("Data imported and database cleared successfully.")
-        messages.success(request, "Employee created successfully!")
         path = '/tax_module/' + str(user.pk)
         return redirect(path)
     else:
@@ -177,6 +174,7 @@ def PH_UPLOAD(request, UID):
         path = file.file
         try:
             df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+            print(df)
         except:
             path = '/tax_module/' + str(user.pk)
             return redirect(path)
@@ -196,6 +194,7 @@ def PH_UPLOAD(request, UID):
         PhilHealth.objects.all().delete()
     
     # Add data from the DataFrame into the database
+        print(df)
         for _, row in df.iterrows():
             if ((row['PhilHealth_Rate_ID'] == 'Nat') or (math.isnan(row['PhilHealth_Rate_ID']))) :
                 print('a')
@@ -212,12 +211,12 @@ def PH_UPLOAD(request, UID):
                 continue
             else:
                 pass
-            if ((row['Start_Range'] == 'Nat') or (isinstance(row['Start_Range'], float))):
+            if ((row['Start_Range'] == 'Nat') or (math.isnan(row['Start_Range']))):
                 print('d')
                 continue
             else:
                 pass
-            if ((row['End_Range'] == 'Nat') or (isinstance(row['End_Range'], float))):
+            if ((row['End_Range'] == 'Nat') or (math.isnan(row['End_Range']))):
                 print('e')
                 continue
             else:
@@ -225,8 +224,6 @@ def PH_UPLOAD(request, UID):
             print(1)
             PhilHealth.objects.create(PhilHealth_Rate_ID=row['PhilHealth_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         messages.success(request, "Data imported and database cleared successfully.")
-        print("Data imported and database cleared successfully.")
-        messages.success(request, "Employee created successfully!")
         path = '/tax_module/' + str(user.pk)
         return redirect(path)
     else:
@@ -243,19 +240,21 @@ def WitholdingTax_UPLOAD(request, UID):
         obj = File.objects.create(
             file=file
         )
-
+        print(file)
+        print(file.file)
         path = file.file
         try:
             df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+            print(df)
         except:
             path = '/tax_module/' + str(user.pk)
             return redirect(path)
         
     
     # Export the current Django database into a CSV file
-        print(1)
+        
         df_db = pd.DataFrame(WitholdingTax.objects.all().values())
-        print(1)
+        
         today_date = datetime.now().date()
 
         # Convert date to string
@@ -264,12 +263,13 @@ def WitholdingTax_UPLOAD(request, UID):
         df_db.to_csv('backup_WT'+date_str+'.csv', index=False)
     
     # Clear out the database
-        print(1)
+       
         WitholdingTax.objects.all().delete()
     
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
-            if ((row['WTAX_Rate_ID'] == 'Nat') and (isinstance(row['WTAX_Rate_ID'], float))) :
+            print(df)
+            if ((row['WTAX_Rate_ID'] == 'Nat') and (math.isnan(row['WTAX_Rate_ID']))) :
                 continue
             else:
                 pass
@@ -281,18 +281,16 @@ def WitholdingTax_UPLOAD(request, UID):
                 continue
             else:
                 pass
-            if ((row['Start_Range'] == 'Nat') and (isinstance(row['Start_Range'], float))):
+            if ((row['Start_Range'] == 'Nat') and (math.isnan(row['Start_Range']))):
                 continue
             else:
                 pass
-            if ((row['End_Range'] == 'Nat') and (isinstance(row['End_Range'], float))):
+            if ((row['End_Range'] == 'Nat') and (math.isnan(row['End_Range']))):
                 continue
             else:
                 pass
             WitholdingTax.objects.create(WTAX_Rate_ID=row['WTAX_Rate_ID'], Fix_Tax_Amount=row['Fix_Tax_Amount'], Tax_Rate_On_Excess=row['Tax_Rate_On_Excess'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         messages.success(request, "Data imported and database cleared successfully.")
-        print("Data imported and database cleared successfully.")
-        messages.success(request, "Employee created successfully!")
         path = '/tax_module/' + str(user.pk)
         return redirect(path)
     else:
@@ -406,7 +404,7 @@ def A_UPLOAD(request, UID):
                 except:
                     pass
                 
-                if (TimeIn  == 'NaT') or (TimeOut  == 'NaT') or (TimeIn_2  == 'NaT') or (TimeOut_2  == 'NaT') or (isinstance(TimeIn, float)) or ( isinstance(TimeOut, float)  == 'nan') or (isinstance(TimeIn_2, float)   == 'nan') or (isinstance(TimeOut_2, float)   == 'nan'):
+                if (TimeIn  == 'NaT') or (TimeOut  == 'NaT') or (TimeIn_2  == 'NaT') or (TimeOut_2  == 'NaT') or (math.isnan(TimeIn)) or ( math.isnan(TimeOut)  == 'nan') or (math.isnan(TimeIn_2)   == 'nan') or (math.isnan(TimeOut_2)   == 'nan'):
                     print('benis')
                     continue
                 
@@ -584,7 +582,6 @@ def A_UPLOAD(request, UID):
             else:
                 pass
         messages.success(request, "Data imported and database cleared successfully.")
-        print("Data imported and database cleared successfully.")
         path = '/attendance_db/' + str(user.pk)
         return redirect(path)
     else:
@@ -620,7 +617,6 @@ def Holiday_UPLOAD(request, UID):
                 a = HOLIDAY.objects.filter(Date=date)
                 a.update(Type=row['Type'])
         messages.success(request, "Data imported and database cleared successfully.")
-        print("Data imported and database cleared successfully.")
         path = '/tax_module/' + str(user.pk)
         return redirect(path)
     else:
