@@ -62,17 +62,31 @@
                 </div>
                 {% if messages %}
                     {% for message in messages %}
+                         <!-- If success message -->
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success mt-2" role="alert">
+                            <strong>Success!</strong>
+                            {{ message }}
+                        </div>
+                        {% endif %}
+
+                          <!-- If error message -->
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger mt-2" role="alert">
+                            <strong>Uh oh!</strong>
+                            {{ message }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <!--{% if messages %}
+                    {% for message in messages %}
                         <div class="{{ message.tags }} fade show mt-3" role="alert">
                             {{ message }}
                         </div>
                     {% endfor %}
-                {% endif %}
-                <!--div class="alert alert-warning" role="alert">
-                    <strong>Notice!</strong>
-                    If the selected payroll period has payslips already generated, 
-                    system will display the final and printable payslips instead of the 
-                    computation table that needs confirmation and editing.
-                </div-->
+                {% endif %}-->
             </form>
         </div>
     </div>

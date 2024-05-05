@@ -411,7 +411,6 @@ def A_UPLOAD(request, UID):
                 pass
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
-        messages.success(request, "Employee created successfully!")
         return render(request, 'payrollapp/attendance_db.html', {'user':user})
     else:
         print("No file selected.")
@@ -448,7 +447,6 @@ def Holiday_UPLOAD(request, UID):
                 a.update(Type=row['Type'])
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
-        messages.success(request, "Employee created successfully!")
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     else:
         print("No file selected.")

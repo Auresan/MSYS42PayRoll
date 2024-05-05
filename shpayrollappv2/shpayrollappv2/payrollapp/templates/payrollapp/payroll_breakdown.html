@@ -12,12 +12,25 @@
         </div>
     </div>
     <hr>
-    {% for message in messages %}
-        <!--p class="{{ message.tags }}">{{ message }}</p-->
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Success!</strong> {{ message }}
-        </div>
-    {% endfor %}
+    {% if messages %}
+        {% for message in messages %}
+            <!-- If success message -->
+            {% if message.tags == 'success' %}
+            <div class="alert alert-success mt-2" role="alert">
+                <strong>Success!</strong>
+                {{ message }}
+            </div>
+            {% endif %}
+
+            <!-- If error message -->
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <strong>Uh oh!</strong>
+                {{ message }}
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
     <div class="form-row">
         <div class="form-group col-md-2">

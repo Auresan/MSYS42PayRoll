@@ -13,12 +13,25 @@
         </div>
     </div>
     <hr>
-    {% for message in messages %}
-          <!--p class="{{ message.tags }}">{{ message }}</p-->
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>Success!</strong> {{ message }}
+    {% if messages %}
+      {% for message in messages %}
+        <!-- If success message -->
+        {% if message.tags == 'success' %}
+        <div class="alert alert-success mt-2" role="alert">
+            <strong>Success!</strong>
+            {{ message }}
         </div>
-    {% endfor %}
+        {% endif %}
+
+        <!-- If error message -->
+        {% if message.tags == 'error' %}
+        <div class="alert alert-danger mt-2" role="alert">
+            <strong>Uh oh!</strong>
+            {{ message }}
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
     <form method="POST" action="#">{% csrf_token %}
         <h5> Personal Details </h5>
         <div class="form-row">
