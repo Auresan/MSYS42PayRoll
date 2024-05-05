@@ -68,10 +68,13 @@
                 <label for="inputDept">Department</label>
                 <select id="inputDept" name="inputDept" class="form-control" required>
                   <option selected value="{{a.Department}}">Currently: {{a.Department}}</option>
-                  <option value="HR">HR</option>
+                  <!--option value="HR">HR</option>
                   <option value="IT">IT</option>
                   <option value="Sales">Sales</option>
-                  <option value="Accounting">Accounting</option>
+                  <option value="Accounting">Accounting</option-->
+                  {% for x in b %}
+                  <option value={{x.Department_ID}}> {{x.Department_ID}} </option>
+                  {% endfor %}
                 </select>
             </div>
             
