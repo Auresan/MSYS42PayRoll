@@ -30,7 +30,6 @@
                     <div class="form-row">
                         <div class="form-group col-10">
                             <select id="inputDate" name="inputDate" class="form-control custom-select mr-sm-2" required>
-                                <option selected disabled="disabled">Choose Payroll Batch</option>
                                 {% for y in z %}
                                 <option value={{y|date:"Y-m-d"}} required>{{y|date:"Y-m-d"}}</option>
                                 {% endfor %}

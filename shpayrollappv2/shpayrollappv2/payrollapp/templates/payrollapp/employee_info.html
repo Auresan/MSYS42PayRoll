@@ -72,9 +72,9 @@
                 <label for="inputEmpStat">Contract Status</label>
                 <select id="inputEmpStat" name="inputEmpStat" class="form-control" required>
                   <option selected value="{{a.Status}}">Currently: {{a.Status}}</option>
-                  <option value="Hired">Hired</option>
+                  <option value="Regular">Regular</option>
                   <option value="Probationary">Probationary</option>
-                  <option value="On Leave">Terminated</option>
+                  <option value="Terminated">Terminated</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
@@ -93,7 +93,7 @@
             
             <div class="form-group col-md-3">
                 <label for="inputPosition">Employee Position</label>
-                <input type="text" class="form-control" id="inputPosition" name="inputPosition" value="{{a.Role}}" pattern="[A-Za-z ]*" required>
+                <input type="text" class="form-control" id="inputPosition" name="inputPosition" value="{{a.Role}}" pattern="[A-Za-z ]*" maxlength="50"required>
             </div>
             
         </div>
@@ -109,22 +109,7 @@
                 <label for="inputSalary">Salary</label>
                 <input type="number" class="form-control" id="inputSalary" name="inputSalary" value="{{a.Salary}}" min='12200.00'>
             </div>
-            <!---<div class="form-group col-md-4">
-                <label for="inputCOLA">COLA Earnings</label>
-                <input type="text" class="form-control" id="inputCOLA" placeholder="">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputCADeduc">C/A Deductions</label>
-                <input type="text" class="form-control" id="inputCADeduc" placeholder="">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputCOOPDeduc">COOP Deductions</label>
-                <input type="text" class="form-control" id="inputCOOPDeduc" placeholder="">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputU/LDeduc">Uniform/Laptop Deductions</label>
-                <input type="text" class="form-control" id="inputU/LDeduc" placeholder="">
-            </div>--->
+
         </div>
         <hr>
         <div>

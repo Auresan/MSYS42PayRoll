@@ -20,15 +20,33 @@
     });
 </script>
 
-
+<script>
+    function searchID() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("eID");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("posts");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+</script>
 
 
 <div class="main">
     <div class="dashboard-navbar">
         <form action="#">
             <div class="nav-search">
-                <input type="text" class="search-query mr-3" placeholder="Name/Code" id="eName">
-                <input type="text" class="search-query px-3" id="eDepa" placeholder="Search Department">
+                <input type="text" class="search-query mr-3" placeholder="ID" id="eID" onkeyup="searchID()">
             </div>
         </form>
         <div class="navbar-content">
@@ -60,8 +78,8 @@
                 <tbody>
                     <tr>
                         <td>{{i.Employee_ID}}</td>
-                        <td>{{i.HoursWorked}}</td>
-                        <td>{{i.OT__sum}}</td>
+                        <td>{{i.HoursWorked|floatformat:2}}</td>
+                        <td>{{i.OT__sum|floatformat:2}}</td>
                         <td>{{i.leaves_left}}</td>
                         <td><a class="btn" href="{% url 'employee_attendance' UID=user.pk EID=i.Employee_ID %}"><i class="lni lni-pencil-alt"></i></a></td>
                     </tr>
@@ -73,6 +91,9 @@
 </div>
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 {% endblock %}

@@ -41,7 +41,11 @@
                             <td>Reset Leaves</td>
                             <td>
                             </td>
-                            <td><a class="btn btn-success" href={% url 'Reset_Leaves' UID=user.pk %}>Reset Leaves</button></td>
+                            <td>
+                            {% if current_month == 1 %}
+                                <a class="btn btn-success" href={% url 'Reset_Leaves' UID=user.pk %}>Reset Leaves</a>
+                            {% endif %}   
+                            </td>
                     </tr>
             </tbody>
         </table>

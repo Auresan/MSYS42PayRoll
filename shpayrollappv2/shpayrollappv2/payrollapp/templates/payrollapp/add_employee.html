@@ -69,8 +69,8 @@
                 <label for="inputEmpStat">Contract Status</label>
                 <select id="inputEmpStat" name="inputEmpStat" class="form-control" required>
                   <option value="Probationary">Probationary</option>
-                  <option value="Hired">Hired</option>
-                  <option value="On Leave">Terminated</option>
+                  <option value="Regular">Regular</option>
+                  <option value="Terminated">Terminated</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
@@ -83,7 +83,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="inputPosition">Employee Position</label>
-                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="" pattern="[A-Za-z ]*" required >
+                <input type="text" class="form-control" id="inputPosition" name="inputPosition" placeholder="" pattern="[A-Za-z ]*" maxlength="50" required >
             </div>
             
         </div>

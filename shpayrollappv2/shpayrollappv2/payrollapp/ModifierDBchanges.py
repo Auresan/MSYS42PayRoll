@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from django.conf import settings
 import os
 from django.contrib import messages
+import math
 
 def HDMF_UPLOAD(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
@@ -27,7 +28,11 @@ def HDMF_UPLOAD(request, UID):
         )
 
         path = file.file
-        df = pd.read_excel(path)
+        try:
+            df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+        except:
+            path = '/tax_module/' + str(user.pk)
+            return redirect(path)
     
     # Export the current Django database into a CSV file
         print(1)
@@ -46,12 +51,32 @@ def HDMF_UPLOAD(request, UID):
     
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
+            if ((row['HDMF_Rate_ID'] == 'Nat') or (math.isnan(row['HDMF_Rate_ID']))) :
+                continue
+            else:
+                pass
+            if ((row['Employer_Rate'] == 'Nat') or (math.isnan(row['Employer_Rate']))):
+                continue
+            else:
+                pass
+            if ((row['Employee_Rate'] == 'Nat') or (math.isnan(row['Employee_Rate']))):
+                continue
+            else:
+                pass
+            if ((row['Start_Range'] == 'Nat') or (isinstance(row['Start_Range'], float))):
+                continue
+            else:
+                pass
+            if ((row['End_Range'] == 'Nat') or (isinstance(row['End_Range'], float))):
+                continue
+            else:
+                pass
             HDMF.objects.create(HDMF_Rate_ID=row['HDMF_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         messages.success(request, "Employee created successfully!")
-        
-        return render(request, 'payrollapp/tax_module.html', {'user':user})
+        path = '/tax_module/' + str(user.pk)
+        return redirect(path)
     else:
         print("No file selected.")
         #
@@ -68,7 +93,11 @@ def SSS_UPLOAD(request, UID):
         )
 
         path = file.file
-        df = pd.read_excel(path)
+        try:
+            df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+        except:
+            path = '/tax_module/' + str(user.pk)
+            return redirect(path)
     
     
     # Export the current Django database into a CSV file
@@ -88,12 +117,48 @@ def SSS_UPLOAD(request, UID):
     
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
+            if ((row['SSS_Rate_ID'] == 'Nat') or (math.isnan(row['SSS_Rate_ID']))) :
+                continue
+            else:
+                pass
+            if ((row['Regular_SS_Employer_Rate'] == 'Nat') or (math.isnan(row['Regular_SS_Employer_Rate']))):
+                continue
+            else:
+                pass
+            if ((row['Regular_SS_Employee_Rate'] == 'Nat') or (math.isnan(row['Regular_SS_Employee_Rate']))):
+                continue
+            else:
+                pass
+            if ((row['Start_Range'] == 'Nat') or (isinstance(row['Start_Range'], float))):
+                continue
+            else:
+                pass
+            if ((row['End_Range'] == 'Nat') or (isinstance(row['End_Range'], float))):
+                continue
+            else:
+                pass
+            if ((row['EC_Contribution'] == 'Nat') or (math.isnan(row['EC_Contribution']))):
+                continue
+            else:
+                pass
+            if ((row['WISP_Employer_Rate'] == 'Nat') or (math.isnan(row['WISP_Employer_Rate']))):
+                continue
+            else:
+                pass
+            if ((row['WISP_Employee_Rate'] == 'Nat') or (isinstance(row['WISP_Employee_Rate'], float))):
+                continue
+            else:
+                pass
+            if ((row['Total_Contribution'] == 'Nat') or (isinstance(row['Total_Contribution'], float))):
+                continue
+            else:
+                pass
             SSS.objects.create(SSS_Rate_ID=row['SSS_Rate_ID'], Regular_SS_Employer_Rate=row['Regular_SS_Employer_Rate'], Regular_SS_Employee_Rate=row['Regular_SS_Employee_Rate'], EC_Contribution=row['EC_Contribution'], WISP_Employer_Rate=row['WISP_Employer_Rate'], WISP_Employee_Rate=row['WISP_Employee_Rate'], Total_Contribution=row['Total_Contribution'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])  # Adjust column names as needed
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         messages.success(request, "Employee created successfully!")
-        
-        return render(request, 'payrollapp/tax_module.html', {'user':user})
+        path = '/tax_module/' + str(user.pk)
+        return redirect(path)
     else:
         print("No file selected.")
         #
@@ -102,7 +167,7 @@ def SSS_UPLOAD(request, UID):
 def PH_UPLOAD(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
 
-    print(1)
+
     if request.method == 'POST':
         file = request.FILES['PH_xls']
         obj = File.objects.create(
@@ -110,12 +175,16 @@ def PH_UPLOAD(request, UID):
         )
 
         path = file.file
-        df = pd.read_excel(path)
+        try:
+            df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+        except:
+            path = '/tax_module/' + str(user.pk)
+            return redirect(path)
     
     # Export the current Django database into a CSV file
-        print(1)
+
         df_db = pd.DataFrame(PhilHealth.objects.all().values())
-        print(1)
+
         today_date = datetime.now().date()
 
         # Convert date to string
@@ -124,16 +193,42 @@ def PH_UPLOAD(request, UID):
         df_db.to_csv('backup_PH'+date_str+'.csv', index=False)
     
     # Clear out the database
-        print(1)
         PhilHealth.objects.all().delete()
     
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
+            if ((row['PhilHealth_Rate_ID'] == 'Nat') or (math.isnan(row['PhilHealth_Rate_ID']))) :
+                print('a')
+                continue
+            else:
+                pass
+            if ((row['Employer_Rate'] == 'Nat') or (math.isnan(row['Employer_Rate']))):
+                print('b')
+                continue
+            else:
+                pass
+            if ((row['Employee_Rate'] == 'Nat') or (math.isnan(row['Employee_Rate']))):
+                print('c')
+                continue
+            else:
+                pass
+            if ((row['Start_Range'] == 'Nat') or (isinstance(row['Start_Range'], float))):
+                print('d')
+                continue
+            else:
+                pass
+            if ((row['End_Range'] == 'Nat') or (isinstance(row['End_Range'], float))):
+                print('e')
+                continue
+            else:
+                pass
+            print(1)
             PhilHealth.objects.create(PhilHealth_Rate_ID=row['PhilHealth_Rate_ID'], Employer_Rate=row['Employer_Rate'], Employee_Rate=row['Employee_Rate'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         messages.success(request, "Employee created successfully!")
-        return render(request, 'payrollapp/tax_module.html', {'user':user})
+        path = '/tax_module/' + str(user.pk)
+        return redirect(path)
     else:
         print("No file selected.")
         #
@@ -150,7 +245,12 @@ def WitholdingTax_UPLOAD(request, UID):
         )
 
         path = file.file
-        df = pd.read_excel(path)
+        try:
+            df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+        except:
+            path = '/tax_module/' + str(user.pk)
+            return redirect(path)
+        
     
     # Export the current Django database into a CSV file
         print(1)
@@ -169,11 +269,32 @@ def WitholdingTax_UPLOAD(request, UID):
     
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
+            if ((row['WTAX_Rate_ID'] == 'Nat') and (isinstance(row['WTAX_Rate_ID'], float))) :
+                continue
+            else:
+                pass
+            if ((row['Fix_Tax_Amount'] == 'Nat') and (math.isnan(row['Fix_Tax_Amount']))):
+                continue
+            else:
+                pass
+            if ((row['Tax_Rate_On_Excess'] == 'Nat') and (math.isnan(row['Tax_Rate_On_Excess']))):
+                continue
+            else:
+                pass
+            if ((row['Start_Range'] == 'Nat') and (isinstance(row['Start_Range'], float))):
+                continue
+            else:
+                pass
+            if ((row['End_Range'] == 'Nat') and (isinstance(row['End_Range'], float))):
+                continue
+            else:
+                pass
             WitholdingTax.objects.create(WTAX_Rate_ID=row['WTAX_Rate_ID'], Fix_Tax_Amount=row['Fix_Tax_Amount'], Tax_Rate_On_Excess=row['Tax_Rate_On_Excess'], Start_Range=row['Start_Range'], End_Range=row['End_Range'])
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
         messages.success(request, "Employee created successfully!")
-        return render(request, 'payrollapp/tax_module.html', {'user':user})
+        path = '/tax_module/' + str(user.pk)
+        return redirect(path)
     else:
         print("No file selected.")
         #
@@ -190,7 +311,11 @@ def A_UPLOAD(request, UID):
         )
 
         path = file.file
-        workinghours_df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+        try:
+            workinghours_df = pd.read_excel(path)  # Assuming the file is CSV, adjust if needed
+        except:
+            path = '/attendance_db/' + str(user.pk)
+            return redirect(path)
         print(workinghours_df)
         Employee_check = Employee.objects.all()
         holiday_check = HOLIDAY.objects.all()
@@ -227,7 +352,7 @@ def A_UPLOAD(request, UID):
                     if x.id_number == id:
                         Employee_t= get_object_or_404(Employee, id_number=x.id_number)
                         print(Employee_t)
-
+            print(date)
             xms = ATTENDANCE_HISTORY.objects.filter(Date=date, Employee_ID=Employee_t)
             #print(date)
             #print(xms)
@@ -281,46 +406,72 @@ def A_UPLOAD(request, UID):
                 except:
                     pass
                 
-                if (TimeIn  == 'NaT') or (TimeOut  == 'NaT') or (TimeIn_2  == 'NaT') or (TimeOut_2  == 'NaT'):
+                if (TimeIn  == 'NaT') or (TimeOut  == 'NaT') or (TimeIn_2  == 'NaT') or (TimeOut_2  == 'NaT') or (isinstance(TimeIn, float)) or ( isinstance(TimeOut, float)  == 'nan') or (isinstance(TimeIn_2, float)   == 'nan') or (isinstance(TimeOut_2, float)   == 'nan'):
                     print('benis')
                     continue
                 
                 Night_In = 0
                 Night_out = 0
                 NightShift_Total=0
-
-                if (OT_IN == 'NaT') and (OT_OUT == 'NaT'):
+                OT_Total = None
+                if ((OT_IN == 'NaT') and (OT_OUT == 'NaT')) or ((isinstance(OT_IN, float)) and (isinstance(OT_OUT, float))):
                     OT_Total = 0
                     NightShift_Total = 0
-                if (OT_IN == 'NaT') and (OT_OUT != 'NaT'):
+
+            
+
+                if ((OT_IN == 'NaT') and (OT_OUT != 'NaT') or (isinstance(OT_IN, float)) and (isinstance(OT_OUT, float) == False)):
                         print(2) 
                         OT_IN = time(18, 0)
-                if (OT_IN != 'NaT') and (OT_OUT == 'NaT'):
+
+
+                    
+                if ((OT_IN != 'NaT') and (OT_OUT == 'NaT') or (isinstance(OT_IN, float)  == False) and (isinstance(OT_OUT, float))):
                         print(3) 
-                        OT_OUT = time(22,0)
-                if (OT_IN != 'NaT') and (OT_OUT != 'NaT'):
+                        OT_OUT = OT_IN
+                        OT_Total = 0
+
+                if (((OT_IN != 'NaT')) and ((OT_OUT != 'NaT'))) and ((isinstance(OT_IN, float)  == False) and (isinstance(OT_OUT, float) == False)) and (OT_Total == None) :
+                    print(OT_IN)
+                    print(type(OT_IN))
+                    if OT_IN <= time(18, 0) and OT_IN > time(7,0):#A check to see if they worked night shift and is not OT
+                        print('a')
+                        OT_IN = time(18, 0)
                     if OT_IN >= time(22, 0):#A check to see if they worked night shift and is not OT
-                        print(5) 
+                        print('b')
                         Night_In = OT_IN
                         OT_IN = time(18, 0)
+                    NightShiftStart = 0
                     if (OT_IN >= time(0,0)) and (OT_IN <= time(7,0)):#If starts late nightshift
+                        print('c')
                         Night_In = OT_IN
                         OT_IN = time(18,0)
-                        OT_OUT = time(18,0)
-                    if (OT_OUT >= time(0,0)) and (OT_OUT <= time(7,0)):#If ends late nightshift
+                        NightShiftStart = 1
+                    if (OT_OUT >= time(0,0)) and (OT_OUT <= time(7,0)) and (NightShiftStart == 0):#If ends late nightshift
+                        print('d')
                         Night_out = OT_OUT
                         OT_OUT = time(22,0)
+                    elif (OT_OUT >= time(0,0)) and (OT_OUT <= time(7,0)) and (NightShiftStart == 1):
+                        print('e')
+                        Night_out= OT_OUT
                     #Overnight 
+                    
                     if (OT_OUT >= time(22,0) and Night_out == 0): #OT_In is declared and normal range but not OT_OUT or Night_In or Out
+                        print('an')
                         Night_out = OT_OUT
                         OT_OUT = time(22,0)
-                    if (OT_OUT >= time(7,0)) and (OT_OUT != time(22,0)) and (Night_In != 0):
-                        Night_out = time(7,0)
+                    if ((OT_OUT >= time(7,0)) ) and (OT_OUT != time(22,0)) and (Night_In != 0):
+                        print('benis')
+                        Night_out = Night_In
                     if Night_In == 0 and Night_out == 0:
+                        print('cin')
                         NightShift_Total=0
                     elif Night_In == 0 and Night_out != 0:
+                        print('den')
                         Night_In = time(22,0)
-                    else:
+                        print('night calc')
+                        print(Night_In)
+                        print(Night_out)
                         seconds_Night_In = (Night_In.hour * 3600) + (Night_In.minute * 60)
                         seconds_Night_out = (Night_out.hour * 3600) + (Night_out.minute * 60)
                         if seconds_Night_out < seconds_Night_In:
@@ -328,8 +479,26 @@ def A_UPLOAD(request, UID):
                         night_shift_seconds = seconds_Night_out - seconds_Night_In
                         print(12) 
                         NightShift_Total = night_shift_seconds / 3600.0
+                    else:
+                        if NightShiftStart == 1:
+                            OT_OUT = time(18,0)
+                        print('fig')
+                        print('night calc')
+                        print(Night_In)
+                        print(Night_out)
+                        seconds_Night_In = (Night_In.hour * 3600) + (Night_In.minute * 60)
+                        seconds_Night_out = (Night_out.hour * 3600) + (Night_out.minute * 60)
+                        if seconds_Night_out < seconds_Night_In:
+                            seconds_Night_out += 24 * 3600
+                        night_shift_seconds = seconds_Night_out - seconds_Night_In
+                        print(12) 
+                        NightShift_Total = night_shift_seconds / 3600.0
+                    print('OT calc')
+                    print(OT_IN)
+                    print(OT_OUT)
                     OT_Total = (OT_OUT.hour * 60 + OT_OUT.minute) - (OT_IN.hour * 60 + OT_IN.minute)
                     OT_Total = OT_Total / 60.0 
+                    
 
                 HoursWorked = 0
                 HoursWorked_2 = 0
@@ -385,17 +554,22 @@ def A_UPLOAD(request, UID):
                     x.TimeOut = TimeOut
                     x.save()
                     print("WOOHOO")
-                if TimeIn_2:
-                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
-                    x.TimeIn_2 = TimeIn_2
-                    x.save()
-                    print("WOOHOO")
-                if TimeOut_2:
-                    x = ATTENDANCE_HISTORY.objects.latest('History_ID')
-                    x.TimeOut_2 = TimeOut_2
-                    x.save()
-                    print("WOOHOO")
-
+                try:
+                    if TimeIn_2:
+                        x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                        x.TimeIn_2 = TimeIn_2
+                        x.save()
+                        print("WOOHOO")
+                except:
+                    pass
+                try:
+                    if TimeOut_2:
+                        x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                        x.TimeOut_2 = TimeOut_2
+                        x.save()
+                        print("WOOHOO")
+                except:
+                    pass
                 #10BIT:Go back to fixing this
                 if holiday_true != '':
                     x = ATTENDANCE_HISTORY.objects.latest('History_ID')
@@ -411,9 +585,9 @@ def A_UPLOAD(request, UID):
                 pass
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
-        return render(request, 'payrollapp/attendance_db.html', {'user':user})
+        path = '/attendance_db/' + str(user.pk)
+        return redirect(path)
     else:
-        print("No file selected.")
         return render(request, 'payrollapp/attendance_db.html', {'user':user})
     
 def Holiday_UPLOAD(request, UID):
@@ -430,24 +604,25 @@ def Holiday_UPLOAD(request, UID):
         df = pd.read_excel(path)
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
-            if row['Date'] == 'Nat':
+            if ((row['Date'] == 'Nat') and (isinstance(row['Date'], float))) :
                 continue
             else:
                 pass
-            if row['Type'] == 'Nat':
+            if ((row['Type'] == 'Nat') and (isinstance(row['Type'], float))):
                 continue
             else:
                 pass
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
             xms = HOLIDAY.objects.filter(Date=date)
-            if not xms:
+            if not xms.exists():
                 HOLIDAY.objects.create(Type=row['Type'], Date=date)
             else:
                 a = HOLIDAY.objects.filter(Date=date)
                 a.update(Type=row['Type'])
         messages.success(request, "Data imported and database cleared successfully.")
         print("Data imported and database cleared successfully.")
-        return render(request, 'payrollapp/tax_module.html', {'user':user})
+        path = '/tax_module/' + str(user.pk)
+        return redirect(path)
     else:
         print("No file selected.")
         #
@@ -468,15 +643,15 @@ def Leave_UPLOAD(request, UID):
     # Add data from the DataFrame into the database
         for _, row in df.iterrows():
             #Check for any missing if so skip this log
-            if row['Start_Date'] == 'Nat':
+            if ((row['Start_Date'] == 'Nat') and (isinstance(row['Start_Date'], float))) :
                 continue
             else:
                 pass
-            if row['Type'] == 'Nat':
+            if ((row['Type'] == 'Nat') and (isinstance(row['Type'], float))):
                 continue
             else:
                 pass
-            if row['Employee_ID'] == 'Nat':
+            if ((row['Employee_ID'] == 'Nat') and (isinstance(row['Employee_ID'], float))):
                 continue
             else:
                 pass
@@ -484,7 +659,7 @@ def Leave_UPLOAD(request, UID):
             date = datetime.strptime(row['Date'], "%Y-%m-%d")
             xms = Leave.objects.filter(Employee_ID=emp, Start_Date=date)
             if row['Type'] == 'Sick' and emp.Sick_Leaves > 0:
-                if not xms:
+                if not xms.exists():
                     Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date)
                     emp.Sick_Leaves -= 1
                     emp.save()
@@ -495,7 +670,7 @@ def Leave_UPLOAD(request, UID):
                     emp.Vacation_Leaves -= 1
                     emp.save()
             if row['Type'] == 'Vacation' and emp.Vacation_Leaves > 0:
-                if not xms:
+                if not xms.exists():
                     Leave.objects.create(Employee_ID=emp, Type=row['Type'], Start_Date=date)
                     emp.Vacation_Leaves -= 1
                     emp.save()
@@ -526,7 +701,8 @@ def HMO_DB(request, UID):
             messages.success(request, "Updated successfully!")
         else:#Update path
             HMO.objects.create(HMO_Amount=A_HMOA)
-        return render(request, 'payrollapp/tax_module.html', {'user':user})
+        path = '/tax_module/' + str(user.pk)
+        return redirect(path)
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/tax_module.html', {'user':user})
     
@@ -536,9 +712,15 @@ def Department_add(request, UID):
     if (request.method=='POST'):
     #Get the values
         A_DEP = request.POST.get('A_DEP')
-        Department.objects.create(Department_ID=A_DEP)
-        messages.success(request, "Created successfully!")
-        return render(request, 'payrollapp/settings.html', {'user':user})
+        xms = Department.objects.filter(Department_ID=A_DEP)
+        if not xms.exists():
+            Department.objects.create(Department_ID=A_DEP)
+            messages.success(request, "Created successfully!")
+        else:
+            messages.warning(request, "Error: Already exists")
+        
+        path = '/settings/' + str(user.pk)
+        return redirect(path)
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/settings.html', {'user':user})
     
@@ -550,15 +732,15 @@ def Department_del(request, UID):
         D_DEP = request.POST.get('D_DEP')
         Department.objects.filter(Department_ID=D_DEP).delete()
         messages.success(request, "Deleted Department successfully!")
-        return render(request, 'payrollapp/settings.html', {'user':user})
+        path = '/settings/' + str(user.pk)
+        return redirect(path)
     else:#First time viewing/non-form open
         return render(request, 'payrollapp/settings.html', {'user':user})
     
 def Reset_Leaves(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
-    a = Employee.objects.all()
-    for x in a:
-        x.Vacation_Leaves = x.Vacation_Leaves + 15
-        x.Sick_Leaves = 15
-        x.save()
-    return render(request, 'payrollapp/settings.html', {'user':user})
+    a = Employee.objects.filter(Status='Regular')
+    a.update(Vacation_Leaves=15,
+             Sick_Leaves=15)
+    path = '/settings/' + str(user.pk)
+    return redirect(path)
