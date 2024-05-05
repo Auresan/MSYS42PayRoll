@@ -2,9 +2,9 @@ from django.db import models
 
 # Create your models here.
 class Employee(models.Model):
-    Last_name = models.CharField(max_length=255)
-    First_name = models.CharField(max_length=255)
-    Middle_name = models.CharField(max_length=255, blank=True, null=True)
+    Last_name = models.CharField(max_length=50)
+    First_name = models.CharField(max_length=50)
+    Middle_name = models.CharField(max_length=50, blank=True, null=True)
     id_number = models.CharField(max_length=6, primary_key=True)
     Status  = models.CharField(max_length=255)
     Department  = models.CharField(max_length=255)
