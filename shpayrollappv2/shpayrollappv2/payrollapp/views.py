@@ -321,6 +321,12 @@ def generate_page(request, UID):
         #Run the calculation for values
         #for x in employee_list:
         #    calculateSALARY(x.id_number)
+        emp = get_object_or_404(Employee, id_number = employee)
+        total_hours = ATTENDANCE_HISTORY.objects.filter(Employee_ID=emp, Date__range=(start, end))
+        if not total_hours.exists():
+            messages.warning(request, "Warning: No History records found for employee during payroll period")
+            return render(request, 'payrollapp/generate_page.html' , {'user':user,'a':a, 'payslip':payslip}) 
+
         total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID, OT, NightIncrease , Holiday_Comp, Total_Deductions = calculateSALARY(employee, start, end, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
 #        try:
  #           LatestPayslip = Payslip_Transaction.objects.last()
