@@ -182,7 +182,7 @@ def WitholdingTax_UPLOAD(request, UID):
 def A_UPLOAD(request, UID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
 
-    print(1)
+    
     if request.method == 'POST':
         file = request.FILES['A_xls']
         obj = File.objects.create(
@@ -202,18 +202,17 @@ def A_UPLOAD(request, UID):
     # Add data from the DataFrame into the database
         for _, row in workinghours_df.iterrows():
             if row['Date'] == 'NaT':
-                print('Fail')
                 continue
             else:
             
 
             #Data cleaning
                 current_date_str = datetime.now().strftime('%d/%m/%Y')
-                print(type(row['Date']))
+                #print(type(row['Date']))
                 date = str(row['Date'])
-                print(date)
+                #print(date)
                 date = date.split(' ')
-                print(date)
+                #print(date)
                 date = date[0]
                 date = date[4:]
                 date = current_date_str[-4:] + date #10BIT: Check this again
@@ -227,17 +226,19 @@ def A_UPLOAD(request, UID):
                 for x in Employee_check:
                     if x.id_number == id:
                         Employee_t= get_object_or_404(Employee, id_number=x.id_number)
+                        print(Employee_t)
 
             xms = ATTENDANCE_HISTORY.objects.filter(Date=date, Employee_ID=Employee_t)
-            print(date)
-            print(xms)
-            print(type(xms))
-            print(xms==None)
-            print(xms.exists())
-            print(not xms.exists())
-            print('Benis')
+            #print(date)
+            #print(xms)
+            #print(type(xms))
+            #print(xms==None)
+            #print(xms.exists())
+            #print(not xms.exists())
+            #print('Benis')
+            print(not xms.exists() == True)
 
-            if not xms:
+            if not xms.exists():
                 for x in holiday_check:
                     if x.date == date:
                         holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
@@ -280,7 +281,8 @@ def A_UPLOAD(request, UID):
                 except:
                     pass
                 
-                if (TimeIn  != 'NaT') or (TimeOut  != 'NaT') or (TimeIn_2  != 'NaT') or (TimeOut_2  != 'NaT'):
+                if (TimeIn  == 'NaT') or (TimeOut  == 'NaT') or (TimeIn_2  == 'NaT') or (TimeOut_2  == 'NaT'):
+                    print('benis')
                     continue
                 
                 Night_In = 0
@@ -316,6 +318,8 @@ def A_UPLOAD(request, UID):
                         Night_out = time(7,0)
                     if Night_In == 0 and Night_out == 0:
                         NightShift_Total=0
+                    elif Night_In == 0 and Night_out != 0:
+                        Night_In = time(22,0)
                     else:
                         seconds_Night_In = (Night_In.hour * 3600) + (Night_In.minute * 60)
                         seconds_Night_out = (Night_out.hour * 3600) + (Night_out.minute * 60)
