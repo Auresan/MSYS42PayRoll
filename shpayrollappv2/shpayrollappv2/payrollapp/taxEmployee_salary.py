@@ -78,7 +78,7 @@ def calculateSSS(x): #SUBTRACT THIS
         #Note: Look into how the rows are indexed, that way we can instead remember the index number and overwrite the variables once to cut down on process time
         if row.Start_Range < x:
             #SSS_ER = row.Regular_SS_Employer_Rate
-            SSS_EE = row.Regular_SS_Employee_Rate*x
+            SSS_EE = row.Regular_SS_Employee_Rate
             SSS_EC = row.EC_Contribution
             #SSS_WISP_ER = row.WISP_Employer_Rate
             SSS_WISP_EE = row.WISP_Employee_Rate
@@ -160,7 +160,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
         noShow_records_count = ATTENDANCE_HISTORY.objects.filter(Employee_ID=emp, Date__in=date_range,TimeIn__isnull=True,TimeOut__isnull=True, TimeIn_2__isnull=True, TimeOut_2__isnull=True).count()
     except:
         print('Wumpus WOMP')
-        noShow_records_count = ATTENDANCE_HISTORY.objects.filter(Employee_ID=emp, Date__range=(start, end),TimeIn__isnull=True,TimeOut__isnull=True, TimeIn_2__isnull=True, TimeOut_2__isnull=True).count()
+        noShow_records_count = ATTENDANCE_HISTORY.objects.filter(Employee_ID=emp, Date__range=(start, end),TimeIn__isnull=True,TimeOut__isnull=True, TimeIn_2__isnull=True, TimeOut_2__isnull=True).exclude(Date__week_day=7).count()
     abse = noShow_records_count#Gets the amount of times they didn't show
     
     
@@ -186,6 +186,16 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     for leave in leaves:
         abse -= 1
         total_days = total_days - 1
+    sd = start  
+    edd = end
+    wekend_c = 0
+    while sd <= edd:
+        if sd.weekday() in (5, 6):
+            wekend_c += 1
+        sd += timedelta(days=1)
+    total_days = total_days - (wekend_c / 4)
+    
+
 
     #Total Hours needed:
     totalHours_needed = total_days * 8
@@ -220,7 +230,12 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     SSS_Amount, SSS_EC, SSS_WISP_Amount, SSS_RATE_ID = calculateSSS(emp.Salary)
     PH_Amount, PH_ID = calculatePH(emp.Salary)
     HDMF_Amount, HDMF_ER, HDMF_EE_R, HDMF_ER_R, HDMF_ID = calculateHDMF(emp.Salary)
+    print(SSS_Amount)
     SSS_Amount =  float(SSS_Amount)+ float(SSS_EC)+ float(SSS_WISP_Amount)
+    print('BAU BAU')
+    print(SSS_Amount)
+    print(SSS_EC)
+    print(SSS_WISP_Amount)
     
     current_date = datetime.now()
 
@@ -251,7 +266,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     WithTax_Amount = float(WithTax_Amount) + float(WithTax_Excess)
     tot_ded_2 = ULD_Amount + CA_Amount + COOP_Amount + HMO_Amount + WithTax_Amount
     tot_cred = COLA_Amount + ADDE_Amount
-    total = taxInc + tot_ded_2 + tot_cred
+    total = taxInc - tot_ded_2 + tot_cred
     
     Holiday_Comp = float( holidayPay + holidayPay_s )
     print(emp_BP)
@@ -280,7 +295,8 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     OT= round(OT, 2)
     NightIncrease= round(NightIncrease, 2)
     Holiday_Comp= round(Holiday_Comp, 2)
-    Total_Deductions= round(Total_Deductions, 2)
+    
 
     Total_Deductions = Tot_Ded_1 + tot_ded_2
+    
     return total, absenceDues, SSS_Amount, PH_Amount, HDMF_Amount,  WithTax_Amount, OT, NightIncrease ,Holiday_Comp, Total_Deductions

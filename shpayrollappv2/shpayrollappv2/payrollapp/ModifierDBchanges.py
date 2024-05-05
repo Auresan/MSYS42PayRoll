@@ -363,10 +363,10 @@ def A_UPLOAD(request, UID):
 
             if not xms.exists():
                 for x in holiday_check:
-                    if x.date == date:
+                    if x.Date == date:
                         holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
                 for x in Leave_check:
-                    if x.date == date:
+                    if x.Start_Date == date:
                         leave_true = get_object_or_404(Leave, Leave_ID=x.Leave_ID)
                 
                 TimeIn =0
@@ -404,9 +404,15 @@ def A_UPLOAD(request, UID):
                 except:
                     pass
                 
-                if (TimeIn  == 'NaT') or (TimeOut  == 'NaT') or (TimeIn_2  == 'NaT') or (TimeOut_2  == 'NaT') or (math.isnan(TimeIn)) or ( math.isnan(TimeOut)  == 'nan') or (math.isnan(TimeIn_2)   == 'nan') or (math.isnan(TimeOut_2)   == 'nan'):
-                    print('benis')
-                    continue
+                if (TimeIn  == 'NaT') or (TimeOut  == 'NaT') or (TimeIn_2  == 'NaT') or (TimeOut_2  == 'NaT'):
+                    try:
+                        if (math.isnan(TimeIn)) or ( math.isnan(TimeOut)  == 'nan') or (math.isnan(TimeIn_2)   == 'nan') or (math.isnan(TimeOut_2)   == 'nan'):
+                            print('benis')
+                            continue
+                    except:
+                        if (isinstance(TimeIn, float)) or (isinstance(TimeOut, float)) or (isinstance(TimeIn_2, float)) or (isinstance(TimeOut_2, float)):
+                            print('benis')
+                            continue
                 
                 Night_In = 0
                 Night_out = 0
@@ -520,7 +526,7 @@ def A_UPLOAD(request, UID):
                 print('Hours Worked: '+ str(HoursWorked))
                 print('Hours Worked: '+ str(HoursWorked_2))
                 HoursWorked = HoursWorked+HoursWorked_2
-                if HoursWorked < 8:
+                if (HoursWorked < 8) and (date.weekday() == 5):
                     diff = 8- HoursWorked
                     if (OT_Total > diff) and (diff>0):
                         OT_Total = OT_Total - diff
@@ -534,6 +540,24 @@ def A_UPLOAD(request, UID):
                         NightShift_Total = NightShift_Total - diff
                         diff = 0
                         HoursWorked = 8
+                    elif (NightShift_Total > 0) and (diff>0):
+                        diff -= NightShift_Total
+                        HoursWorked += NightShift_Total
+                        NightShift_Total = 0
+                else:
+                    diff = 4- HoursWorked
+                    if (OT_Total > diff) and (diff>0):
+                        OT_Total = OT_Total - diff
+                        diff = 0
+                        HoursWorked = 4
+                    elif (OT_Total > 0) and (diff>0):
+                        diff -= OT_Total
+                        HoursWorked += OT_Total
+                        OT_Total = 0
+                    if (NightShift_Total > diff) and (diff>0):
+                        NightShift_Total = NightShift_Total - diff
+                        diff = 0
+                        HoursWorked = 4
                     elif (NightShift_Total > 0) and (diff>0):
                         diff -= NightShift_Total
                         HoursWorked += NightShift_Total
