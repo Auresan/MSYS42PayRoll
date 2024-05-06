@@ -97,7 +97,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Absence_Deductions|floatformat:2}} min='0'step='0.01' readonly required>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Absence_Deductions|mul:-1|floatformat:2}} min='0'step='0.01' readonly required>
                     </td>
                     <td>
                         <input type="float" class="form-control" id="mth_yr" value={{payrolls.WTAX_Rate_ID|floatformat:2}} min='0'step='0.01' readonly required>

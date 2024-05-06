@@ -260,7 +260,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     holidayPay_s = emp_DR+(.3*emp_DR)/8*holidayHours_s
     #Compute BP+Holi+OT+NS -SSS-PH-HDMF
     GroTaxInc = emp_BP + holidayPay + holidayPay_s + OT + NightIncrease #https://www.eezi.com/withholding-taxes-in-the-philippines-everyones-responsibility/
-    Tot_Ded_1 = SSS_Amount + HDMF_Amount + PH_Amount + absenceDues + lateDues
+    Tot_Ded_1 = SSS_Amount + HDMF_Amount + PH_Amount - absenceDues - lateDues
     taxInc= GroTaxInc-Tot_Ded_1
     WithTax_Amount, WithTax_Excess,  WITH_ID = calculateWithTax(taxInc)#FIX THIS
     WithTax_Amount = float(WithTax_Amount) + float(WithTax_Excess)
@@ -269,6 +269,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     total = taxInc - tot_ded_2 + tot_cred
     
     Holiday_Comp = float( holidayPay + holidayPay_s )
+    print('START')
     print(emp_BP)
     print(HMO_Amount)
     print(ULD_Amount)
@@ -285,6 +286,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     print(WithTax_Excess)
     print(absenceDues)
     print(OT)
+    print('END')
     #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT + (DR+COLA)*holiday
     total = round(total, 2)
     absenceDues = round(absenceDues, 2)

@@ -279,7 +279,8 @@ def generate_page(request, UID):
                 return redirect(path)
         except:
             messages.error(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/generate_page.html' , {'user':user, 'a':a,'payslip':payslip})
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
         #Get End Date
         try:
             end  = request.POST.get('inputEndDate')
@@ -290,10 +291,12 @@ def generate_page(request, UID):
             except ValueError:
             # Handle the case where the date string is not in the correct format
                 messages.error(request, "Invalid date format. Please use YYYY-MM-DD.")
-                return render(request, 'payrollapp/generate_page.html', {'user':user, 'a':a, 'payslip':payslip})
+                path = '/generate_page/' + str(user.pk)
+                return redirect(path)
         except:
             messages.error(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/generate_page.html', {'user':user, 'a':a, 'payslip':payslip})
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
         
         #Tax inputs
 
@@ -302,31 +305,36 @@ def generate_page(request, UID):
             ULD_AM = request.POST.get('inputULD')
         except:
             messages.error(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/generate_page.html', {'user':user, 'a':a, 'payslip':payslip})
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
         try:
         #    department  = request.POST.get('inputDept')
             ULD_T = request.POST.get('inputULDT')
         except:
             messages.error(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/generate_page.html', {'user':user, 'a':a, 'payslip':payslip})
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
         try:
         #    department  = request.POST.get('inputDept')
             CA_AM = request.POST.get('inputCA')
         except:
             messages.error(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/generate_page.html', {'user':user, 'a':a, 'payslip':payslip})
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
         try:
         #    department  = request.POST.get('inputDept')
             COOP_AM = request.POST.get('inputCOOP')
         except:
             messages.error(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/generate_page.html', {'user':user, 'a':a, 'payslip':payslip})
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
         try:
         #    department  = request.POST.get('inputDept')
             COLA_AM = request.POST.get('inputCOLA')
         except:
             messages.error(request, "Error missing values") #VERY NIECHE EDGE CASE(I took a look and the chances are incredibly slim but if in a miracle the company lasts THAT long, reallistically we should have migrated or upgraded but error code just in case)
-            return render(request, 'payrollapp/generate_page.html', {'user':user}, {'a':a}, {'payslip':payslip})
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
         try:
         #    department  = request.POST.get('inputDept')
             ADDE_AM = request.POST.get('inputADDE')
@@ -350,8 +358,15 @@ def generate_page(request, UID):
         total_hours = ATTENDANCE_HISTORY.objects.filter(Employee_ID=emp, Date__range=(start, end))
         if not total_hours.exists():
             messages.error(request, "Warning: No History records found for employee during payroll period")
-            return render(request, 'payrollapp/generate_page.html' , {'user':user,'a':a, 'payslip':payslip}) 
-
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
+        HMO_EXIST = HMO.objects.all()
+        if not HMO_EXIST.exists():
+            messages.error(request, "Warning: No HMO in System")
+            path = '/generate_page/' + str(user.pk)
+            return redirect(path)
+        else:
+            pass
         total, absenceDues, SSS_RATE_ID, PH_ID, HDMF_ID,  WITH_ID, OT, NightIncrease , Holiday_Comp, Total_Deductions = calculateSALARY(employee, start, end, ULD_AM, ULD_T, CA_AM, COOP_AM, COLA_AM, ADDE_AM, ADDE_T)
 #        try:
  #           LatestPayslip = Payslip_Transaction.objects.last()
@@ -360,7 +375,7 @@ def generate_page(request, UID):
     #        PayslipID = 1
         
         try:
-            if Payslip_Transaction.objects.filter(End_Date=end).exists():
+            if Payslip_Transaction.objects.filter(Employee_ID=emp, End_Date=end).exists():
                 print('error already exists')
                 messages.error(request, "Error: Already Exists")
 
@@ -534,7 +549,7 @@ def attendance_db(request, UID):
 def employee_attendance(request, UID, EID):
     user = get_object_or_404(USER_ACCOUNT, pk=UID)
     a = get_object_or_404(Employee, pk=EID)
-    attendance_record = ATTENDANCE_HISTORY.objects.filter(Employee_ID=a).order_by('-Date').values() 
+    attendance_record = ATTENDANCE_HISTORY.objects.filter(Employee_ID=a).order_by('-Date').values()
 
     if(request.method=="POST"):
         Over_hrs = request.POST.get('empOT')

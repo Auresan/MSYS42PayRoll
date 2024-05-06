@@ -49,6 +49,25 @@
                 <input type="text" class="search-query mr-3" placeholder="ID" id="eID" onkeyup="searchID()">
             </div>
         </form>
+        {% if messages %}
+        {% for message in messages %}
+          <!-- If success message -->
+          {% if message.tags == 'success' %}
+          <div class="alert alert-success mt-2" role="alert">
+              <strong>Success!</strong>
+              {{ message }}
+          </div>
+          {% endif %}
+
+          <!-- If error message -->
+          {% if message.tags == 'error' %}
+          <div class="alert alert-danger mt-2" role="alert">
+              <strong>Uh oh!</strong>
+              {{ message }}
+          </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
         <div class="navbar-content">
             <ul class="main-nav">
                 <div class="nav-search">
@@ -91,9 +110,5 @@
 </div>
 
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 
 {% endblock %}

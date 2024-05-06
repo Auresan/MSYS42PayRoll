@@ -340,6 +340,7 @@ def A_UPLOAD(request, UID):
                 date = date[4:]
                 date = current_date_str[-4:] + date #10BIT: Check this again
                 date = datetime.strptime(date, "%Y-%m-%d")
+                date = date.date()
             if row['NAME'] == 'NaT':
                 continue
             else:
@@ -363,8 +364,13 @@ def A_UPLOAD(request, UID):
 
             if not xms.exists():
                 for x in holiday_check:
+                    print(str(x.pk) + str(x.Date))
+                    print((date==x.Date))
+                    print(date)
+                    print(x.Date)
                     if x.Date == date:
-                        holiday_true = get_object_or_404(HOLIDAY, HOLIDAY_ID=x.Holiday_ID)
+                        
+                        holiday_true = get_object_or_404(HOLIDAY, Holiday_ID=x.Holiday_ID)
                 for x in Leave_check:
                     if x.Start_Date == date:
                         leave_true = get_object_or_404(Leave, Leave_ID=x.Leave_ID)
@@ -569,18 +575,27 @@ def A_UPLOAD(request, UID):
                 if TimeIn:
                     x = ATTENDANCE_HISTORY.objects.latest('History_ID')
                     x.TimeIn = TimeIn
-                    x.save()
+                    try:
+                        x.save()
+                    except:
+                        pass
                     print("WOOHOO")
                 if TimeOut:
                     x = ATTENDANCE_HISTORY.objects.latest('History_ID')
                     x.TimeOut = TimeOut
-                    x.save()
+                    try:
+                        x.save()
+                    except:
+                        pass
                     print("WOOHOO")
                 try:
                     if TimeIn_2:
                         x = ATTENDANCE_HISTORY.objects.latest('History_ID')
                         x.TimeIn_2 = TimeIn_2
-                        x.save()
+                        try:
+                            x.save()
+                        except:
+                            pass
                         print("WOOHOO")
                 except:
                     pass
@@ -588,20 +603,36 @@ def A_UPLOAD(request, UID):
                     if TimeOut_2:
                         x = ATTENDANCE_HISTORY.objects.latest('History_ID')
                         x.TimeOut_2 = TimeOut_2
-                        x.save()
+                        try:
+                            x.save()
+                        except:
+                            pass
                         print("WOOHOO")
                 except:
                     pass
                 #10BIT:Go back to fixing this
+                print('Hi')
+                print(holiday_true)
                 if holiday_true != '':
+                    print('a')
                     x = ATTENDANCE_HISTORY.objects.latest('History_ID')
+                    print('b')
                     x.Holiday_ID = holiday_true
-                    x.save()
+                    print('c')
+                    try:
+                        x.save()
+                        print('d')
+                    except:
+                        print('e')
+                        pass
                     print("WOOHOO")
                 if leave_true != '':
                     x = ATTENDANCE_HISTORY.objects.latest('History_ID')
                     x.Leave_ID = leave_true
-                    x.save()
+                    try:
+                        x.save()
+                    except:
+                        pass
                     print("WOOHOO")
             else:
                 pass
