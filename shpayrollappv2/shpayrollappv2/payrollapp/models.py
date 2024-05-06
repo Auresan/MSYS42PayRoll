@@ -35,7 +35,7 @@ class Employee(models.Model):
         return z
     
 class HMO(models.Model):
-    HMO_ID = models.IntegerField(primary_key=True)
+    HMO_ID = models.AutoField(primary_key=True)
     HMO_Amount = models.IntegerField()
     def getID(self):
         return self.HMO_ID
@@ -44,7 +44,7 @@ class HMO(models.Model):
         return z
     
 class UNIFORMLAPTOPDEDUCTIONS(models.Model):
-    ULDeductions_ID = models.IntegerField(primary_key=True)
+    ULDeductions_ID = models.AutoField(primary_key=True)
     Type = models.CharField(max_length=255)
     ULDeductions_Amount = models.IntegerField()
     def getID(self):
@@ -54,7 +54,7 @@ class UNIFORMLAPTOPDEDUCTIONS(models.Model):
         return z
     
 class CA(models.Model):
-    CA_ID = models.IntegerField(primary_key=True)
+    CA_ID = models.AutoField(primary_key=True)
     CA_Amount = models.IntegerField()
     def getID(self):
         return self.CA_ID
@@ -63,7 +63,7 @@ class CA(models.Model):
         return z
     
 class COOP(models.Model):
-    COOP_ID = models.IntegerField(primary_key=True)
+    COOP_ID = models.AutoField(primary_key=True)
     COOP_Amount = models.IntegerField()
     def getID(self):
         return self.COOP_ID
@@ -72,7 +72,7 @@ class COOP(models.Model):
         return z
     
 class COLA(models.Model):
-    COLA_ID = models.IntegerField(primary_key=True)
+    COLA_ID = models.AutoField(primary_key=True)
     COLA_Amount = models.IntegerField()
     def getID(self):
         return self.COLA_ID
@@ -81,7 +81,7 @@ class COLA(models.Model):
         return z
     
 class ADDITIONAL_EARNINGS(models.Model):
-    AddtlEarning_ID = models.IntegerField(primary_key=True)
+    AddtlEarning_ID = models.AutoField(primary_key=True)
     Type = models.CharField(max_length=255)
     ADD_EARNINGS = models.IntegerField()
     def getID(self):
@@ -91,7 +91,7 @@ class ADDITIONAL_EARNINGS(models.Model):
         return z
 
 class HOLIDAY(models.Model):
-    Holiday_ID = models.IntegerField(primary_key=True)
+    Holiday_ID = models.AutoField(primary_key=True)
     Type = models.CharField(max_length=255)
     Date = models.DateField(blank=True, null=True)
     def getID(self):
@@ -101,7 +101,7 @@ class HOLIDAY(models.Model):
         return z
     
 class Leave(models.Model):
-    Leave_ID = models.IntegerField(primary_key=True)
+    Leave_ID = models.AutoField(primary_key=True)
     Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
     Type = models.CharField(max_length=255)
     Start_Date = models.DateField(blank=True, null=True)
@@ -172,7 +172,7 @@ class WitholdingTax(models.Model):
         return z
 
 class Payslip_Transaction(models.Model):
-    Transaction_ID = models.IntegerField(primary_key=True)
+    Transaction_ID = models.AutoField(primary_key=True)
     Date_Distributed = models.DateField(blank=True, null=True)
     Start_Date = models.DateField(blank=True, null=True)
     End_Date = models.DateField(blank=True, null=True)
@@ -201,7 +201,7 @@ class Payslip_Transaction(models.Model):
         return z
 
 class ATTENDANCE_HISTORY(models.Model):
-    History_ID = models.IntegerField(primary_key=True)
+    History_ID = models.AutoField(primary_key=True)
     Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=True, null=True)
     Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE, blank=True, null=True)#Here null blank=true
     Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE, blank=True, null=True)
@@ -237,7 +237,7 @@ class USER_ACCOUNT(models.Model):
         return str(self.pk) + ": " + self.getUsername() + " " + self.getPassword()
     
 class BANK_FILES(models.Model):
-    BANK_ENTRY_ID = models.IntegerField(primary_key=True)
+    BANK_ENTRY_ID = models.AutoField(primary_key=True)
     BANK_FILE_NAME = models.CharField(max_length=250)
     BANK_FILE = models.FileField(upload_to='files/')
     PAYROLL_PERIOD = models.CharField(max_length=250)

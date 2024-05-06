@@ -287,6 +287,7 @@ def calculateSALARY(employeeID, start, end, ULD_AM, ULD_Type, CA_AM, COOP_AM, CO
     print(absenceDues)
     print(OT)
     print('END')
+    absenceDues += lateDues
     #total = emp_BP + HMO_Amount+ ULD_Amount + CA_Amount + COOP_Amount+ COLA_Amount+ ADDE_Amount- SSS_Amount- SSS_EC- SSS_WISP_Amount- PH_Amount - HDMF_Amount - WithTax_Amount - WithTax_Excess- absenceDues + OT + (DR+COLA)*holiday
     total = round(total, 2)
     absenceDues = round(absenceDues, 2)
