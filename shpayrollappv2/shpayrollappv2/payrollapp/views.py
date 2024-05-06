@@ -599,17 +599,19 @@ def encode_page(request, UID):
                         file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
                     else:
                         file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')
-                    startDate = startDate.strftime("%Y-%m-%d")
-                    period = startDate + '-'+IDD
-                    current_date = datetime.now().date()
-                    existingFile = BANK_FILES.objects.filter(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period, Date=current_date)
-                    existingFile.update(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
-                    messages.success(request, "Bank File Successfully Encoded!")
+                startDate = startDate.strftime("%Y-%m-%d")
+                period = startDate + '-'+IDD
+                current_date = datetime.now().date()
+                existingFile = BANK_FILES.objects.filter(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period, Date=current_date)
+                existingFile.update(BANK_FILE_NAME=filename, BANK_FILE=filename ,PAYROLL_PERIOD=period)
+                messages.success(request, "Bank File Successfully Encoded!")
         else:
             with open(filename, 'w') as file:
                 for x in payslip_match:
                     startDate = x.Start_Date
-                    if x.Employee_ID.BankNumber != 000000000000:
+                    print(x.Employee_ID.BankNumber)
+                    print(type(x.Employee_ID.BankNumber))
+                    if x.Employee_ID.BankNumber != '000000000000':
                         file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+'\n')
                     else:
                         file.write(str(x.Employee_ID.BankNumber) +"\t" + str(x.Net_Pay)+' TO BE MANUALLY ADDED \n')

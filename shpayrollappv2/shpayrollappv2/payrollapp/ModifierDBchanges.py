@@ -706,7 +706,10 @@ def Leave_UPLOAD(request, UID):
                 continue
             else:
                 pass
-            emp = get_object_or_404(Employee, id_number = row['Employee_ID'])
+            try:
+                emp = get_object_or_404(Employee, id_number = row['Employee_ID'])
+            except:
+                continue
             date = datetime.strptime(row['Start_Date'], "%Y-%m-%d")
             xms = Leave.objects.filter(Employee_ID=emp, Start_Date=date)
             if row['Type'] == 'Sick' and emp.Sick_Leaves > 0:
