@@ -97,7 +97,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Absence_Deductions|mul:-1|floatformat:2}} min='0'step='0.01' readonly required>
+                        <input type="float" class="form-control" id="mth_yr" value={{payrolls.Absence_Deductions|floatformat:2}} min='0'step='0.01' readonly required>
                     </td>
                     <td>
                         <input type="float" class="form-control" id="mth_yr" value={{payrolls.WTAX_Rate_ID|floatformat:2}} min='0'step='0.01' readonly required>
@@ -134,8 +134,10 @@
                 </tr>
             </tbody>
         </table>
-
-        <form method="POST" action="#">{% csrf_token %}
+    </div>
+    <hr>
+    <h4> Edit payroll </h4>
+    <form method="POST" action="#">{% csrf_token %}
         <table id="posts">
             <thead>
                 <tr>
@@ -166,16 +168,24 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-success" type="submit">Confirm</button>
+        
+        <div>
+            <ul class="action-icons">
+                <li> <a class="btn btn-danger mx-3" href="{% url 'generate_page' UID=user.pk %}" type="button">Back</a></li>
+                <li><button class="btn btn-success" type="submit">Confirm</button></li>
+            </ul>
+        </div>
+
     </form>
-    </div>
     <hr>
+
+
     <!--div>
         <ul class="action-icons">
             <li><a class="btn btn-danger" href="{% url 'generate_page' UID=user.pk %}" type="button">Cancel</a></li>
             <li><button class="btn btn-success" type="submit">Confirm</button></li>
         </ul>
-    </div-->
+    </div>
 </div>
 <footer>
     <div class="footer-wrap">
