@@ -16,26 +16,17 @@ class Employee(models.Model):
     Salary   = models.FloatField()
     Vacation_Leaves = models.IntegerField()
     Sick_Leaves = models.IntegerField()
-
-
-    
-    #ColaEarnings  = models.FloatField()
-    #CAdeductions   = models.FloatField()
-    #COOPdeductions  = models.FloatField()
-    #ULdeductions   = models.FloatField()
     def getID(self):
         return self.id_number
-    
     def getFullName(self):
         full_name = self.Last_name + ", " + self.First_name + " "+ self.Middle_name
         return full_name
-
     def __str__(self):
         z = str(self.getID())
         return z
     
 class HMO(models.Model):
-    HMO_ID = models.AutoField(primary_key=True)
+    HMO_ID = models.IntegerField(primary_key=True)
     HMO_Amount = models.IntegerField()
     def getID(self):
         return self.HMO_ID
@@ -203,16 +194,16 @@ class Payslip_Transaction(models.Model):
 class ATTENDANCE_HISTORY(models.Model):
     History_ID = models.AutoField(primary_key=True)
     Employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=True, null=True)
-    Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE, blank=True, null=True)#Here null blank=true
+    Leave_ID = models.ForeignKey(Leave, on_delete=models.CASCADE, blank=True, null=True)
     Holiday_ID = models.ForeignKey(HOLIDAY, on_delete=models.CASCADE, blank=True, null=True)
     TimeIn = models.TimeField(blank=True, null=True)
     TimeOut = models.TimeField(blank=True, null=True)
     TimeIn_2 = models.TimeField(blank=True, null=True)
     TimeOut_2 = models.TimeField(blank=True, null=True)
     Date = models.DateField(blank=True, null=True)
-    OT = models.FloatField()#If in excess of 8 add to OT
+    OT = models.FloatField()
     NightShift = models.FloatField()
-    OT_applied = models.CharField(max_length=250, blank=True, null=True)#If in excess of 8 add to OT
+    OT_applied = models.CharField(max_length=250, blank=True, null=True)
     NightShift_applied = models.CharField(max_length=250, blank=True, null=True)
     #OT = models.FloatField()
     HoursWorked = models.FloatField()
