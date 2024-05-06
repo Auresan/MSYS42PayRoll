@@ -636,6 +636,52 @@ def payroll_breakdown(request, UID, TID):
     name = employee.Last_name+', '+employee.First_name+' '+employee.Middle_name
     start = payrolls.Start_Date.strftime('%Y-%m-%d')
     end = payrolls.End_Date.strftime('%Y-%m-%d')
+    if(request.method=="POST"):
+        uld = float(request.POST.get('uld'))
+        ca = float(request.POST.get('ca'))
+        coop = float(request.POST.get('coop'))
+        cola = float(request.POST.get('cola'))
+        adde = float(request.POST.get('adde'))
+        payrolls.Total_Deductions = payrolls.Total_Deductions - payrolls.ULDeductions_Rate_ID.ULDeductions_Amount - payrolls.CA_Rate_ID.CA_Amount - payrolls.COOP_Rate_ID.COOP_Amount 
+        payrolls.Net_Pay = payrolls.Net_Pay + payrolls.ULDeductions_Rate_ID.ULDeductions_Amount + payrolls.CA_Rate_ID.CA_Amount + payrolls.COOP_Rate_ID.COOP_Amount - payrolls.COLA_Rate_ID.COLA_Amount - payrolls.AddtlEarning_Rate_ID.ADD_EARNINGS
+
+        ULD_E = get_object_or_404(UNIFORMLAPTOPDEDUCTIONS, ULDeductions_ID=payrolls.ULDeductions_Rate_ID.getID())
+        ULD_E.ULDeductions_Amount = uld
+        ULD_E.save()
+
+        CA_E = get_object_or_404(CA, CA_ID=payrolls.CA_Rate_ID.getID())
+        CA_E.CA_Amount = ca
+        CA_E.save()
+
+        COOP_E = get_object_or_404(COOP, COOP_ID=payrolls.COOP_Rate_ID.getID())
+        COOP_E.COOP_Amount = coop
+        COOP_E.save()
+
+        COLA_E = get_object_or_404(COLA, COLA_ID=payrolls.COLA_Rate_ID.getID())
+        COLA_E.COLA_Amount = cola
+        COLA_E.save()
+
+        ADDITIONAL_EARNINGS_E = get_object_or_404(ADDITIONAL_EARNINGS, AddtlEarning_ID=payrolls.AddtlEarning_Rate_ID.getID())
+        ADDITIONAL_EARNINGS_E.ADD_EARNINGS = adde
+        ADDITIONAL_EARNINGS_E.save()
+        
+        payrolls.ULDeductions_Rate_ID.ULDeductions_Amount = uld
+        payrolls.CA_Rate_ID.CA_Amount = ca
+        payrolls.COOP_Rate_ID.COOP_Amount = coop
+        payrolls.COLA_Rate_ID.COLA_Amount = cola
+        payrolls.AddtlEarning_Rate_ID.ADD_EARNINGS = adde
+        payrolls.Total_Deductions = payrolls.Total_Deductions + payrolls.ULDeductions_Rate_ID.ULDeductions_Amount + payrolls.CA_Rate_ID.CA_Amount + payrolls.COOP_Rate_ID.COOP_Amount
+        payrolls.Net_Pay = payrolls.Net_Pay - payrolls.ULDeductions_Rate_ID.ULDeductions_Amount - payrolls.CA_Rate_ID.CA_Amount - payrolls.COOP_Rate_ID.COOP_Amount + payrolls.COLA_Rate_ID.COLA_Amount + payrolls.AddtlEarning_Rate_ID.ADD_EARNINGS 
+        try: 
+            payrolls.save()
+        except:
+            print('fail')
+        path = '/payroll_breakdown/' + str(user.pk) + '/' + str(payrolls.Transaction_ID)
+        return redirect(path)
+
+
+
+
     return render(request, 'payrollapp/payroll_breakdown.html', {'user':user , 'payrolls':payrolls, 'name':name, 'start':start, 'end':end})
 
 #@login_required

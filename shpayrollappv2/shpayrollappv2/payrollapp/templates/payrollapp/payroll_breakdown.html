@@ -134,6 +134,40 @@
                 </tr>
             </tbody>
         </table>
+
+        <form method="POST" action="#">{% csrf_token %}
+        <table id="posts">
+            <thead>
+                <tr>
+                    <th style="width:10%">Uniform/Laptop Deduction</th>
+                    <th style="width:10%">Cash Advance</th>
+                    <th style="width:10%">COOP</th>
+                    <th style="width:10%">COLA</th>
+                    <th style="width:10%">Adiitional Earnings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                         <input type="number" class="form-control" id="uld" name="uld"  min='0' step='0.1' required value={{payrolls.ULDeductions_Rate_ID.ULDeductions_Amount}} >
+                    </td>
+                    <td>
+                         <input type="number" class="form-control" id="ca" name="ca"  min='0' step='0.1' required value={{payrolls.CA_Rate_ID.CA_Amount}}>
+                    </td>
+                    <td>
+                         <input type="number" class="form-control" id="coop" name="coop"  min='0' step='0.1' required value={{payrolls.COOP_Rate_ID.COOP_Amount}}>
+                    </td>
+                    <td>
+                         <input type="number" class="form-control" id="cola" name="cola"  min='0' step='0.1' required value={{payrolls.COLA_Rate_ID.COLA_Amount}}>
+                    </td>
+                    <td>
+                         <input type="number" class="form-control" id="adde" name="adde"  min='0' step='0.1' required value={{payrolls.AddtlEarning_Rate_ID.ADD_EARNINGS}}>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-success" type="submit">Confirm</button>
+    </form>
     </div>
     <hr>
     <!--div>

@@ -50,7 +50,7 @@ class UNIFORMLAPTOPDEDUCTIONS(models.Model):
     def getID(self):
         return self.ULDeductions_ID
     def __str__(self):
-        z = str(self.pk)+':'+str(self.getID())
+        z = str(self.pk)
         return z
     
 class CA(models.Model):
